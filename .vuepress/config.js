@@ -3,6 +3,7 @@ module.exports = {
     plugins:['@vuepress/back-to-top'],
     title: '智宇星空',
     description: '前端学习资料',
+    dest:"./dist",
     head: [
         ['link', {
             rel: 'icon',

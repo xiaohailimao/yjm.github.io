@@ -7,6 +7,7 @@
     "build": "vuepress build",
     "release_mac": "sh release_pro.sh",
     "release_window": "release_pro.sh",
-    "release_mac_build": "sh release_build.sh"
+    "release_mac_build": "sh release_build.sh",
+    "release_window_build": "release_build.sh"
   }
 }
