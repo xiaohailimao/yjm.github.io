@@ -4,7 +4,7 @@
 
 安装资源管理插件
 
-```npm
+```sh
 yarn add filemanager-webpack-plugin -D
 ```
 
@@ -34,7 +34,7 @@ module.exports = {
 ## cross-env 环境变量设置
 安装跨平台设置环境变量插件
 
-```npm
+```sh
 npm install cross-env -D
 ```
 设置环境变量
