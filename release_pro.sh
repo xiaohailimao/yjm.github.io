@@ -6,7 +6,7 @@ set -e
 
 git add -A
 git commit -m 'deploy'
-git push  master
+git push origin master
 
 # 生成静态文件
 npm run build
