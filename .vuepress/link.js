@@ -20,13 +20,13 @@ export default [
     title: "官方文档",
     linkData: [
       {
-        title: "vue",
+        title: "Vue",
         des: "vue官方文档",
         icon: require("../assets/img/icon/icon-vue.png"),
         url: "https://cn.vuejs.org/index.html"
       },
       {
-        title: "vuex",
+        title: "Vuex",
         des: "vuex官方文档",
         icon: require("../assets/img/icon/icon-vue.png"),
         url: "https://vuex.vuejs.org/zh/"
@@ -87,13 +87,13 @@ export default [
         url: "https://facebook.github.io/create-react-app/docs/getting-started"
       },
       {
-        title: "w3c",
+        title: "W3C",
         des: "w3c标准文档",
         icon: require("../assets/img/icon/icon-w3c.svg"),
         url: "https://www.w3.org/TR/"
       },
       {
-        title: "devdocs",
+        title: "Devdocs",
         des: "各种api快速查询",
         icon: require("../assets/img/icon/icon-w3c.svg"),
         url: "https://devdocs.io"
@@ -124,27 +124,27 @@ export default [
       },
 
       {
-        title: "taro-ui",
+        title: "Taro-ui",
         des: "Taro UI 是一款基于 Taro 框架开发的多端 UI 组件库",
         icon: require("../assets/img/icon/icon-taro.png"),
         url: "https://taro-ui.aotu.io/#/docs/introduction"
       },
       {
-        title: "taro",
+        title: "Taro",
         des: "Taro 是一套遵循 React 语法规范的 多端开发 解决方案",
         icon: require("../assets/img/icon/icon-taro.png"),
         url: "https://nervjs.github.io/taro/docs/README.html"
       },
 
       {
-        title: "vant",
+        title: "Vant",
         des: "vue组件库官方文档",
         icon: require("../assets/img/icon/icon-vant.png"),
         url: "https://youzan.github.io/vant/#/zh-CN/quickstart"
       },
 
       {
-        title: "element",
+        title: "Element",
         des: "vue组件库官方文档",
         icon: require("../assets/img/icon/icon-element.svg"),
         url: "http://element-cn.eleme.io/#/zh-CN/component/installation"
@@ -169,7 +169,7 @@ export default [
         url: "http://motion.ant.design/api/tween-one-cn"
       },
       {
-        title: "sass",
+        title: "Sass",
         des: "sass官方文档",
         icon: require("../assets/img/icon/icon-sass.svg"),
         url: "https://sass-lang.com/documentation"
@@ -300,13 +300,13 @@ export default [
         url: "https://realfavicongenerator.net/"
       },
       {
-        title: "webpackjs",
+        title: "Webpackjs",
         des: "webpack 是一个现代 JavaScript 应用程序的静态模块打包器",
         icon: require("../assets/img/icon/icon-webpack.svg"),
         url: "https://www.webpackjs.com/concepts/"
       },
       {
-        title: "rollupjs",
+        title: "Rollupjs",
         des: "Rollup 是一个 JavaScript 模块打包器，可以将小块代码编译成大块复杂的代码，例如 library 或应用程序。",
         icon: require("../assets/img/icon/icon-rollupjs.png"),
         url: "https://www.rollupjs.com/guide/zh#introduction"
@@ -318,26 +318,26 @@ export default [
         url: "https://doc.ebichu.cc/jest/zh-Hans/"
       },
       {
-        title: "cypress",
+        title: "Cypress",
         des: "e2e测试工具，UI测试（功能测试）",
         icon: require("../assets/img/icon/icon-cypress.png"),
         url: "https://docs.cypress.io/zh-cn/guides/overview/why-cypress.html"
       },
       {
-        title: "babeljs",
+        title: "Babeljs",
         des: "Babel 是一个工具链，主要用于将 ECMAScript 2015+ 版本的代码转换为向后兼容的 JavaScript 语法，以便能够运行在当前和旧版本的浏览器或其他环境中。",
         icon: require("../assets/img/icon/icon-babel.png"),
         url: "https://www.babeljs.cn/docs/"
       },
 
       {
-        title: "yarn",
+        title: "Yarn",
         des: "vue官方文档",
         icon: require("../assets/img/icon/icon-yarn.png"),
         url: "https://yarnpkg.com/zh-Hans/"
       },
       {
-        title: "npm",
+        title: "Npm",
         des: "包管理器",
         icon: require("../assets/img/icon/icon-npm.svg"),
         url: "https://www.npmjs.cn"
@@ -373,7 +373,7 @@ export default [
         url: "http://sfz.uzuzuz.com/"
       },
       {
-        title: "caniuse",
+        title: "Caniuse",
         des: "浏览器兼容情况查询",
         icon: require("../assets/img/icon/icon-caniuse.png"),
         url: "https://caniuse.com/"
@@ -385,13 +385,13 @@ export default [
         url: "https://www.sojson.com/regex/generate"
       },
       {
-        title: "vuePress",
+        title: "VuePress",
         des: "一部分是支持用 Vue 开发主题的极简静态网站生成器，另一个部分是为书写技术文档而优化的默认主题。它的诞生初衷是为了支持 Vue 及其子项目的文档需求。",
         icon: require("../assets/img/icon/icon-vue.png"),
         url: "https://vuepress.vuejs.org/zh"
       },
       {
-        title: "justmysocks",
+        title: "Justmysocks",
         des: "vpn服务提供商",
         icon: require("../assets/img/icon/icon-justmysocks.png"),
         url: "https://justmysocks.net"
@@ -403,13 +403,13 @@ export default [
         url: "https://api.jquery.com/"
       },
       {
-        title: "flyio",
+        title: "Flyio",
         des: "一个支持所有JavaScript运行环境的基于Promise的、支持请求转发、强大的http请求库。可以让您在多个端上尽可能大限度的实现代码复用。",
         icon: require("../assets/img/icon/icon-fly.png"),
         url: "https://wendux.github.io/dist/#/doc/flyio/readme"
       },
       {
-        title: "swiper",
+        title: "Swiper",
         des: "开源、免费、强大的触摸滑动插件",
         icon: require("../assets/img/icon/icon-swiper.png"),
         url: "https://www.swiper.com.cn/api/index.html"
@@ -428,7 +428,7 @@ export default [
       },
       
       {
-        title: "git-book",
+        title: "Git-book",
         des: "版本管理工具文档",
         icon: require("../assets/img/icon/icon-git-book.png"),
         url: "https://git-scm.com/book/zh/v2"
