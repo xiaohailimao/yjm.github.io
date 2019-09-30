@@ -6,7 +6,7 @@ set -e
 
 git add -A
 git commit -m 'deploy'
-git push -f https://github.com/Jameel01/blogs.git master
+git push  master
 
 # 生成静态文件
 npm run build
