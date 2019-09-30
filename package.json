@@ -1,0 +1,12 @@
+{
+  "name": "blog",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vuepress dev",
+    "build": "vuepress build",
+    "release_mac": "sh release_pro.sh",
+    "release_window": "release_pro.sh",
+    "release_mac_build": "sh release_build.sh"
+  }
+}
