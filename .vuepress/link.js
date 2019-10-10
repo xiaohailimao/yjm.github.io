@@ -111,6 +111,12 @@ export default [
         url: "https://www.tslang.cn/docs/home.html"
       },
       {
+        title: "TypeScript入门教程",
+        des: "JavaScript超集语言从 JavaScript 程序员的角度总结思考，循序渐进的理解 TypeScript。",
+        icon: require("../assets/img/icon/icon-typescript.png"),
+        url: "https://ts.xcatliu.com"
+      },
+      {
         title: "微信小程序api",
         des: "微信小程序api官方文档",
         icon: require("../assets/img/icon/icon-wapp.jpg"),
