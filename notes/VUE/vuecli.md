@@ -268,3 +268,31 @@ module.exports = {
   padding: 50Px; //=>50px,大写单位会被postcss-pxtorem忽略
 }
 ```
+
+## 向预处理器 Loader 传递选项
+@vue/cli 3+
+```js
+module.exports = {
+  css: {
+    loaderOptions: {
+      sass: {
+        data: `@import "~@/assets/css/var.scss";`
+      }
+    }
+  }
+};
+```
+@vue/cli 4+
+```js
+module.exports = {
+  css: {
+    loaderOptions: {
+      sass: {
+        //  @vue/cli 4.0 data=>prependData
+        prependData: `@import "~@/assets/css/var.scss";`
+      }
+    }
+  }
+};
+```
+
