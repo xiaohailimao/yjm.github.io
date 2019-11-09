@@ -56,6 +56,12 @@ export default [
         url: "https://nodejs.org/zh-cn/"
       },
       {
+        title: "Expressjs",
+        des: "Fast, unopinionated, minimalist web framework for Node.js",
+        icon: require("../assets/img/icon/icon-express.png"),
+        url: "https://expressjs.com"
+      },
+      {
         title: "Nuxt",
         des: "服务端渲染框架",
         icon: require("../assets/img/icon/icon-nuxt.png"),
@@ -400,7 +406,7 @@ export default [
         title: "Justmysocks",
         des: "vpn服务提供商",
         icon: require("../assets/img/icon/icon-justmysocks.png"),
-        url: "https://justmysocks.net"
+        url: "https://justmysocks1.net"
       },
       {
         title: "JQuery",
