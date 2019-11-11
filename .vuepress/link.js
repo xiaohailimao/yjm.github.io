@@ -13,7 +13,13 @@ export default [
         des:'维基百科',
         icon:require("../assets/img/icon/icon-weijibaike.png"),
         url:'https://zh.wikipedia.org'
-      }
+      },
+      {
+        title:'百度翻译',
+        des:'百度翻译',
+        icon:require("../assets/img/icon/icon-baidufanyi.jpg"),
+        url:'https://fanyi.baidu.com'
+      },
     ]
   },
   {
@@ -60,6 +66,12 @@ export default [
         des: "Fast, unopinionated, minimalist web framework for Node.js",
         icon: require("../assets/img/icon/icon-express.png"),
         url: "https://expressjs.com"
+      },
+      {
+        title: "Koajs",
+        des: "Next generation web framework for node.js",
+        icon: require("../assets/img/icon/icon-koajs.png"),
+        url: "https://koajs.com"
       },
       {
         title: "Nuxt",
