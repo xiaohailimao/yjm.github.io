@@ -79,7 +79,24 @@ export default [
         icon: require("../assets/img/icon/icon-nuxt.png"),
         url: "https://zh.nuxtjs.org"
       },
-
+      {
+        title: "ECharts",
+        des: "ECharts图表插件官网",
+        icon: require("../assets/img/icon/icon-echarts.png"),
+        url: "https://echarts.apache.org"
+      },
+      {
+        title: "G2",
+        des: "G2 是一套基于可视化编码的图形语法，以数据驱动，具有高度的易用性和扩展性，用户无需关注各种繁琐的实现细节，一条语句即可构建出各种各样的可交互的统计图表。",
+        icon: require("../assets/img/icon/icon-g2.svg"),
+        url: "https://antv.alipay.com/zh-cn/g2/3.x/demo/index.html"
+      },
+      {
+        title: "蓝湖",
+        des: "无缝连接产品、设计、研发流程，降低沟通成本，缩短开发周期，提高工作效率",
+        icon: require("../assets/img/icon/icon-lanhu.png"),
+        url: "https://lanhuapp.com"
+      },
       {
         title: "React",
         des: "用于构建用户界面的 JavaScript 库",
@@ -154,13 +171,6 @@ export default [
         url: "https://taro-ui.aotu.io/#/docs/introduction"
       },
       {
-        title: "Taro",
-        des: "Taro 是一套遵循 React 语法规范的 多端开发 解决方案",
-        icon: require("../assets/img/icon/icon-taro.png"),
-        url: "https://nervjs.github.io/taro/docs/README.html"
-      },
-
-      {
         title: "Vant",
         des: "vue组件库官方文档",
         icon: require("../assets/img/icon/icon-vant.png"),
@@ -174,17 +184,22 @@ export default [
         url: "http://element-cn.eleme.io/#/zh-CN/component/installation"
       },
       {
-        title: "MATERIAL-UI",
-        des: "React components that implement Google's Material Design.",
-        icon: require("../assets/img/icon/icon-material.svg"),
-        url: "https://material-ui.com/zh/getting-started/installation/"
-      },
-
-      {
         title: "Ant Design",
         des: "antd 是基于 Ant Design 设计体系的 React UI 组件库，主要用于研发企业级中后台产品。",
         icon: require("../assets/img/icon/icon-ant.svg"),
         url: "https://ant.design/docs/react/introduce-cn"
+      },
+      {
+        title: "Taro",
+        des: "Taro 是一套遵循 React 语法规范的 多端开发 解决方案",
+        icon: require("../assets/img/icon/icon-taro.png"),
+        url: "https://nervjs.github.io/taro/docs/README.html"
+      },
+      {
+        title: "MATERIAL-UI",
+        des: "React components that implement Google's Material Design.",
+        icon: require("../assets/img/icon/icon-material.svg"),
+        url: "https://material-ui.com/zh/getting-started/installation/"
       },
       {
         title: "Ant Motion",
@@ -199,17 +214,12 @@ export default [
         url: "https://sass-lang.com/documentation"
       },
       {
-        title: "ECharts",
-        des: "ECharts图表插件官网",
-        icon: require("../assets/img/icon/icon-echarts.png"),
-        url: "https://echarts.apache.org"
+        title: "Mockjs",
+        des: "生成随机数据，拦截 Ajax 请求",
+        icon: require("../assets/img/icon/icon-mockjs.png"),
+        url: "http://mockjs.com/"
       },
-      {
-        title: "蓝湖",
-        des: "无缝连接产品、设计、研发流程，降低沟通成本，缩短开发周期，提高工作效率",
-        icon: require("../assets/img/icon/icon-lanhu.png"),
-        url: "https://lanhuapp.com"
-      },
+      
     ]
   },
   {
@@ -245,7 +255,6 @@ export default [
         icon: require("../assets/img/icon/icon-zhihu.jpg"),
         url: "https://www.zhihu.com"
       },
-
     ]
   },
   {
@@ -450,7 +459,6 @@ export default [
         icon: require("../assets/img/icon/icon-tweenjs.svg"),
         url: "http://www.createjs.cc/tweenjs/"
       },
-      
       {
         title: "Git-book",
         des: "版本管理工具文档",
