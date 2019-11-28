@@ -485,3 +485,19 @@ scale
 - 控制缩放的值不一样。zoom更全面，但是不能是负数，只能等比例控制；而scale虽然只能是数值，但是能负数，可以只控制1个维度
 
 zoom适合移动端静态页面的缩放，scale适合动画
+
+## 毛玻璃效果
+```css
+/* 毛玻璃效果 */
+.frosted-glass {
+  background-color: #fff;
+}
+
+@supports (-webkit-backdrop-filter:none) or (backdrop-filter:none) {
+  .frosted-glass {
+    background: hsla(0, 0%, 100%, .75);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+  }
+}
+```
