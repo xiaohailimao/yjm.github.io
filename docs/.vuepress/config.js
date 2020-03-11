@@ -1,5 +1,5 @@
 module.exports = {
-  "title": "",
+  "title": "智宇星空",
   "description": "个人博客",
   "dest": "dist",
   "head": [
@@ -25,6 +25,11 @@ module.exports = {
         "text": "首页",
         "link": "/",
         "icon": "reco-home"
+      },
+      {
+        "text": "网址导航",
+        "link": "/views/other/link",
+        "icon": "reco-message"
       },
       {
         "text": "时间线",
