@@ -1,13 +1,14 @@
 {
-  "name": "blog",
-  "version": "0.1.0",
-  "private": true,
+  "name": "my-blog",
+  "version": "1.0.0",
+  "author": "reco_luan",
   "scripts": {
-    "dev": "vuepress dev",
-    "build": "vuepress build",
-    "release_mac": "sh release_pro.sh",
-    "release_window": "release_pro.sh",
-    "release_mac_build": "sh release_build.sh",
-    "release_window_build": "release_build.sh"
-  }
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs"
+  },
+  "devDependencies": {
+    "vuepress": "1.2.0",
+    "vuepress-theme-reco": "1.2.2"
+  },
+  "description": ""
 }
