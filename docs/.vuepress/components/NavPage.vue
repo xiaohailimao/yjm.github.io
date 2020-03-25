@@ -125,7 +125,7 @@ div {
 	position:relative;
 	transition:.2s;
 	float:left;
-	width:calc(25% - 24px);
+	width:calc(33.33% - 24px);
 	width:-webkit-calc(25% - 24px);
 	width:-moz-calc(25% - 24px);
 	overflow:hidden;

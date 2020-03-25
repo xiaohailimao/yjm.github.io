@@ -4,7 +4,8 @@
   "author": "reco_luan",
   "scripts": {
     "dev": "vuepress dev docs",
-    "build": "vuepress build docs"
+    "build": "vuepress build docs",
+    "release_mac_build": "env=git && vuepress build docs && sh release_build.sh"
   },
   "devDependencies": {
     "vuepress": "1.2.0",

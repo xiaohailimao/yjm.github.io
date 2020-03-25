@@ -219,6 +219,12 @@ export default [
         icon: require("./public/img/icon/icon-mockjs.png"),
         url: "http://mockjs.com/"
       },
+      {
+        title: "ESLint",
+        des: "查找并修复JavaScript代码中的问题",
+        icon: require("./public/img/icon/icon-eslint.svg"),
+        url: "https://eslint.org/"
+      },
       
     ]
   },
