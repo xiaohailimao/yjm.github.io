@@ -8,7 +8,9 @@ categories:
 ---
 
 快速反向代理，可帮助您将NAT或防火墙后面的本地服务器公开到Internet
-
+::: tip
+[frp github项目地址](https://github.com/fatedier/frp)
+:::
 ## 下载资源包
 ```sh
 wget https://github.com/fatedier/frp/releases/download/v0.32.0/frp_0.32.0_linux_386.tar.gz
@@ -45,7 +47,7 @@ kill 19619                     #输入你系统中返回的pid
 netstat -antpl 
 ```
 
-## frpc配置
+## frpc 本地应用配置
 ```sh
 # frpc.ini
 [common]
@@ -53,10 +55,10 @@ server_addr = x.x.x.x
 server_port = 7000
 
 [web]
-type = http
-local_port = 80
-custom_domains = www.example.com
+server_addr = 127.0.0.1:8080
+server_port = 7001
 ```
-::: tip
-[frp github项目地址](https://github.com/fatedier/frp)
+::: wraning 
+注意：服务器需要开放对应端口
 :::
+
