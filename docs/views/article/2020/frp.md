@@ -55,10 +55,12 @@ server_addr = x.x.x.x
 server_port = 7000
 
 [web]
-server_addr = 127.0.0.1:8080
-server_port = 7001
+type = tcp
+local_ip = 127.0.0.1
+local_port = 8080
+remote_port = 7001
 ```
-::: wraning 
+::: warning
 注意：服务器需要开放对应端口
 :::
 
