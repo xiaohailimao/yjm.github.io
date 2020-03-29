@@ -2,9 +2,9 @@
 title: TS基础类型
 date: 2020-01-01
 tags:
- - typeScript
+ - TypeScript
 categories:
- -  教程/笔记
+ -  文档
 ---
 
 TypeScript 支持与 JavaScript 几乎相同的数据类型，此外还提供了实用的枚举类型方便我们使用。

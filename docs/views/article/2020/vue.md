@@ -1,8 +1,8 @@
 ---
-title: vue笔记
+title: Vue笔记
 date: 2020-03-16
 tags:
- - vue
+ - Vue
 categories:
  -  文章
 ---
@@ -894,4 +894,10 @@ myChart.setOption({
     }
   ]
 });
+```
+
+## 调用手机拨打电话
+
+```html
+<a href="tel:156591***" >156591***</a>
 ```

@@ -2,9 +2,9 @@
 title: TS变量声明
 date: 2020-01-01
 tags:
- - typeScript
+ - TypeScript
 categories:
- -  教程/笔记
+ -  文档
 ---
 
 `let` 和 `const` 是 JavaScript 里相对较新的变量声明方式。`let` 在很多方面与 `var` 是相似的，但是可以帮助大家避免在 JavaScript 里常见一些问题。`const` 是对 `let` 的一个增强，它能阻止对一个变量再次赋值。

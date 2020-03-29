@@ -24,6 +24,7 @@ DOM属于渲染引擎，JS属于JS引擎，当我们通过JS操作DOM时，其�
 :::
 #### render tree
 ![render tree](/img/img-render-tree.png)
+
 ::: tip 提示
 在DOM树与CSSOM树合并过程中，display:none属性不会再渲染树中显示，形成渲染树后浏览器根据渲染树进行布局（回流），然后调用GPU绘制，合成图层，最后输出在屏幕上
 :::

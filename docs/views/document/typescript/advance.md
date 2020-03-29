@@ -2,9 +2,9 @@
 title: TS高级类型
 date: 2020-01-01
 tags:
- - typeScript
+ - TypeScript
 categories:
- -  教程/笔记
+ -  文档
 ---
 
 ## 交叉类型

@@ -2,9 +2,9 @@
 title: TS类型推断
 date: 2020-01-01
 tags:
- - typeScript
+ - TypeScript
 categories:
- -  教程/笔记
+ -  文档
 ---
 
 这节介绍 TypeScript 里的类型推断。即，类型是在哪里如何被推断的。

@@ -2,9 +2,9 @@
 title: vuex
 date: 2018-01-01
 tags:
- - vuex
+ - Vuex
 categories:
- -  教程/笔记
+ -  文档
 ---
 
 ## state

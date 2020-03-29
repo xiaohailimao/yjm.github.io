@@ -276,11 +276,6 @@ body{
 input 不要设置line-height或者设置为1px
 
 
-## 调用手机拨打电话
-
-```html
-<a href="tel:156591***" >156591***</a>
-```
 ## will-change
 增强页面渲染性能
 [文章链接](https://www.zhangxinxu.com/wordpress/2015/11/css3-will-change-improve-paint/)
@@ -466,7 +461,7 @@ body{
 ```
 
 ## Flexbox and Internet Explorer 11 显示问题
-使用flex-grow:1而不是flex:1原因IE10和IE11默认值flexARE 0 0 auto和没有0 1 auto
+使用`flex-grow:1`而不是`flex:1`原因IE10和IE11默认值`flexARE 0 0 auto`和没有`0 1 auto`
 
 ## 页面最小全屏高度
 
@@ -512,7 +507,7 @@ zoom适合移动端静态页面的缩放，scale适合动画
 ## 基于 vertical-align 属性的水平垂直居中弹框
 
 (1) 节省了很多无谓的定位的 JavaScript 代码，也不需要浏览器 resize 事件之类的处理，当弹框内容动态变化的时候，也无须重新定位。    
-(2) 性能更改、渲染速度更快，毕竟浏览器内置 CSS 的即时渲染显然比 JavaScript 的处理 要更好。  
+(2) 性能更改、渲染速度更快，毕竟浏览器内置 CSS 的即时渲染显然比 JavaScript 的处理要更好。  
 (3) 可以非常灵活控制垂直居中的比例，比方说设置:
 ```css
 .container:after {

@@ -2,9 +2,9 @@
 title: TS接口
 date: 2020-01-01
 tags:
- - typeScript
+ - TypeScript
 categories:
- -  教程/笔记
+ -  文档
 ---
 
 TypeScript 的核心原则之一是对值所具有的结构进行类型检查。它有时被称做“鸭式辨型法”或“结构性子类型化”。 在 TypeScript 里，接口的作用就是为这些类型命名和为你的代码或第三方代码定义契约。

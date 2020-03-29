@@ -6,7 +6,7 @@ tags:
 categories:
  -  文章
 ---
-# [verdaccio文档](https://verdaccio.org/)
+
 ## 服务器搭建（CentOS）
 使用yum安装nodejs
 1. 获取最新版bash
@@ -76,8 +76,8 @@ http://localhost:4873
 # or
 http:ip:4873
 ```
-::: tip
-注意：在阿里云服务器添加安全组，开放 4873 端口号，如果没有添加该端口安全组则不能在浏览器正常访问http://ip:4873
+::: warning 注意
+在阿里云服务器添加安全组，开放 4873 端口号，如果没有添加该端口安全组则不能在浏览器正常访问http://ip:4873
 
 ip=>服务器ip地址/域名地址
 :::
@@ -141,3 +141,6 @@ registry=https://xxxx
 # 私有包请求地址配置
 @custom:registry=http://xxxx
 ```
+::: tip 提示
+[verdaccio 文档](https://verdaccio.org/)
+:::

@@ -1,5 +1,5 @@
 ---
-title: centos7 frp安装和配置
+title: CentOS7 frp 安装和配置
 date: 2020-03-22
 tags:
  - 工具
@@ -8,14 +8,14 @@ categories:
 ---
 
 快速反向代理，可帮助您将NAT或防火墙后面的本地服务器公开到Internet
-::: tip
-[frp github项目地址](https://github.com/fatedier/frp)
-:::
+
 ## 下载资源包
 ```sh
 wget https://github.com/fatedier/frp/releases/download/v0.32.0/frp_0.32.0_linux_386.tar.gz
 ```
-
+::: tip 提示
+[frp github 项目地址](https://github.com/fatedier/frp)
+:::
 ## 解压包
 ```sh
 tar -zxvf frp_0.32.0_linux_386.tar.gz
@@ -60,7 +60,7 @@ local_ip = 127.0.0.1
 local_port = 8080
 remote_port = 7001
 ```
-::: warning
-注意：服务器需要开放对应端口
+::: warning 注意
+服务器需要开放对应端口
 :::
 
