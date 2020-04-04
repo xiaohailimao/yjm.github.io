@@ -11,6 +11,7 @@ categories:
 
 通过设置根节点的字体大小（vm 屏幕宽度单位，字体大小跟着屏幕宽度变化），在配合rem完成移动端自适应适配
 
+preset.scss
 ```scss
 // iPhone6 尺寸的根元素大小基准值37.5
 // 像素倍数关系，1倍像素基准值37.5，2倍像素素基准值75，3倍像素素基准值112.5
@@ -55,3 +56,28 @@ module.exports = {
   }
 }
 ```
+
+::: tip 提示
+1. 当使用该方案进行`px=>rem`转换，无需改变原来css写法
+2. 例如设计图是iPhone6为基准的375宽度，在css编写样式时可以直接使用设计图中标注的样式尺寸。
+3. 如果设计图是以2倍像素750宽度设计的话则需要配置如下，用法如上。
+```scss
+// preset.scss
+// ...
+$vm_ratio:2; // 2倍像素比率
+// ...
+```
+
+```js
+// postcss.config.js
+module.exports = {
+  plugins: {
+    'autoprefixer': {},
+    'postcss-pxtorem': {
+      rootValue:75, // 2倍像素素基准值75
+      propList: ['*'],
+    }
+  }
+}
+```
+:::
