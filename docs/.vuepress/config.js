@@ -83,7 +83,7 @@ module.exports = {
     "lastUpdated": "Last Updated",
     "author": "智宇星空",
     "authorAvatar": "/avatar.png",
-    // "record": "MIT Licensed | Copyright © 2018-present youngjm",
+    "record": "京ICP备20009961号",
     "startYear": "2018"
   },
   "markdown": {
