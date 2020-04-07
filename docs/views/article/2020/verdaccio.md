@@ -85,11 +85,15 @@ ip=>服务器ip地址/域名地址
 ## 发布npm包到私有仓库
 1. 登录
 ```sh
-npm adduser --registry http://47.107.67.231:4873
+npm login
 ```
 2. 发布
 ```sh
 npm publish --registry http://47.107.67.231:4873
+```
+3. 下架
+```sh
+npm unpublish name@x.x.x --registry http://47.107.67.231:4873
 ```
 ## 私有仓库web界面访问
 ```
