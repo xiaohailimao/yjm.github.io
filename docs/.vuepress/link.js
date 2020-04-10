@@ -433,7 +433,7 @@ export default [
         title: "Justmysocks",
         des: "vpn服务提供商",
         icon: require("./public/img/icon/icon-justmysocks.png"),
-        url: "https://justmysocks1.net"
+        url: "https://justmysocks2.net"
       },
       {
         title: "JQuery",
