@@ -225,6 +225,12 @@ export default [
         icon: require("./public/img/icon/icon-eslint.svg"),
         url: "https://eslint.org/"
       },
+      {
+        title: "Prettier",
+        des: "代码风格统一工具",
+        icon: require("./public/img/icon/icon-prettier.png"),
+        url: "https://prettier.io"
+      },
       
     ]
   },
