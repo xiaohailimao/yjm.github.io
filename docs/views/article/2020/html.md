@@ -14,6 +14,7 @@ categories:
 <!-- 应使用面向用户的摄像头和/或麦克风 -->
 <input type="file" id="imageFile" capture="user" accept="image/*">
 ```
+
 ```html
 <!-- 应使用朝外的摄像头和/或麦克风 -->
 <input type="file" id="imageFile" capture="environment" accept="image/*">

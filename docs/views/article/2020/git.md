@@ -2,14 +2,14 @@
 title: Git 提交规范
 date: 2020-03-29
 tags:
- - Git
+  - Git
 categories:
- -  文章
+  - 文章
 ---
 
 ## commit message 提交步骤
 
-1. 选择提交类型
+- 选择提交类型
 
 ```sh
 ? Select the type of change that you're committing: (Use arrow keys)
@@ -27,25 +27,25 @@ categories:
 (Move up and down to reveal more choices)
 ```
 
-2. 填写影响范围
+- 填写影响范围
 
 ```sh
 What is the scope of this change (e.g. component or file name): (press enter to skip)
 ```
 
-3. 填写简短描述
+- 填写简短描述
 
 ```sh
 Write a short, imperative tense description of the change (max 95 chars):
 ```
 
-4. 填写详细描述
+- 填写详细描述
 
 ```sh
 Provide a longer description of the change: (press enter to skip)
 ```
 
-5. 判定是否有冲突 ，有则填写冲突内容
+- 判定是否有冲突 ，有则填写冲突内容
 
 ```sh
 Are there any breaking changes? (y/N)
@@ -54,7 +54,7 @@ Are there any breaking changes? (y/N)
 ? Describe the breaking changes:
 ```
 
-6. 判定是否修复未更改的 issues 问题，有则添加问题参考ID
+- 判定是否修复未更改的 issues 问题，有则添加问题参考 ID
 
 ```sh
 Does this change affect any open issues? (y/N)
@@ -65,16 +65,20 @@ Does this change affect any open issues? (y/N)
 
 ## script
 
-提交message
+提交 message
+
 ```sh
 npm run commit
 ```
-生成CHANGELOG
+
+生成 CHANGELOG
+
 ```sh
 npm run changelog
 ```
 
 ## package
+
 ```json
 {
   "scripts": {
@@ -83,21 +87,18 @@ npm run changelog
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -w -r 0"
   },
   "lint-staged": {
-    "src/**/*.{js,vue}": [
-      "prettier --write",
-      "git add"
-    ]
+    "src/**/*.{js,vue}": ["prettier --write", "git add"]
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-   "devDependencies": {
+  "devDependencies": {
     "conventional-changelog-cli": "^2.0.23",
     "cz-conventional-changelog": "3.0.2",
     "lint-staged": "^9.2.5",
-    "commitizen": "^4.0.3",
-  },
+    "commitizen": "^4.0.3"
+  }
 }
 ```

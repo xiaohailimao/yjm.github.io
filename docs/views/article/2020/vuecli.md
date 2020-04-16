@@ -38,25 +38,32 @@ module.exports = {
     },
 }
 ```
+
 ## cross-env 环境变量设置
+
 安装跨平台设置环境变量插件
 
 ```sh
 npm install cross-env -D
 ```
+
 设置环境变量
+
 ```json
 // package.json
 "scripts": {
     "serve": "cross-env --PROJECT_NAME=A vue-cli-service serve",
   },
 ```
+
 读取环境变量
+
 ```js
 process.env.PROJECT_NAME //=> A
 ```
 
 ## 插件配置
+
 babel.config.js
 
 ```js
@@ -86,12 +93,14 @@ module.exports = {
 
 ```
 
-##  初始配置文件
+## 初始配置文件
+
 配置文件名 `.vuerc` 配置默认包管理器等
 
 ## 跨域代理
 
 vue.config.js
+
 ```js
 module.exports = {
   devServer: {
@@ -111,6 +120,7 @@ module.exports = {
 ```
 
 NGINX配置
+
 ```sh
 # 用/api来访问其他网站的接口，实现跨域
 location /api {
@@ -123,15 +133,18 @@ location /api {
 }
 ```
 
-
 ## vant 自适应配置
+
 1. 安装postcss-pxtorem
+
 ```sh
 yarn add postcss-pxtorem -D
 ```
+
 2. 配置postcss.config.js
 
 postcss-pxtorem会忽略Px大写的单位
+
 ```js
 module.exports = {
   plugins: {
@@ -143,9 +156,11 @@ module.exports = {
   }
 }
 ```
+
 3. 根元素字体设置
 
 rem.scss
+
 ```scss
 // rem 单位换算：定为 75px 只是方便运算，750px-75px、640-64px、1080px-108px，如此类推
 $vw_fontsize: 75; // iPhone 6尺寸的根元素大小基准值
@@ -153,7 +168,7 @@ $vw_fontsize: 75; // iPhone 6尺寸的根元素大小基准值
      @return ($px / $vw_fontsize) * 1rem;
 }
 html {
-    font-size: 10vw; 
+    font-size: 10vw;
     // 同时，通过Media Queries 限制根元素最大最小值
     // postcss-pxtorem会忽略Px大写的单位
     @media screen and (max-width: 320Px) {
@@ -167,7 +182,9 @@ body{
   font-size: px2rem(28);
 }
 ```
+
 4. 向预处理器 Loader 传递选项
+
 ```js
 module.exports = {
   css: {
@@ -179,6 +196,7 @@ module.exports = {
   }
 }
 ```
+
 5. 样式
 
 ```scss
@@ -195,7 +213,9 @@ module.exports = {
 ```
 
 ## 向预处理器 Loader 传递选项
+
 @vue/cli 3+
+
 ```js
 module.exports = {
   css: {
@@ -207,7 +227,9 @@ module.exports = {
   }
 };
 ```
+
 @vue/cli 4+
+
 ```js
 module.exports = {
   css: {
@@ -220,4 +242,3 @@ module.exports = {
   }
 };
 ```
-

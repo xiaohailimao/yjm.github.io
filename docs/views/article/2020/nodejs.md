@@ -8,6 +8,7 @@ categories:
 ---
 
 ## require 特性
+
 1. module被加载的时候执行，加载后缓存
 2. 一旦出现某模块被循环加载，就只输出已执行的部分，还未执行的不会输出
 
@@ -31,12 +32,16 @@ exports = {
     a:1
 }
 ```
+
 ## global
+
 在global对象中添加属性会被挂载到全局中
 
 ## process 进程
-1. argv 
+
+1. argv
 执行命令的环境参数数组，从第三位开始是自定义传入的参数
+
 ```js
 process.argv
 // argv: [
@@ -44,21 +49,27 @@ process.argv
 //     '/Users/****/Desktop/nodejs'
 //   ]
 ```
+
 2. cwd()
 获取当前执行文件路径
+
 ```js
 process.cwd() // /Users/****/Desktop/nodejs
 
 ```
-3. setImmediate() (推荐) 
+
+3. setImmediate() (推荐)
 下个事件队列执行，等同步事件执行完后在执行，与时间无关，放到了下个队列的队首
+
 ```js
 setImmediate(()=>{
     console.log('setImmediate')
 })
 ```
-4. nextTick() 
+
+4. nextTick()
 与setImmediate类似，比setImmediate执行的早，放到了但前队列的最后一个，长时间调用会导致其他异步无法执行
+
 ```js
 setImmediate(()=>{
     console.log('setImmediate')
@@ -79,10 +90,13 @@ process.nextTick(()=>{
 // setImmediate
 
 ```
+
 ## path
+
 ```js
 const { normalize, join, resolve, basename, extname, dirname, parse, format } = require('path')
 ```
+
 1. normalize 处理路径，修复异常写法的路径
 2. join 拼接路径，并会修复异常写法的路径
 3. resolve 解析成绝对路径
@@ -90,6 +104,7 @@ const { normalize, join, resolve, basename, extname, dirname, parse, format } = 
 5. extname 返回文件扩展名
 6. dirname 返回目录名称
 7. format 将对象返回路径字符串
+
 ```js
 format({
     root:"",
@@ -99,7 +114,9 @@ format({
     ext:""
 })
 ```
+
 8. parse 将路径解析成对象
+
 ```js
 const path =  "/Users/******/Desktop/学习/nodejs"
 parse(path)
@@ -117,6 +134,7 @@ parse(path)
 11. require() 总是相对当前文件所在文件夹
 
 ## Buffer
+
 1. 用于处理二进制数据流
 2. 实例类似于整数数组，大小固定
 3. C++代码在V8堆外分配物理内存
@@ -138,6 +156,7 @@ Buffer实例属性
 ## events
 
 ## fs
+
 1. 所有回调函数的第一个参数都是保留给异常，如果操作成功则第一个参数会是null或者undefined
 2. fs.readFile()
 3. fs.writeFile()
