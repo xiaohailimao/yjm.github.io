@@ -4,7 +4,7 @@ module.exports = {
   "base": BASE,
   "title": "智宇星空",
   "description": "个人博客",
-  "dest": "dist",
+  "dest": "blog",
   "head": [
     [
       "link",

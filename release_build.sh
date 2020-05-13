@@ -7,7 +7,7 @@ git commit -m 'deploy'
 git push origin master
 
 # 进入生成的文件夹
-cd ./dist
+cd ./blog
 
 # 如果是发布到自定义域名
 # echo 'www.example.com' > CNAME

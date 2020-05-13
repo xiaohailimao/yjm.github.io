@@ -325,7 +325,6 @@ export default [
   {
     title: "工具类",
     linkData: [
-      
       {
         title: "压缩图",
         des: "图片压缩",
@@ -343,6 +342,12 @@ export default [
         des: "适合于多种平台，还支持favicon压缩",
         icon: require("./public/img/icon/icon-favicon.png"),
         url: "https://realfavicongenerator.net/"
+      },
+      {
+        title: "carbon",
+        des: "Create and share beautiful images of your source code. Start typing or drop a file into the text area to get started.",
+        icon: require("./public/img/icon/icon-favicon.png"),
+        url: "https://carbon.now.sh"
       },
       {
         title: "Webpackjs",
