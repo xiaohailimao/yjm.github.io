@@ -362,8 +362,8 @@ methods: {
 一个环境文件只包含环境变量的“键=值”对：
 
 ```js
-FOO=bar
-VUE_APP_SECRET=secret
+FOO = bar;
+VUE_APP_SECRET = secret;
 ```
 
 被载入的变量将会对 vue-cli-service 的所有命令、插件和依赖可用。
@@ -926,4 +926,14 @@ myChart.setOption({
 
 ```html
 <a href="tel:156591***">156591***</a>
+```
+
+## dark-sass 中 deep 无法使用问题
+
+使用 vue-loader 提供的解析方式 `::v-deep`
+
+```css
+::v-deep .el-tabs__item.is-active {
+  color: #bd1b2d;
+}
 ```
