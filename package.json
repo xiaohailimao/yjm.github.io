@@ -1,11 +1,12 @@
 {
   "name": "my-blog",
   "version": "1.0.0",
-  "author": "reco_luan",
+  "author": "yjm",
   "scripts": {
     "dev": "vuepress dev docs",
     "build": "vuepress build docs",
-    "release_mac_build": "env=git && vuepress build docs && sh release_build.sh"
+    "release-github": "env=git && vuepress build docs && sh release-github.sh",
+    "prebuild": "npm run release-github"
   },
   "devDependencies": {
     "vuepress": "1.2.0",
