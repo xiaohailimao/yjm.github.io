@@ -11,13 +11,13 @@ categories:
 
 安装资源管理插件
 
-```sh
+``` sh
 yarn add filemanager-webpack-plugin -D
 ```
 
 vue-cli配置
 
-```js
+``` js
 // vue.config.js
 const FileManagerPlugin = require("filemanager-webpack-plugin");
 module.exports = {
@@ -43,13 +43,13 @@ module.exports = {
 
 安装跨平台设置环境变量插件
 
-```sh
+``` sh
 npm install cross-env -D
 ```
 
 设置环境变量
 
-```json
+``` json
 // package.json
 "scripts": {
     "serve": "cross-env --PROJECT_NAME=A vue-cli-service serve",
@@ -58,7 +58,7 @@ npm install cross-env -D
 
 读取环境变量
 
-```js
+``` js
 process.env.PROJECT_NAME //=> A
 ```
 
@@ -66,31 +66,30 @@ process.env.PROJECT_NAME //=> A
 
 babel.config.js
 
-```js
+``` js
 module.exports = {
-  presets: ["@vue/app"],
-  
-  plugins: [
-  //element ui
-    [
-      "component",
-      {
-        libraryName: "element-ui",
-        styleLibraryName: "theme-chalk"
-      }
-    ],
-    //vant ui
-    [
-      "import",
-      {
-        libraryName: "vant",
-        libraryDirectory: "es",
-        style: true
-      }
-    ]
-  ]
-};
+    presets: ["@vue/app"],
 
+    plugins: [
+        //element ui
+        [
+            "component",
+            {
+                libraryName: "element-ui",
+                styleLibraryName: "theme-chalk"
+            }
+        ],
+        //vant ui
+        [
+            "import",
+            {
+                libraryName: "vant",
+                libraryDirectory: "es",
+                style: true
+            }
+        ]
+    ]
+};
 ```
 
 ## 初始配置文件
@@ -101,27 +100,27 @@ module.exports = {
 
 vue.config.js
 
-```js
+``` js
 module.exports = {
-  devServer: {
-    proxy: {
-      "/api": {
-        // target: process.env.VUE_APP_BASE,
-        target: "http://xxxxx.com",
-        ws: true,
-        changeOrigin: true,
-        pathRewrite: {
-          "^/api": ""
+    devServer: {
+        proxy: {
+            "/api": {
+                // target: process.env.VUE_APP_BASE,
+                target: "http://xxxxx.com",
+                ws: true,
+                changeOrigin: true,
+                pathRewrite: {
+                    "^/api": ""
+                }
+            }
         }
-      }
     }
-  }
 }
 ```
 
 NGINX配置
 
-```sh
+``` sh
 # 用/api来访问其他网站的接口，实现跨域
 location /api {
     # 下面三个是跨域的一些设置
@@ -137,7 +136,7 @@ location /api {
 
 1. 安装postcss-pxtorem
 
-```sh
+``` sh
 yarn add postcss-pxtorem -D
 ```
 
@@ -145,15 +144,15 @@ yarn add postcss-pxtorem -D
 
 postcss-pxtorem会忽略Px大写的单位
 
-```js
+``` js
 module.exports = {
-  plugins: {
-    autoprefixer: {},
-    'postcss-pxtorem': {
-      rootValue: 37.5,
-      propList: ['*']
+    plugins: {
+        autoprefixer: {},
+        'postcss-pxtorem': {
+            rootValue: 37.5,
+            propList: ['*']
+        }
     }
-  }
 }
 ```
 
@@ -161,7 +160,7 @@ module.exports = {
 
 rem.scss
 
-```scss
+``` scss
 // rem 单位换算：定为 75px 只是方便运算，750px-75px、640-64px、1080px-108px，如此类推
 $vw_fontsize: 75; // iPhone 6尺寸的根元素大小基准值
 @function px2rem($px) {
@@ -185,21 +184,21 @@ body{
 
 4. 向预处理器 Loader 传递选项
 
-```js
+``` js
 module.exports = {
-  css: {
-    loaderOptions: {
-      scss: {
-        data: `@import "~@/rem.scss";`
-      }
+    css: {
+        loaderOptions: {
+            scss: {
+                data: `@import "~@/rem.scss";`
+            }
+        }
     }
-  }
 }
 ```
 
 5. 样式
 
-```scss
+``` scss
 @import "@/rem.scss"; // 如果vue.config.js 有配置，则不需要引入
 
 .demo{
@@ -216,29 +215,91 @@ module.exports = {
 
 @vue/cli 3+
 
-```js
+``` js
+// sass
 module.exports = {
-  css: {
-    loaderOptions: {
-      sass: {
-        data: `@import "~@/assets/css/var.scss";`
-      }
+    css: {
+        loaderOptions: {
+            sass: {
+                data: `@import "~@/assets/css/var.scss";`
+            }
+        }
     }
-  }
+};
+
+// less
+// 借助 style-resources-loader
+module.exports = {
+    css: {
+        // 是否使用css分离插件 ExtractTextPlugin
+        //如果需要css热更新就设置为false,打包时候要改为true
+        extract: false,
+        // 开启 CSS source maps?
+        sourceMap: false,
+        // css预设器配置项
+        loaderOptions: {
+            // 重置vant样式
+            less: {
+                modifyVars: {
+                    // 直接覆盖变量
+                    //"text-color": "#111",
+                    //"border-color": "#eee"
+                    // 或者可以通过 less 文件覆盖（文件路径为绝对路径）
+                    hack: `true; @import "${path.join(__dirname,"./src/styles/theme/resetui.less")}";` //这个import 的路径必须是绝对路径
+                    //hack: `true; @import "@/common/resetui.less";`
+                }
+            }
+        }
+    },
+    chainWebpack: config => {
+        // less 引入全局变量
+        const oneOfsMap = config.module.rule("less").oneOfs.store
+        oneOfsMap.forEach(item => {
+            item.use("style-resources-loader")
+                .loader("style-resources-loader")
+                .options({
+                    // 需要插入的文件路径
+                    patterns: "./src/styles/theme-params.less"
+                    // 需要插入的文件路径数组
+                    // patterns: ["./src/styles/theme-params.less"]
+                })
+                .end()
+        })
+    },
 };
 ```
 
 @vue/cli 4+
 
-```js
+``` js
 module.exports = {
-  css: {
-    loaderOptions: {
-      sass: {
-        //  @vue/cli 4.0 data=>prependData
-        prependData: `@import "~@/assets/css/var.scss";`
-      }
+    css: {
+        loaderOptions: {
+            sass: {
+                //  @vue/cli 4.0 data=>prependData
+                prependData: `@import "~@/assets/css/var.scss";`
+            }
+        }
     }
-  }
 };
+```
+
+## less/scss 与js共享变量
+
+CSS loader Module中提供了一个 `:export` 关键词，作用类似 `es6` 中的 `export` ，导出一个js对象
+
+``` less
+:export {
+  name:"less";
+  main-color:@main-color;
+  padding-sm:@padding-sm;
+}
+```
+
+``` scss
+:export {
+  name:"scss";
+  main-color:$main-color;
+  padding-sm:$padding-sm;
+}
 ```
