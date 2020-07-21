@@ -214,6 +214,12 @@ export default [
         url: "https://sass-lang.com/documentation"
       },
       {
+        title: "Less",
+        des: "Less中文文档",
+        icon: require("./public/img/icon/icon-less.png"),
+        url: "https://less.bootcss.com"
+      },
+      {
         title: "Mockjs",
         des: "生成随机数据，拦截 Ajax 请求",
         icon: require("./public/img/icon/icon-mockjs.png"),
