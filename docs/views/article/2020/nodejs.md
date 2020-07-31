@@ -97,13 +97,13 @@ process.nextTick(()=>{
 const { normalize, join, resolve, basename, extname, dirname, parse, format } = require('path')
 ```
 
-1. normalize 处理路径，修复异常写法的路径
-2. join 拼接路径，并会修复异常写法的路径
-3. resolve 解析成绝对路径
-4. basename 返回路径最后一部分内容
-5. extname 返回文件扩展名
-6. dirname 返回目录名称
-7. format 将对象返回路径字符串
+- normalize 处理路径，修复异常写法的路径
+- join 拼接路径，并会修复异常写法的路径
+- resolve 解析成绝对路径
+- basename 返回路径最后一部分内容
+- extname 返回文件扩展名
+- dirname 返回目录名称
+- format 将对象返回路径字符串
 
 ```js
 format({
@@ -115,7 +115,7 @@ format({
 })
 ```
 
-8. parse 将路径解析成对象
+- parse 将路径解析成对象
 
 ```js
 const path =  "/Users/******/Desktop/学习/nodejs"
@@ -129,9 +129,9 @@ parse(path)
 // }
 ```
 
-9. __dirname,__filename 总是返回文件的绝对路径
-10. process.cwd() 总是返回执行node命令所在的文件路径
-11. require() 总是相对当前文件所在文件夹
+- __dirname,__filename 总是返回文件的绝对路径
+- process.cwd() 总是返回执行node命令所在的文件路径
+- require() 总是相对当前文件所在文件夹
 
 ## Buffer
 
@@ -143,15 +143,18 @@ parse(path)
 5. Buffer.isBuffer()
 6. Buffer.concat()
 
-Buffer实例属性
-7. buf.length
-8. buf.toString()
-9. buf.fill()
-10. buf.equals()
-11. buf.indexOf()
-12. buf.copy()
+7. Buffer实例属性
 
-13. StringDecoder 乱码处理
+- buf.length
+- buf.toString()
+- buf.fill()
+- buf.equals()
+- buf.indexOf()
+- buf.copy()
+
+8. 特殊处理
+
+- StringDecoder 乱码处理
 
 ## events
 
@@ -163,3 +166,7 @@ Buffer实例属性
 4. 尽量不用同步操作，在高并发的时候会影响性能
 5. fs.unlink(path, callback) 删除文件
 6. fs.watch()
+
+## 扩展插件
+
+- fs-extra 文件管理器，常用指令：copy 复制文件、emptyDir 清空目录、ensureFile 创建文件、ensureDir 创建目录

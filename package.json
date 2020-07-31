@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "vuepress dev docs",
     "build": "vuepress build docs",
-    "release-github": "env=git && vuepress build docs && sh release-github.sh",
-    "prebuild": "npm run release-github"
+    "release-github": "env=git && vuepress build docs && sh release-github.sh"
   },
   "devDependencies": {
     "vuepress": "1.2.0",
