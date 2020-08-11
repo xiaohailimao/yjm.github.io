@@ -87,18 +87,42 @@ npm run changelog
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -w -r 0"
   },
   "lint-staged": {
-    "src/**/*.{js,vue}": ["prettier --write", "git add"]
+    "{src,package}/**/*": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": false
+  },
   "devDependencies": {
+    "@commitlint/cli": "^9.1.1",
+    "@commitlint/config-conventional": "^9.1.1",
     "conventional-changelog-cli": "^2.0.23",
     "cz-conventional-changelog": "3.0.2",
     "lint-staged": "^9.2.5",
-    "commitizen": "^4.0.3"
+    "commitizen": "^4.0.3",
+    "husky": "^4.2.5",
+    "eslint": "^6.7.2",
+    "prettier": "^1.19.1",
   }
 }
 ```
