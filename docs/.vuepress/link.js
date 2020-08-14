@@ -89,7 +89,7 @@ export default [
         title: "G2",
         des: "G2 是一套基于可视化编码的图形语法，以数据驱动，具有高度的易用性和扩展性，用户无需关注各种繁琐的实现细节，一条语句即可构建出各种各样的可交互的统计图表。",
         icon: require("./public/img/icon/icon-g2.svg"),
-        url: "https://antv.alipay.com/zh-cn/g2/3.x/demo/index.html"
+        url: "https://antv-g2.gitee.io/zh"
       },
       {
         title: "蓝湖",
@@ -187,7 +187,7 @@ export default [
         title: "Ant Design",
         des: "antd 是基于 Ant Design 设计体系的 React UI 组件库，主要用于研发企业级中后台产品。",
         icon: require("./public/img/icon/icon-ant.svg"),
-        url: "https://ant.design/docs/react/introduce-cn"
+        url: "https://ant-design.gitee.io/index-cn"
       },
       {
         title: "Taro",
