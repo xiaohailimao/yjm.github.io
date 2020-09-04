@@ -215,6 +215,8 @@ module.exports = {
 
 @vue/cli 3+
 
+### 传递sass变量
+
 ``` js
 // sass
 module.exports = {
@@ -227,30 +229,15 @@ module.exports = {
     }
 };
 
+
+```
+
+### 传递less变量
+
+```js
 // less
 // 借助 style-resources-loader
 module.exports = {
-    css: {
-        // 是否使用css分离插件 ExtractTextPlugin
-        //如果需要css热更新就设置为false,打包时候要改为true
-        extract: false,
-        // 开启 CSS source maps?
-        sourceMap: false,
-        // css预设器配置项
-        loaderOptions: {
-            // 重置vant样式
-            less: {
-                modifyVars: {
-                    // 直接覆盖变量
-                    //"text-color": "#111",
-                    //"border-color": "#eee"
-                    // 或者可以通过 less 文件覆盖（文件路径为绝对路径）
-                    hack: `true; @import "${path.join(__dirname,"./src/styles/theme/resetui.less")}";` //这个import 的路径必须是绝对路径
-                    //hack: `true; @import "@/common/resetui.less";`
-                }
-            }
-        }
-    },
     chainWebpack: config => {
         // less 引入全局变量
         const oneOfsMap = config.module.rule("less").oneOfs.store
@@ -302,4 +289,60 @@ CSS loader Module中提供了一个 `:export` 关键词，作用类似 `es6` 中
   main-color:$main-color;
   padding-sm:$padding-sm;
 }
+```
+
+## vant 主题覆盖配置
+
+### 修改样式变量
+
+```js
+// vue.config.js
+const path = require("path")
+module.exports = {
+    css: {
+    // 开启 CSS source maps?
+    sourceMap: false,
+    // css预设器配置项
+    loaderOptions: {
+      less: {
+        // less-loader@5 版本
+        modifyVars: {
+          // 直接覆盖变量
+          // 或者可以通过 less 文件覆盖（文件路径为绝对路径）
+          // 这个import 的路径必须是绝对路径
+          // 主题变量覆盖文件
+          hack: `true; @import "${path.join(__dirname, "resetui.less")}";`
+        }
+      }
+    }
+  },
+}
+```
+
+### 引入样式源文件
+
+```js
+// babel.config.js
+module.exports = {
+    plugins: [
+    [
+      "import",
+      {
+        libraryName: "vant",
+        libraryDirectory: "es",
+        style: (name) => `${name}/style/less`
+      },
+      "vant"
+    ]
+  ]
+}
+```
+
+**注意 babel6 不支持按需引入样式，请手动引入样式**
+
+手动引入
+
+```js
+// 引入全部样式
+import 'vant/lib/index.less';
 ```

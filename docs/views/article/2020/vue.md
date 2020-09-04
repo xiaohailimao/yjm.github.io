@@ -1,14 +1,10 @@
 ---
 title: Vue笔记
 date: 2020-03-16
-tags:
-
-  + Vue
-
-categories:
-
-  + 文章
-
+tags: 
+- Vue
+categories: 
+- 文章
 ---
 
 ## 事件处理
