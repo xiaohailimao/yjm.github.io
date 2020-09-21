@@ -23,13 +23,19 @@ export default [
     ]
   },
   {
-    title: "官方文档",
-    linkData: [
-      {
-        title: "Vue",
-        des: "vue官方文档",
+    title:"Vue全家桶",
+    linkData:[
+{
+        title: "Vue2",
+        des: "vue2官方中文文档",
         icon: require("./public/img/icon/icon-vue.png"),
         url: "https://cn.vuejs.org/index.html"
+      },
+      {
+        title: "Vue3",
+        des: "vue3官方英文文档",
+        icon: require("./public/img/icon/icon-vue3.png"),
+        url: "https://v3.vuejs.org"
       },
       {
         title: "Vuex",
@@ -56,6 +62,60 @@ export default [
         url: "https://ssr.vuejs.org/zh/"
       },
       {
+        title: "Nuxt",
+        des: "服务端渲染框架",
+        icon: require("./public/img/icon/icon-nuxt.png"),
+        url: "https://zh.nuxtjs.org"
+      },
+      {
+        title: "VuePress",
+        des: "一部分是支持用 Vue 开发主题的极简静态网站生成器，另一个部分是为书写技术文档而优化的默认主题。它的诞生初衷是为了支持 Vue 及其子项目的文档需求。",
+        icon: require("./public/img/icon/icon-vue.png"),
+        url: "https://vuepress.vuejs.org/zh"
+      },
+      
+    ]
+  },
+  {
+    title: "UI组件库",
+    linkData:[
+      {
+        title: "Vant",
+        des: "vue组件库官方文档",
+        icon: require("./public/img/icon/icon-vant.png"),
+        url: "https://youzan.github.io/vant/#/zh-CN/quickstart"
+      },
+
+      {
+        title: "Element",
+        des: "vue组件库官方文档",
+        icon: require("./public/img/icon/icon-element.svg"),
+        url: "http://element-cn.eleme.io/#/zh-CN/component/installation"
+      },
+      {
+        title: "Ant Design",
+        des: "antd 是基于 Ant Design 设计体系的 React UI 组件库，主要用于研发企业级中后台产品。",
+        icon: require("./public/img/icon/icon-ant.svg"),
+        url: "https://ant-design.gitee.io/index-cn"
+      },
+      {
+        title: "Taro-ui",
+        des: "Taro UI 是一款基于 Taro 框架开发的多端 UI 组件库",
+        icon: require("./public/img/icon/icon-taro.png"),
+        url: "https://taro-ui.aotu.io/#/docs/introduction"
+      },
+      {
+        title: "MATERIAL-UI",
+        des: "React components that implement Google's Material Design.",
+        icon: require("./public/img/icon/icon-material.svg"),
+        url: "https://material-ui.com/zh/getting-started/installation/"
+      },
+    ]
+  },
+  {
+    title: "Nodejs",
+    linkData:[
+      {
         title: "Nodejs",
         des: "nodejs官网",
         icon: require("./public/img/icon/icon-nodejs.jpg"),
@@ -73,30 +133,11 @@ export default [
         icon: require("./public/img/icon/icon-koajs.png"),
         url: "https://koajs.com"
       },
-      {
-        title: "Nuxt",
-        des: "服务端渲染框架",
-        icon: require("./public/img/icon/icon-nuxt.png"),
-        url: "https://zh.nuxtjs.org"
-      },
-      {
-        title: "ECharts",
-        des: "ECharts图表插件官网",
-        icon: require("./public/img/icon/icon-echarts.png"),
-        url: "https://echarts.apache.org"
-      },
-      {
-        title: "G2",
-        des: "G2 是一套基于可视化编码的图形语法，以数据驱动，具有高度的易用性和扩展性，用户无需关注各种繁琐的实现细节，一条语句即可构建出各种各样的可交互的统计图表。",
-        icon: require("./public/img/icon/icon-g2.svg"),
-        url: "https://antv-g2.gitee.io/zh"
-      },
-      {
-        title: "蓝湖",
-        des: "无缝连接产品、设计、研发流程，降低沟通成本，缩短开发周期，提高工作效率",
-        icon: require("./public/img/icon/icon-lanhu.png"),
-        url: "https://lanhuapp.com"
-      },
+    ]
+  },
+  {
+    title: "React",
+    linkData:[
       {
         title: "React",
         des: "用于构建用户界面的 JavaScript 库",
@@ -122,17 +163,16 @@ export default [
         url: "https://facebook.github.io/create-react-app/docs/getting-started"
       },
       {
-        title: "W3C",
-        des: "w3c标准文档",
-        icon: require("./public/img/icon/icon-w3c.svg"),
-        url: "https://www.w3.org/TR/"
+        title: "Ant Motion",
+        des: "React 框架动效解决方案",
+        icon: require("./public/img/icon/icon-ant-motion.svg"),
+        url: "http://motion.ant.design/api/tween-one-cn"
       },
-      {
-        title: "Devdocs",
-        des: "各种api快速查询",
-        icon: require("./public/img/icon/icon-w3c.svg"),
-        url: "https://devdocs.io"
-      },
+    ]
+  },
+  {
+    title: "Javascript",
+    linkData:[
       {
         title: "ES6",
         des: "《ECMAScript 6 入门》是一本开源的 JavaScript 语言教程，全面介绍 ECMAScript 6 新引入的语法特性",
@@ -152,6 +192,46 @@ export default [
         url: "https://ts.xcatliu.com"
       },
       {
+        title: "TypeScript 从零实现 axios",
+        des: "学习使用 TypeScript 从零实现 axios 库",
+        icon: require("./public/img/icon/icon-typescript.png"),
+        url: "http://docs.ayouok.vip/chapter1/"
+      },
+    ]
+  },
+  {
+    title: "图表",
+    linkData: [
+      {
+        title: "ECharts",
+        des: "ECharts图表插件官网",
+        icon: require("./public/img/icon/icon-echarts.png"),
+        url: "https://echarts.apache.org"
+      },
+      {
+        title: "G2",
+        des: "G2 是一套基于可视化编码的图形语法，以数据驱动，具有高度的易用性和扩展性，用户无需关注各种繁琐的实现细节，一条语句即可构建出各种各样的可交互的统计图表。",
+        icon: require("./public/img/icon/icon-g2.svg"),
+        url: "https://antv-g2.gitee.io/zh"
+      },
+    ]
+  },
+  {
+    title: "官方文档",
+    linkData: [
+      {
+        title: "W3C",
+        des: "w3c标准文档",
+        icon: require("./public/img/icon/icon-w3c.svg"),
+        url: "https://www.w3.org/TR/"
+      },
+      {
+        title: "Devdocs",
+        des: "各种api快速查询",
+        icon: require("./public/img/icon/icon-w3c.svg"),
+        url: "https://devdocs.io"
+      },
+      {
         title: "微信小程序api",
         des: "微信小程序api官方文档",
         icon: require("./public/img/icon/icon-wapp.jpg"),
@@ -164,49 +244,15 @@ export default [
         url: "https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115"
       },
 
-      {
-        title: "Taro-ui",
-        des: "Taro UI 是一款基于 Taro 框架开发的多端 UI 组件库",
-        icon: require("./public/img/icon/icon-taro.png"),
-        url: "https://taro-ui.aotu.io/#/docs/introduction"
-      },
-      {
-        title: "Vant",
-        des: "vue组件库官方文档",
-        icon: require("./public/img/icon/icon-vant.png"),
-        url: "https://youzan.github.io/vant/#/zh-CN/quickstart"
-      },
-
-      {
-        title: "Element",
-        des: "vue组件库官方文档",
-        icon: require("./public/img/icon/icon-element.svg"),
-        url: "http://element-cn.eleme.io/#/zh-CN/component/installation"
-      },
-      {
-        title: "Ant Design",
-        des: "antd 是基于 Ant Design 设计体系的 React UI 组件库，主要用于研发企业级中后台产品。",
-        icon: require("./public/img/icon/icon-ant.svg"),
-        url: "https://ant-design.gitee.io/index-cn"
-      },
+      
       {
         title: "Taro",
         des: "Taro 是一套遵循 React 语法规范的 多端开发 解决方案",
         icon: require("./public/img/icon/icon-taro.png"),
         url: "https://nervjs.github.io/taro/docs/README.html"
       },
-      {
-        title: "MATERIAL-UI",
-        des: "React components that implement Google's Material Design.",
-        icon: require("./public/img/icon/icon-material.svg"),
-        url: "https://material-ui.com/zh/getting-started/installation/"
-      },
-      {
-        title: "Ant Motion",
-        des: "React 框架动效解决方案",
-        icon: require("./public/img/icon/icon-ant-motion.svg"),
-        url: "http://motion.ant.design/api/tween-one-cn"
-      },
+      
+      
       {
         title: "Sass",
         des: "sass官方文档",
@@ -241,7 +287,7 @@ export default [
     ]
   },
   {
-    title: "前端社区论坛",
+    title: "前端网站/社区论坛",
     linkData: [
       {
         title: "掘金",
@@ -273,11 +319,12 @@ export default [
         icon: require("./public/img/icon/icon-zhihu.jpg"),
         url: "https://www.zhihu.com"
       },
-    ]
-  },
-  {
-    title: "前端网站",
-    linkData: [
+      {
+        title: "蓝湖",
+        des: "无缝连接产品、设计、研发流程，降低沟通成本，缩短开发周期，提高工作效率",
+        icon: require("./public/img/icon/icon-lanhu.png"),
+        url: "https://lanhuapp.com"
+      },
       {
         title: "CSS-Tricks",
         des: "Tips, Tricks, and Techniques on using Cascading Style Sheets.",
@@ -440,12 +487,7 @@ export default [
         icon: require("./public/img/icon/icon-regexp.png"),
         url: "https://www.sojson.com/regex/generate"
       },
-      {
-        title: "VuePress",
-        des: "一部分是支持用 Vue 开发主题的极简静态网站生成器，另一个部分是为书写技术文档而优化的默认主题。它的诞生初衷是为了支持 Vue 及其子项目的文档需求。",
-        icon: require("./public/img/icon/icon-vue.png"),
-        url: "https://vuepress.vuejs.org/zh"
-      },
+      
       {
         title: "Justmysocks",
         des: "vpn服务提供商",

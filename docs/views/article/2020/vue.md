@@ -1,6 +1,6 @@
 ---
 title: Vue笔记
-date: 2020-03-16
+date: 2020-09-16
 tags: 
 - Vue
 categories: 
@@ -1078,4 +1078,19 @@ export function processImage({
     };
   });
 }
+```
+
+## vuex Mutation 对象响应问题
+
+ Mutation 需要遵守 vue 的响应规则
+
+1. 最好提前在 store 中初始化好所有所需属性
+
+2. 当需要再对象上添加新属性时
+
+> 使用 Vue.set(obj,'newProp',123)
+> 以新对象替换老对象
+
+```js
+state.obj = { ...state.obj, newProp: 123 };
 ```
