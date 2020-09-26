@@ -379,6 +379,12 @@ export default [
     title: "工具类",
     linkData: [
       {
+        title: "Regexper",
+        des: "图解正则",
+        icon: require("./public/img/icon/icon-regexp.png"),
+        url: "http://regexper.ayouok.vip/"
+      },
+      {
         title: "压缩图",
         des: "图片压缩",
         icon: require("./public/img/icon/icon-yasuotu.png"),
