@@ -220,6 +220,12 @@ export default [
     title: "官方文档",
     linkData: [
       {
+        title: "MDN web docs",
+        des: "MDN 文档",
+        icon: require("./public/img/icon/icon-mdn.png"),
+        url: "https://developer.mozilla.org/zh-CN/docs/Web/API"
+      },
+      {
         title: "W3C",
         des: "w3c标准文档",
         icon: require("./public/img/icon/icon-w3c.svg"),
