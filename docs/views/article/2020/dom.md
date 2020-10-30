@@ -41,24 +41,25 @@ DOM 属于渲染引擎，JS 属于 JS 引擎，当我们通过 JS 操作 DOM 时
 
 会导致回流的操作
 
-- 页面首次渲染
-- 浏览器窗口大小发生改变
-- 元素尺寸或者位置改变
-- 元素内容变化（文字或者图片大小等等）
-- 元素字体大小变化
-- 添加或者删除可见的 DOM 元素
-- 激活 css 伪类（例如：hover）
-- 查询某些属性或调用某些方法
+* 页面首次渲染
+* 浏览器窗口大小发生改变
+* 元素尺寸或者位置改变
+* 元素内容变化（文字或者图片大小等等）
+* 元素字体大小变化
+* 添加或者删除可见的 DOM 元素
+* 激活 css 伪类（例如：hover）
+* 查询某些属性或调用某些方法
 
 会导致回流的常用属性与方法
 
-- clientWidth、clientHeight、clientTop、clientLeft
-- offsetWidth、offsetHeight、offsetTop、offsetLeft
-- scrollWidth、scrollHeight、scrollTop、scrollLeft
-- scrollIntoView()、scrollIntoViewIfNeeded()
-- getComputedStyle()
-- getBoundingClientRect()
-- scrollTo()
+* clientWidth、clientHeight、clientTop、clientLeft
+* offsetWidth、offsetHeight、offsetTop、offsetLeft
+* scrollWidth、scrollHeight、scrollTop、scrollLeft
+* scrollIntoView()、scrollIntoViewIfNeeded()
+* getComputedStyle()
+* getBoundingClientRect()
+* scrollTo()
+
   ::: tip 提示
   因为列队中可能会有影响这些属性或方法返回值的操作，即使获取的信息与列队中的操作引发的改变无关，浏览器也会强行清空列队来确保获取到最精确的值
   :::
@@ -69,27 +70,27 @@ DOM 属于渲染引擎，JS 属于 JS 引擎，当我们通过 JS 操作 DOM 时
 
 ### 性能优化
 
-- 回流会`必定`会引起重绘，重绘`不一定`会引发回流，回流成本比重绘高很多，改变父节点里的子节点很可能会导致父节点的一系列回流
-- 不要使用`table`布局，可能很小的改动会导致整改 table 的重新布局
-- 动画实现的速度的选择，动画速度越快，回流次数越多，也可以选择使用`requestAnimationFrame`
-- css 选择符从`从右往左`匹配查询，避免节点层数级过多
-- 尽可能在`DOM`树的最末端改变`class`
-- 使用`transform`代替`top`
-- 使用`visibility`替换`display:none`，因为前者只会引起重绘，后者会引起回流
+* 回流会`必定`会引起重绘，重绘`不一定`会引发回流，回流成本比重绘高很多，改变父节点里的子节点很可能会导致父节点的一系列回流
+* 不要使用`table`布局，可能很小的改动会导致整改 table 的重新布局
+* 动画实现的速度的选择，动画速度越快，回流次数越多，也可以选择使用`requestAnimationFrame`
+* css 选择符从`从右往左`匹配查询，避免节点层数级过多
+* 尽可能在`DOM`树的最末端改变`class`
+* 使用`transform`代替`top`
+* 使用`visibility`替换`display:none`，因为前者只会引起重绘，后者会引起回流
 
-- 避免频繁读取会引起回流的属性或引起会导致回流的方法，如果需要多次使用，可以用变量存储
-- 对具有复杂动画的元素使用 position 或者 field，使它脱离文档流（脱离文档流后不会影响其他元素），否则会引起父元素及后继元素频繁回流
-- 避免使用 css 表达式（例：calc()）
-- 不要把节点属性值放在一个循环里当成循环里的变量
+* 避免频繁读取会引起回流的属性或引起会导致回流的方法，如果需要多次使用，可以用变量存储
+* 对具有复杂动画的元素使用 position 或者 field，使它脱离文档流（脱离文档流后不会影响其他元素），否则会引起父元素及后继元素频繁回流
+* 避免使用 css 表达式（例：calc()）
+* 不要把节点属性值放在一个循环里当成循环里的变量
 
-```js
+``` js
 for (let i = 0; i < 1000; i++) {
   //获取offsetTop会导致回流
   console.log(document.querySelector(".testClass").style.offsetTop);
 }
 ```
 
-- 将频繁重绘或者回流的节点设置为图层，图层能够阻止该节点的渲染行为影响别的节点。例如 video 标签，浏览器会自动将该节点变为图层
+* 将频繁重绘或者回流的节点设置为图层，图层能够阻止该节点的渲染行为影响别的节点。例如 video 标签，浏览器会自动将该节点变为图层
 
 设置节点为图层的常用方法：
 
@@ -110,29 +111,34 @@ for (let i = 0; i < 1000; i++) {
 
 元素可见大小由：高度、宽度、内边距、滚动条、边框大小
 
-- offsetHeight：垂直方向上占用的空间大小，`高度+水平滚动条的宽度（可见的）+上下边框高度`
-- offsetWidth：水平方向上占用的空间大小，`宽度+垂直滚动条的宽度+左右边框宽度`
-- offsetTop：元素的`上外边框`到包含元素的`上内边框`之间的距离
-- offsetLeft：元素的`左外边框`到包含元素的`左内边框`之间的距离
+* offsetHeight：垂直方向上占用的空间大小，`高度+水平滚动条的宽度（可见的）+上下边框高度`
+* offsetWidth：水平方向上占用的空间大小，`宽度+垂直滚动条的宽度+左右边框宽度`
+* offsetTop：元素的`上外边框`到包含元素的`上内边框`之间的距离
+* offsetLeft：元素的`左外边框`到包含元素的`左内边框`之间的距离
 
-::: warning 注意 1.以上大小不包括外边距  
-2.offsetParent 属性不一定与 parentNode 的值相等，例如`td`元素的`offsetParent`是作为其祖父元素的`table`元素，因为 table 是在 DOM 层次中距离 td 最近的一个`具有大小的元素`
+::: warning 注意
+1. 以上大小不包括外边距
+2. offsetParent 属性不一定与 parentNode 的值相等，例如 `td` 元素的 `offsetParent` 是作为其祖父元素的 `table` 元素，因为 table 是在 DOM 层次中距离 td 最近的一个 `具有大小的元素`
+
 :::
 
 ### 客户端大小
 
 指的是元素内容及其内边距所占据的空间大小
 
-- clientWidth：元素内容区宽度加上左右内边距宽度
-- clientHeight：元素内容区高度加上上下内边距高度
+* clientWidth：元素内容区宽度加上左右内边距宽度
+* clientHeight：元素内容区高度加上上下内边距高度
+
   ::: warning 注意
   客户区大小就是元素内部的空间大小，因此滚动条占用的空间不计算在内
   :::
-  ![clientWidth](/img/img-box.png)
+  
+
+![clientWidth](/img/img-box.png)
 
 ### 获取元素的偏移量
 
-```js
+``` js
 // 获取左偏移量
 function getElementLeft(element) {
   var actualLeft = element.offsetLeft;
@@ -155,12 +161,14 @@ function getElementTop(element) {
 }
 ```
 
-::: warning 注意 1.对于一般布局利用这两个函数利用 offsetParent 属性在 DOM 层次中逐级向上回溯，将每层次中的偏移量属性值合并到一块，可以得到非常精确的结果。但是对于`表格和内嵌框架布局`的页面，不同浏览器实现这些元素的方式不同，取得的值就不太精确了 2.读取偏移量会导致 DOM 回流，如需重复使用其中的某些属性的值，可以将他们保存在局部变量中，来提高性能
+::: warning 注意 
+1. 对于一般布局利用这两个函数利用 offsetParent 属性在 DOM 层次中逐级向上回溯，将每层次中的偏移量属性值合并到一块，可以得到非常精确的结果。但是对于 `表格和内嵌框架布局` 的页面，不同浏览器实现这些元素的方式不同，取得的值就不太精确了 
+2. 读取偏移量会导致 DOM 回流，如需重复使用其中的某些属性的值，可以将他们保存在局部变量中，来提高性能
 :::
 
 ### 读取浏览器视口大小
 
-```js
+``` js
 function getViewport() {
   var pageWidth = window.innerWidth,
     pageHeight = window.innerHeight;
@@ -188,12 +196,13 @@ function getViewport() {
 
 ## 滚动大小
 
-- scrollHeight:没有滚动条的情况下，元素内容的总高度
-- scrollWidth:没有滚动条的情况下，元素内容的总宽度
-- scrollTop:被隐藏在内容区域上方的像素数。通过设置这个属性可以改变元素的滚动位置
-- scrollLeft:被隐藏在内容区域左方的像素数。通过设置这个属性可以改变元素的滚动位置
+* scrollHeight: 没有滚动条的情况下，元素内容的总高度
+* scrollWidth: 没有滚动条的情况下，元素内容的总宽度
+* scrollTop: 被隐藏在内容区域上方的像素数。通过设置这个属性可以改变元素的滚动位置
+* scrollLeft: 被隐藏在内容区域左方的像素数。通过设置这个属性可以改变元素的滚动位置
 
 ![scroll](/img/img-size-scroll.png)
+
 ::: tip
 scrollWidth 和 scrollHeight 主要用于确定元素内容的实际大小
 
@@ -202,7 +211,7 @@ scrollLeft 和 scrollTop 设置为 0，就可以重置元素的滚动位置
 
 ### 获取文档尺寸
 
-```js
+``` js
 // 确定文档的总大小
 var docHeight = Math.max(
   document.documentElement.scrollHeight,
@@ -216,7 +225,7 @@ var docWidth = Math.max(
 
 ### 回滚顶部
 
-```js
+``` js
 function scrollToTop(element) {
   if (element.scrollTop != 0) {
     element.scrollTop = 0;
@@ -226,10 +235,10 @@ function scrollToTop(element) {
 
 ## 确定元素大小
 
-`getBoundingClientRect()` 方法包含 4 个属性： `left` 、 `top` 、 `right` 和 `bottom` 。这些属性给出了元素在页面中相对于视口的位置。IE8 及更早版本认为文档的左上角坐标是(2, 2)，而其他浏览器包括 IE9 则将传统的(0,0)作为起点坐标
-一般来说， `right` 和 `left` 的差值与 `offsetWidth` 的值相等，而 `bottom` 和 `top` 的差值与 `offsetHeight`相等。而且，`left` 和 `top` 属性大致等于 `getElementLeft()` 和 `getElementTop()` 函数取的值
+`getBoundingClientRect()` 方法包含 4 个属性： `left` 、 `top` 、 `right` 和 `bottom` 。这些属性给出了元素在页面中相对于视口的位置。IE8 及更早版本认为文档的左上角坐标是(2, 2)，而其他浏览器包括 IE9 则将传统的(0, 0)作为起点坐标
+一般来说， `right` 和 `left` 的差值与 `offsetWidth` 的值相等，而 `bottom` 和 `top` 的差值与 `offsetHeight` 相等。而且， `left` 和 `top` 属性大致等于 `getElementLeft()` 和 `getElementTop()` 函数取的值
 
-```js
+``` js
 function getBoundingClientRect(element) {
   var scrollTop = document.documentElement.scrollTop;
   var scrollLeft = document.documentElement.scrollLeft;
@@ -277,7 +286,7 @@ function getBoundingClientRect(element) {
 
 [SVGA](http://svga.io/intro.html) 是一种跨平台的开源动画格式，同时兼容 iOS / Android / Web。SVGA 除了使用简单，性能卓越，同时让动画开发分工明确，各自专注各自的领域，大大减少动画交互的沟通成本，提升开发效率。动画设计师专注动画设计，通过工具输出 svga 动画文件，提供给开发工程师在集成 svga player 之后直接使用。动画开发从未如此简单！
 
-```html
+``` html
 <div id="demoCanvas" style="width: 300px;height: 300px;margin: 0 auto"></div>
 <script src="https://cdn.jsdelivr.net/npm/svgaplayerweb@2.3.0/build/svga.min.js"></script>
 <script>
@@ -313,9 +322,9 @@ window=>document=>html(document.documentElement)=>body=>...=>目标元素
 
 ### 事件绑定
 
-element.addEventListener("click",function(){},false)（最后一个参数 false 表示冒泡阶段触发，true 表示捕获阶段触发）
+element.addEventListener("click", function(){}, false)（最后一个参数 false 表示冒泡阶段触发，true 表示捕获阶段触发）
 
-```html
+``` html
 <body>
   <div id="ev">
     目标元素
@@ -422,7 +431,7 @@ window captrue
 
 ### 自定义事件
 
-```js
+``` js
 var eve = new Event("custome");
 ev.addEventListener("custome", function() {
   console.log("custome");
@@ -445,8 +454,8 @@ IE 的 width/height 计算包括 content+padding+border
 
 ### 设置盒模型
 
-标准：box-sizing:content-box;<br>
-IE：box-sizing:border-box;
+标准：box-sizing:content-box; <br>
+IE：box-sizing:border-box; 
 
 ### js 取得盒模型的宽高
 
@@ -460,14 +469,84 @@ IE：box-sizing:border-box;
 #### 解决方法：BFC（块级元素格式化上下文）
 
 BFC 原理：<br>
-1.BFC 元素垂直方向会有外边距重叠<br>
-2.BFC 不与浮动元素重叠（清浮动重要原理）<br>
-3.BFC 是独立容器，不影响其他元素也不受其他元素影响<br>
-4.BFC 子元素即使是浮动元素也会参加计算<br>
-5.BFC 计算高度时，浮动元素也会参与计算
+
+1. BFC 元素垂直方向会有外边距重叠<br>
+2. BFC 不与浮动元素重叠（清浮动重要原理）<br>
+3. BFC 是独立容器，不影响其他元素也不受其他元素影响<br>
+4. BFC 子元素即使是浮动元素也会参加计算<br>
+5. BFC 计算高度时，浮动元素也会参与计算
 
 #### 创建 BFC(受 BFC 原理 2 影响，BFC 可以清浮动)
 
 1.overflow:auto/hidden<br>
 2.float:left/right<br>
 3.position:absolute/fixed
+
+### ScrollIntoView 滚动到指定元素
+
+``` JS
+/**
+ * 滚动到指定元素
+ * @param {Object} el 当前dom元素
+ * @param {Number} offset 元素距离顶部的偏移量
+ */
+scrollIntoView(el, offset = 200) {
+
+  if (!el) {
+    return
+  }
+  if (typeof offset !== "number") {
+    return
+  }
+  const clientRect = el.getBoundingClientRect()
+
+  const isElementInViewport = clientRect.top >= 0 && clientRect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+
+  if (!isElementInViewport) {
+    // 注意 ！！！
+    // Safari 不支持 document.documentElement.scrollTop 获取滚动条高度
+    // Chrome 不支持 document.body.scrollTop 获取滚动条高度
+    // 通过以下两行兼容
+    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+    const dom = scrollTop === document.documentElement.scrollTop ? document.documentElement : document.body
+
+    const destination = (scrollTop + clientRect.top - offset) > 0 ? (scrollTop + clientRect.top - offset) : 0
+
+    easeout(dom, destination, 10, function(val) {
+      dom.scrollTo(0, val)
+    }) //easeout（滑动到指定位置的缓冲动画函数）方法可查看之前文章
+  }
+}
+/**
+ * 缓冲函数
+ * @param {Object} dom 目标dom
+ * @param {Number} destination 目标位置
+ * @param {Number} rate 缓动率
+ * @param {Function} callback 缓动结束回调函数 两个参数分别是当前位置和是否结束
+ */
+easeout(dom, destination, rate, callback) {
+  let position = dom.scrollTop
+  if (position === destination || typeof destination !== "number") {
+    return false
+  }
+  destination = destination || 0
+  rate = rate || 2
+  // 不存在原生`requestAnimationFrame`，用`setTimeout`模拟替代
+  if (!window.requestAnimationFrame) {
+    window.requestAnimationFrame = function(fn) {
+      return setTimeout(fn, 17)
+    }
+  }
+  const step = function() {
+    position = position + (destination - position) / rate
+
+    if (Math.abs(destination - position) < 1) {
+      callback(destination, true)
+      return
+    }
+    callback(position, false)
+    requestAnimationFrame(step)
+  }
+  step()
+}
+```
