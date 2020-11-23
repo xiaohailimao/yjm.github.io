@@ -26,6 +26,7 @@ categories:
 15. vscode-icon 图标
 16. markdownlint
 17. Prettier-code formatter
+17. Bracket Pair Colorizer 括号着色器
 
 ## vscode 配置
 
