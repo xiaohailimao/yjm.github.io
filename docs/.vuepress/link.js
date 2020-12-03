@@ -93,6 +93,12 @@ export default [
         url: "http://element-cn.eleme.io/#/zh-CN/component/installation"
       },
       {
+        title: "Element-plus",
+        des: "vue3组件库官方文档",
+        icon: require("./public/img/icon/icon-element.svg"),
+        url: "https://element-plus.gitee.io/#/zh-CN/component/installation"
+      },
+      {
         title: "Ant Design",
         des: "antd 是基于 Ant Design 设计体系的 React UI 组件库，主要用于研发企业级中后台产品。",
         icon: require("./public/img/icon/icon-ant.svg"),
@@ -224,6 +230,12 @@ export default [
         des: "MDN 文档",
         icon: require("./public/img/icon/icon-mdn.png"),
         url: "https://developer.mozilla.org/zh-CN/docs/Web/API"
+      },
+      {
+        title: "Lodash",
+        des: "Lodash 中文文档",
+        icon: 'https://www.lodashjs.com/img/logo.png',
+        url: "https://www.lodashjs.com/"
       },
       {
         title: "W3C",
