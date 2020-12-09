@@ -82,7 +82,7 @@ module.exports = {
     "sidebar": "auto",
     "lastUpdated": "Last Updated",
     "author": "智宇星空",
-    "authorAvatar": "/avatar.png",
+    "authorAvatar": "/avatar.jpg",
     "record": "京ICP备20009961号",
     "startYear": "2018"
   },
