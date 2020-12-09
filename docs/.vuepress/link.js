@@ -1,31 +1,31 @@
 export default [
   {
-    title:'搜索引擎',
-    linkData:[
+    title: '搜索引擎',
+    linkData: [
       {
-        title:'Google',
-        des:'google搜索引擎',
-        icon:require("./public/img/icon/icon-google.png"),
-        url:'https://www.google.com'
+        title: 'Google',
+        des: 'google搜索引擎',
+        icon: require("./public/img/icon/icon-google.png"),
+        url: 'https://www.google.com'
       },
       {
-        title:'维基百科',
-        des:'维基百科',
-        icon:require("./public/img/icon/icon-weijibaike.png"),
-        url:'https://zh.wikipedia.org'
+        title: '维基百科',
+        des: '维基百科',
+        icon: require("./public/img/icon/icon-weijibaike.png"),
+        url: 'https://zh.wikipedia.org'
       },
       {
-        title:'百度翻译',
-        des:'百度翻译',
-        icon:require("./public/img/icon/icon-baidufanyi.jpg"),
-        url:'https://fanyi.baidu.com'
+        title: '百度翻译',
+        des: '百度翻译',
+        icon: require("./public/img/icon/icon-baidufanyi.jpg"),
+        url: 'https://fanyi.baidu.com'
       },
     ]
   },
   {
-    title:"Vue全家桶",
-    linkData:[
-{
+    title: "Vue全家桶",
+    linkData: [
+      {
         title: "Vue2",
         des: "vue2官方中文文档",
         icon: require("./public/img/icon/icon-vue.png"),
@@ -73,19 +73,23 @@ export default [
         icon: require("./public/img/icon/icon-vue.png"),
         url: "https://vuepress.vuejs.org/zh"
       },
-      
+      {
+        title: "Uni App",
+        des: "vue 夸端开发框架",
+        icon: require("./public/img/icon/icon-uni-app.png"),
+        url: "https://uniapp.dcloud.io/collocation/pages"
+      },
     ]
   },
   {
     title: "UI组件库",
-    linkData:[
+    linkData: [
       {
         title: "Vant",
         des: "vue组件库官方文档",
         icon: require("./public/img/icon/icon-vant.png"),
         url: "https://youzan.github.io/vant/#/zh-CN/quickstart"
       },
-
       {
         title: "Element",
         des: "vue组件库官方文档",
@@ -97,6 +101,12 @@ export default [
         des: "vue3组件库官方文档",
         icon: require("./public/img/icon/icon-element.svg"),
         url: "https://element-plus.gitee.io/#/zh-CN/component/installation"
+      },
+      {
+        title: "uView",
+        des: "uni-app ui库",
+        icon: require("./public/img/icon/icon-uView.png"),
+        url: "https://uviewui.com/components/intro.html"
       },
       {
         title: "Ant Design",
@@ -120,7 +130,7 @@ export default [
   },
   {
     title: "Nodejs",
-    linkData:[
+    linkData: [
       {
         title: "Nodejs",
         des: "nodejs官网",
@@ -143,7 +153,7 @@ export default [
   },
   {
     title: "React",
-    linkData:[
+    linkData: [
       {
         title: "React",
         des: "用于构建用户界面的 JavaScript 库",
@@ -178,7 +188,7 @@ export default [
   },
   {
     title: "Javascript",
-    linkData:[
+    linkData: [
       {
         title: "ES6",
         des: "《ECMAScript 6 入门》是一本开源的 JavaScript 语言教程，全面介绍 ECMAScript 6 新引入的语法特性",
@@ -262,15 +272,15 @@ export default [
         url: "https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115"
       },
 
-      
+
       {
         title: "Taro",
         des: "Taro 是一套遵循 React 语法规范的 多端开发 解决方案",
         icon: require("./public/img/icon/icon-taro.png"),
         url: "https://nervjs.github.io/taro/docs/README.html"
       },
-      
-      
+
+
       {
         title: "Sass",
         des: "sass官方文档",
@@ -301,7 +311,7 @@ export default [
         icon: require("./public/img/icon/icon-prettier.png"),
         url: "https://prettier.io"
       },
-      
+
     ]
   },
   {
@@ -511,7 +521,7 @@ export default [
         icon: require("./public/img/icon/icon-regexp.png"),
         url: "https://www.sojson.com/regex/generate"
       },
-      
+
       {
         title: "Justmysocks",
         des: "vpn服务提供商",
