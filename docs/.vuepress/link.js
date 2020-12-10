@@ -73,12 +73,7 @@ export default [
         icon: require("./public/img/icon/icon-vue.png"),
         url: "https://vuepress.vuejs.org/zh"
       },
-      {
-        title: "Uni App",
-        des: "vue 夸端开发框架",
-        icon: require("./public/img/icon/icon-uni-app.png"),
-        url: "https://uniapp.dcloud.io/collocation/pages"
-      },
+      
     ]
   },
   {
@@ -125,6 +120,12 @@ export default [
         des: "React components that implement Google's Material Design.",
         icon: require("./public/img/icon/icon-material.svg"),
         url: "https://material-ui.com/zh/getting-started/installation/"
+      },
+      {
+        title: "Uni App",
+        des: "vue 夸端开发框架",
+        icon: require("./public/img/icon/icon-uni-app.png"),
+        url: "https://uniapp.dcloud.io/collocation/pages"
       },
     ]
   },
