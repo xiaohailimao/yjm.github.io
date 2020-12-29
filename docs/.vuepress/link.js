@@ -35,7 +35,7 @@ export default [
         title: "Vue3",
         des: "vue3官方英文文档",
         icon: require("./public/img/icon/icon-vue3.png"),
-        url: "https://v3.vuejs.org"
+        url: "https://vue3js.cn"
       },
       {
         title: "Vuex",
@@ -73,7 +73,12 @@ export default [
         icon: require("./public/img/icon/icon-vue.png"),
         url: "https://vuepress.vuejs.org/zh"
       },
-      
+      {
+        title: "Uni App",
+        des: "vue 夸端开发框架",
+        icon: require("./public/img/icon/icon-uni-app.png"),
+        url: "https://uniapp.dcloud.io/collocation/pages"
+      },
     ]
   },
   {
@@ -121,12 +126,7 @@ export default [
         icon: require("./public/img/icon/icon-material.svg"),
         url: "https://material-ui.com/zh/getting-started/installation/"
       },
-      {
-        title: "Uni App",
-        des: "vue 夸端开发框架",
-        icon: require("./public/img/icon/icon-uni-app.png"),
-        url: "https://uniapp.dcloud.io/collocation/pages"
-      },
+      
     ]
   },
   {
@@ -412,6 +412,12 @@ export default [
         des: "图解正则",
         icon: require("./public/img/icon/icon-regexp.png"),
         url: "http://regexper.ayouok.vip/"
+      },
+      {
+        title: "Dayjs",
+        des: "时间处理工具",
+        icon: require("./public/img/icon/icon-dayjs.jpg"),
+        url: "https://dayjs.gitee.io/docs/zh-CN/installation/installation"
       },
       {
         title: "压缩图",

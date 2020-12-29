@@ -84,6 +84,7 @@ module.exports = {
     "author": "智宇星空",
     "authorAvatar": "/avatar.jpg",
     "record": "京ICP备20009961号",
+    "recordLink": "https://beian.miit.gov.cn/",
     "startYear": "2018"
   },
   "markdown": {

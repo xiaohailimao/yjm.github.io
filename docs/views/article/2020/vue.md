@@ -323,6 +323,8 @@ this.someObject = Object.assign({}, this.someObject, {
 });
 ```
 
+**JavaScript 中基础类型是值传递而非引用传递**
+
 ### 声明响应式属性
 
 由于 Vue 不允许动态添加根级响应式属性，所以你必须在初始化实例前声明所有根级响应式属性，哪怕只是一个空值。
