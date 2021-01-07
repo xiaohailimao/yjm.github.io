@@ -126,6 +126,12 @@ export default [
         icon: require("./public/img/icon/icon-material.svg"),
         url: "https://material-ui.com/zh/getting-started/installation/"
       },
+      {
+        title: "IconPark",
+        des: "字节跳动提供的开源可配置图标库",
+        icon: require("./public/img/icon/icon-icon-park.jpg"),
+        url: "http://iconpark.bytedance.com/official"
+      },
       
     ]
   },
