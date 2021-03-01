@@ -331,6 +331,12 @@ export default [
         url: "https://juejin.im"
       },
       {
+        title: "力扣",
+        des: "备战技术面试？力扣提供海量技术面试资源，帮助你高效提升编程技能，轻松拿下世界IT 名企Dream Offer。",
+        icon: require("./public/img/icon/icon-likou.svg"),
+        url: "https://leetcode-cn.com/"
+      },
+      {
         title: "w3ctech",
         des: "中国最大的前端技术社区",
         icon: require("./public/img/icon/icon-w3ctech.png"),
