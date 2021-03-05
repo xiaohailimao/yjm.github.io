@@ -18,6 +18,7 @@ categories:
 - **chokidar** 围绕node.js `fs.watch / fs.watchFile / fsevents`的整洁包装器。
 - **shelljs** ShellJS-Node.js的Unix Shell命令
 - **puppeteer** Headless Chrome Node.js API
+- **cheerio** 专为服务器设计的核心jQuery的快速灵活和精益实现。
 - **lerna** 用于管理具有多个程序包的JavaScript项目的工具
 - **minimist** 解析参数选项
 - **semver** npm的语义版本控制程序

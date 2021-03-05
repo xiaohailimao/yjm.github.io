@@ -15,10 +15,12 @@ categories:
 ```javascript
 // 单例核心代码
 // 获取单例
+// 用到了闭包和高阶函数
 var getSingle = function(fn){
-    var result;//标志,只定义未赋值
+    var result; // 内部变量不会被销毁
+    // 返回一个函数、惰性单例
     return function(){
-        return result || (result = fn.apply(this,arguments));//如果存在>返回result,不存在>将参数赋值给result返回
+        return result || (result = fn.apply(this,arguments));
     }
 }
 ```
@@ -39,6 +41,8 @@ var createLoginLayer = function(){
     return div;
 }
 //管理单例
+// createSingleLoginLayer被执行一次后，createLoginLayer的执行结果将被储存起来（getSingle 中的 result 变量），
+// createSingleLoginLayer后面每次调用都返回之前createLoginLayer的储存结果
 var createSingleLoginLayer = getSingle(createLoginLayer);
 
 document.getElementById('loginBtn').onclick = function(){
