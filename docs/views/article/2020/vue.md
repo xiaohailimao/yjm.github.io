@@ -1096,3 +1096,15 @@ export function processImage({
 ```js
 state.obj = { ...state.obj, newProp: 123 };
 ```
+
+
+## 无网监听处理
+
+``` JS
+window.addEventListener('offline',()=>{
+  console.log('无网络');
+})
+window.addEventListener('online',()=>{
+  console.log('有网络');
+})
+```
