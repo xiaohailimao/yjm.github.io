@@ -56,6 +56,12 @@ export default [
         url: "https://cli.vuejs.org/zh/"
       },
       {
+        title: "Vite",
+        des: "下一代前端工具。它很快！",
+        icon: require("./public/img/icon/icon-vite.png"),
+        url: "https://github.com/vitejs/vite"
+      },
+      {
         title: "Vue-SSR",
         des: "Vue.js 开发的标准工具",
         icon: require("./public/img/icon/icon-vue.png"),
@@ -79,6 +85,54 @@ export default [
         icon: require("./public/img/icon/icon-uni-app.png"),
         url: "https://uniapp.dcloud.io/collocation/pages"
       },
+    ]
+  },
+  {
+    title: "Github学习资源",
+    linkData: [
+      {
+        title: "Javascrip",
+        des: "Javascript 风格指南",
+        icon: require("./public/img/icon/icon-github.png"),
+        url: "https://github.com/airbnb/javascript"
+      },
+      {
+        title: "clean-code-javascript",
+        des: "适用于JavaScript的简洁代码概念",
+        icon: require("./public/img/icon/icon-github.png"),
+        url: "https://github.com/ryanmcdermott/clean-code-javascript"
+      },
+      {
+        title: "javascript-algorithms",
+        des: "用JavaScript实现的算法和数据结构，并附有解释和进一步阅读的链接",
+        icon: require("./public/img/icon/icon-github.png"),
+        url: "https://github.com/trekhleb/javascript-algorithms"
+      },
+      {
+        title: "nodebestpractices",
+        des: "Nodejs最佳实践",
+        icon: require("./public/img/icon/icon-github.png"),
+        url: "https://github.com/goldbergyoni/nodebestpractices"
+      },
+      {
+        title: "You-Dont-Know-JS",
+        des: "You Don’t Know JS 图书系列",
+        icon: require("./public/img/icon/icon-github.png"),
+        url: "https://github.com/getify/You-Dont-Know-JS"
+      },
+      {
+        title: "You-Dont-Need-JavaScript",
+        des: "CSS is powerful, you can do a lot of things without JS.",
+        icon: require("./public/img/icon/icon-github.png"),
+        url: "https://github.com/you-dont-need/You-Dont-Need-JavaScript"
+      },
+      {
+        title: "33-js-concepts",
+        des: "33 concepts every JavaScript developer should know.",
+        icon: require("./public/img/icon/icon-github.png"),
+        url: "https://github.com/leonardomso/33-js-concepts"
+      },
+      
     ]
   },
   {
