@@ -227,3 +227,234 @@ function reverse(x:number|string):number|string {
 **Ts会优先从最前面的函数定义开始匹配，所以多个函数定义有包含关系，需要优先把精确的定义写在前面**
 
 
+## 类型断言
+
+### 基础语法
+
+```
+值 as 类型
+```
+或者
+```
+<类型>值
+```
+
+### 将一个联合类型断言为其中一个类型
+``` JS
+interface Cat {
+  name: string;
+  run(): void;
+}
+
+interface Fish {
+  name: string;
+  swim() : void;
+}
+
+function isFish(animal:Cat | Fish){
+  if(typeof (animal as Fish).swim === 'function'){
+    return true
+  }
+  return false
+}
+```
+使用类型断言时一定要格外小心，尽量避免断言后调用方法或引用深层属性，以减少不必要的运行时错误。
+
+
+### 将一个父类型断言为更加具体的子类
+
+``` JS
+class ApiError extends Error {
+  code: number = 0;
+}
+class HttpError extends Error {
+  statusCode: number = 200
+}
+
+function isApiError(error: Error){
+  if(typeof (error as ApiError).code === 'number'){
+    return true
+  }
+  return false
+}
+```
+
+``` JS
+interface ApiError extends Error {
+  code: number;
+}
+interface HttpError extends Error {
+  statusCode: number
+}
+
+function isApiError(error: Error){
+  if(typeof (error as ApiError).code === 'number'){
+    return true
+  }
+  return false
+}
+```
+
+### 将任何一个类型断言为 any
+
+``` JS
+(window as any).foo = 1
+```
+将一个变量断言为 `any`，它极有可能掩盖了真正的类型错误，所以如果不是非常确定，就不要使用 `as any`
+
+### 将 any 断言为一个具体的类型
+
+应用场景：可能是第三方库未能定义好自己的类型，也有可能是历史遗留的或者其他人编写的烂代码，还可能是受到TypeScript类型系统的限制而无法精确定义类型的场景
+
+通过将any类型断言为精确的类型，亡羊补牢，提高代码可维护性
+
+例如：
+历史代码
+``` JS
+function getCacheData(key:string):any{
+  return (window as any).cache[key]
+}
+```
+改进
+``` JS
+interface Cat {
+  name: string;
+  run(): void;
+}
+// 断言为更精准的类型
+// 这时 tom 就有精准类型定义了，有相关的代码提示了
+const tom = getCacheData('tom') as Cat;
+tom.run()
+```
+
+### 类型断言的限制
+
+- 联合类型可以断言为其中一个类型
+- 父类可以被断言为子类
+- 任何类型都可以断言为any
+- any可以断言为任何类型
+- 要使得`A`能被断言为`B`，只需要`A`兼容`B`或者`B`兼容A即可
+
+### 双重断言
+- 任何类型都可以断言为any
+- any可以断言为任何类型
+
+``` JS
+interface Cat {
+  run(): void;
+}
+interface Fish {
+  swim(): void;
+}
+
+function testCat(cat:Cat){
+  return (cat as any as Fish)
+}
+```
+但是若使用双重断言，则可以打破「要使得 A 能够被断言为 B，只需要 A 兼容 B 或 B 兼容 A 即可」的限制，将任何一个类型断言为任何另一个类型。
+
+**除非迫不得已，千万别用双重断言。**
+
+### 类型断言vs类型转换
+
+- 类型断言不是类型转换，它不会真的影响到变量的类型
+- 若要进行类型转换，需要直接调用类型转换的方法
+
+``` JS
+function toBoolean(something: any):boolean{
+  return Boolean(something)
+}
+
+toBoolean(1);
+// 返回 true
+```
+
+### 类型断言vs类型声明
+
+``` JS
+function getCacheData(key: string): any {
+    return (window as any).cache[key];
+}
+
+interface Cat {
+    name: string;
+    run(): void;
+}
+
+const tom: Cat = getCacheData('tom');
+tom.run();
+```
+这和类型断言是非常相似的，而且产生的结果也几乎是一样的——tom 在接下来的代码中都变成了 Cat 类型。
+它们的区别，可以通过这个例子来理解：
+
+```js
+interface Animal {
+    name: string;
+}
+interface Cat {
+    name: string;
+    run(): void;
+}
+
+const animal: Animal = {
+    name: 'tom'
+};
+let tom = animal as Cat;
+```
+在上面的例子中，由于 Animal 兼容 Cat，故可以将 animal 断言为 Cat 赋值给 tom。
+
+但是若直接声明 tom 为 Cat 类型
+
+``` JS
+interface Animal {
+    name: string;
+}
+interface Cat {
+    name: string;
+    run(): void;
+}
+
+const animal: Animal = {
+    name: 'tom'
+};
+let tom: Cat = animal;
+// index.ts:12:5 - error TS2741: Property 'run' is missing in type 'Animal' but required in type 'Cat'.
+```
+则会报错，不允许将 animal 赋值为 Cat 类型的 tom。
+
+这很容易理解，Animal 可以看作是 Cat 的父类，当然不能将父类的实例赋值给类型为子类的变量。
+
+深入的讲，它们的核心区别就在于：
+- animal 断言为 Cat，只需要满足 Animal 兼容 Cat 或 Cat 兼容 Animal 即可
+- animal 赋值给 tom，需要满足 Cat 兼容 Animal 才行
+
+但是 Cat 并不兼容 Animal
+
+而在前一个例子中，由于 getCacheData('tom') 是 any 类型，any 兼容 Cat，Cat 也兼容 any，故
+
+``` JS
+const tom = getCacheData('tom') as Cat;
+```
+等价于
+``` JS
+const tom: Cat = getCacheData('tom');
+```
+
+我们最好优先使用类型声明，这也比类型断言的 as 语法更加优雅。
+### 类型断言vs泛型
+
+``` JS
+function getCacheData<T>(key:string):T{
+  return (window as any).cache[key]
+}
+
+interface Cat {
+  name: string;
+  run(): void;
+}
+
+const tom = getCacheData<Cat>('tom')
+tom.run()
+```
+
+通过给 `getCacheData` 函数添加了一个泛型 `<T>`，我们可以更加规范的实现对 `getCacheData` 返回值的约束，这也同时去除掉了代码中的 `any`，是最优的一个解决方案

@@ -27,6 +27,10 @@ categories:
 16. markdownlint
 17. Prettier-code formatter
 17. Bracket Pair Colorizer 括号着色器
+18. import cost 计算引入依赖大小
+19. sftp 服务器文件管理
+20. svg preview
+
 
 ## vscode 配置
 
