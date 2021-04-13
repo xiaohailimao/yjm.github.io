@@ -9,11 +9,10 @@ categories:
 
 # typescript基础知识
 
-## 原始类型
+## 基础
+### 原始类型
 
 `Number` 、 `Boolean` 、 `String` 、 `Null` 、 `Undefined` 、 `Symbol` 、 `BigInt`
-
-## 类型定义
 
 ### 基础类型定义
 
@@ -458,3 +457,37 @@ tom.run()
 ```
 
 通过给 `getCacheData` 函数添加了一个泛型 `<T>`，我们可以更加规范的实现对 `getCacheData` 返回值的约束，这也同时去除掉了代码中的 `any`，是最优的一个解决方案
+
+## 内置对象
+
+- ECMAScript 标准提供的内置对象有: `Boolean`、`Error`、`Date`、`RegExp` 等
+
+我们可以在 TypeScript 中将变量定义为这些类型：
+
+``` JS
+const b: Boolean = new Boolean(1)
+const e: Error = new Error('Error occurred')
+const d: Date = new Date()
+const r: RegExp = /\d{9}/
+```
+[更多内置对象查看文档](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects)
+
+- DOM 和 BOM 的内置对象有： `Document`、`HTMLElement`、`Event`、`NodeList` 等
+
+TypeScript 中会经常用到这些类型：
+
+``` JS
+let body: HTMLElement = document.body
+let allDiv: NodeList = document.querySelectorAll('div')
+document.addEventListener('click',function (e: MouseEvent) {
+  // 事件处理
+})
+```
+
+- Node.js 不是内置对象的一部分，如果想用 TypeScript 写 Node.js，则需要引入第三方声明文件
+
+``` sh
+npm install @types/node --save-dev
+```
+
+
