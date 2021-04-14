@@ -25,14 +25,14 @@ categories:
 
 ### 自定义事件
 
-- $emit
-- beforeDestroy周期该做的处理：及时销毁自定义事件，否则可能造成内存泄露
+- `$emit`
+- `beforeDestroy`周期该做的处理：及时销毁自定义事件，否则可能造成内存泄露
 
 
 ### 组件通信
 
-- 父子组件通信：props/$emit
-- 兄弟组件通信：通过vue实例，event.$on,event.$emit
+- 父子组件通信：`props/$emit`
+- 兄弟组件通信：通过vue实例，`event.$on`,`event.$emit`
 
 
 ### 组件生命周期
@@ -108,7 +108,7 @@ export default {
 
 2. sync
 
-```html
+``` html
 <template>
     <demo :value.sync="value" />
 </template>
@@ -129,7 +129,7 @@ export default {
 ```
 
 
-```js
+```js {11}
 // demo.vue
 export default { 
     name:"demo",
@@ -149,13 +149,13 @@ export default {
 
 ### v-model 原理
 
-- input元素的value = this.name
-- 绑定input事件，this.name = $event.target.value
-- data触发更新re-render
+- input元素的 `value = this.name`
+- 绑定input事件，`this.name = $event.target.value`
+- data 触发更新 re-render
 
 ### $nextTick
 
-1. vue是异步渲染的，$nextTick 待DOM渲染完再回调
+1. vue是异步渲染的，`$nextTick` 待DOM渲染完再回调
 2. 页面渲染时会将 data 的修改做整合，多次 data 修改只会渲染一次
 
 ### slot
@@ -193,10 +193,10 @@ export default {
 
 ### 动态组件
 
-- :is="component-name" 用法
+- `:is="component-name"` 用法
 - 需要根据数据，动态渲染的场景，即组件类型不确定
 
-```html
+```html {2}
 <template>
     <component :is="componentName" />
 </template>
@@ -217,7 +217,7 @@ export default {
 - `import()` 函数
 - 按需加载，异步加载组件
 
-```js
+```js {3}
 export default {
     components:{
         comp1: ()=> import("./comp1") // 异步加载
@@ -251,7 +251,7 @@ export default {
 
 路由模式（hash、history）
 
-```js
+```js {3} 
 // history需要服务端支持，因此无特殊需要选择默认的hash模式
 const router = new VueRouter({
     mode: "history", // h5 history 模式
@@ -261,7 +261,7 @@ const router = new VueRouter({
 
 路由配置（动态路由、懒加载）
 
-```js
+```js {4,10}
 // 动态路由
 // 获取参数如 10 20
 const User = {
@@ -276,7 +276,7 @@ const router = new VueRouter({
 })
 ```
 
-```js
+```js {4-8}
 // 懒加载
 const router = new VueRouter({
     routes: [
@@ -303,7 +303,7 @@ const router = new VueRouter({
 - React setState
 
 
-MVVM：model（数据层） view（视图层） viewModel（是个连接层）
+**MVVM：model（数据层） view（视图层） viewModel（是个连接层）**
 
 在操作DOM时代就有组件化，传统的组件化都是静态渲染，更新依赖于操作DOM，Vue 的 MVVM、React 的 setState 都是采用数据驱动视图，让我们可以只关心业务数据层面不在关系对DOM操作的细节，框架会帮我们自己操作
 
@@ -311,7 +311,7 @@ MVVM：model（数据层） view（视图层） viewModel（是个连接层）
 
 ![响应式原理](https://cn.vuejs.org/images/data.png)
 
-vue2.0 核心API - Object.defineProperty
+- vue2.0 核心API - Object.defineProperty
 
 ```js
 // 监听对象
@@ -334,7 +334,7 @@ data.name = 'zoro' // set
 
 示例
 
-```js
+```js {21,30,50,6-16}
 // 更新视图
 function updateView(){
   console.log('更新视图')
@@ -410,13 +410,12 @@ data.info.address = '深圳'
 data.num.push(1)
 ```
 
-缺点
-- 深度监听，需要递归到底，一次性计算量大
-- 无法监听新增/删除属性(Vue.set Vue.delete)
+- 缺点
+  - 深度监听，需要递归到底，一次性计算量大
+  - 无法监听新增/删除属性(Vue.set Vue.delete)
 
-vue3.0 核心API - Proxy
-
-- 兼容性不太好，无法用polyfill
+- vue3.0 核心API - Proxy
+  - 兼容性不太好，无法用 polyfill
 
 
 ### 虚拟dom（vdom）
@@ -430,7 +429,7 @@ vue3.0 核心API - Proxy
 
 用js模拟一个dom结构
 
-```html
+``` html
 <div id="one" class="container">
     <p>vdom</p>
     <ul style="font-size: 20px">
@@ -481,9 +480,9 @@ diff树算法时间复杂度O(n^3) 不可用，优化到O(n)
 
 核心api
 
-- patchVnode
-- addVnodes、removeVnodes
-- updateChildren (key重要性)
+- `patchVnode`
+- `addVnodes`、`removeVnodes`
+- `updateChildren` (key重要性)
 
 处理流程
 
@@ -491,7 +490,7 @@ patch：
 
 - 调用`patch`时会执行响应的hook
 - 如果第一个参数不是`vnode`就创建一个空的`vnode`关联到这个DOM元素
-- 如果两参数都是vnode并且`key`和`sel`相同就进入`vnode`对比调用p`atchVnode` 
+- 如果两参数都是`vnode`并且`key`和`sel`相同就进入`vnode`对比调用`patchVnode` 
 - 如果新旧`vnode`不同就删掉重建
 
 patchVnode：
@@ -512,19 +511,19 @@ updateChildren：
 - 以上四个都未命中拿新节点 key ，能否对应上 oldCh 中的某个节点的 key 
   - 没对应上就插入新el
   - key对应上当sel不相等就插入新el
-  - key对应上sel相等就调用patchVnode
+  - key对应上sel相等就调用 `patchVnode`
 
 概念
 
-- 细节不重要，updateChildren的过程也不重要，不要深究
-- vdom核心概念：h、vnode、patch、diff、key等
+- 细节不重要，updateChildren 的过程也不重要，不要深究
+- vdom核心概念：`h`、`vnode`、`patch`、`diff`、`key`等
 - vdom存在的价值：数据驱动视图，控制DOM操作
 
 ### 模板编译
 
 with语法
 
-- 改变 {} 内自由变量的查找方式，当做obj属性来查找
+- 改变 `{}` 内自由变量的查找方式，当做`obj属性`来查找
 - 如果匹配不到obj属性，会报错
 - with要慎用，它打破了作用域规则，易读性变差
 
@@ -546,36 +545,37 @@ with(obj){
 
 编译步骤
 
-- 使用模板编译工具 vue-template-compiler 将template模板代码编译成render函数，render函数执行返回一个vnode
-- 基于vnode在执行patch和diff
-- 使用webpack vue-loader ，在开发环境下编译模板（重要）
+- 使用模板编译工具 `vue-template-compiler` 将template模板代码编译成`render函数`，render函数执行返回一个`vnode`
+- 基于`vnode`在执行`patch`和`diff`
+- 使用 webpack vue-loader ，在开发环境下编译模板（重要）
 
 ### vue组件是如何渲染和更新的
 
 初次渲染过程
 
-- 解析为render函数（或在开发环境已完成，vue-loader）
-- 触发响应式，监听data属性getter、setter
-- 执行render函数，生成vnode、patch（el，vnode）
+- 解析为`render函数`（或在开发环境已完成，vue-loader）
+- 触发响应式，监听 `data` 属性 `getter`、`setter`
+- 执行`render函数`，生成`vnode`、`patch(el，vnode)`
 
 *注意：未在模板中使用的data的属性变化是不会触发视图变化*
 
 更新过程
 
-- 修改data，触发setter
-- 重新执行render函数，生成newVnode
-- patch(vnode,newVnode)
+- 修改 `data` ，触发 `setter`
+- 重新执行 `render函数`，生成 `newVnode`
+- `patch(vnode,newVnode)`
 
-### 异步渲染
+### 为何采用异步渲染
 
-- $nextTick
-- 汇总data的修改，一次更新视图
+- `$nextTick`
+- 汇总 `data` 的修改，一次更新视图
 - 减少DOM操作次数，提高性能
  
 
 ### 前端路由原理
 
 url 组成部分
+
 ```js
 // http:127.0.0.1:8080/user?name=lucy&age=20#/info
 location.protocol // http:
@@ -590,16 +590,16 @@ location.hash // #/info
 hash 特点
 
 - hash变化会触发页面跳转，即浏览器的前进和后退
-- hash变化不会刷新页面，SPA必需的特点
+- hash变化不会刷新页面，**SPA必需的特点**
 - hash永远不会提交到server端（前端自生自灭）
 
-hash 触发变化（onhashchange）
+hash 触发变化（`onhashchange`）
 
 - js修改url hash值
 - 手动修改url hash值
 - 浏览器前进后退
 
-```js
+```js {2}
 // 监听hash变化
 window.onhashchange = function(event){
     console.log('old url',event.oldURL)
@@ -631,9 +631,9 @@ hash与h5 history 选取
 ### jsx
 
 - 富文本
-- 样式名属性用className表示
+- 样式名属性用 `className` 表示
 
-``` js
+``` jsx {3,7}
 const rawHtml = `<span>raw html</span>`
 const rawHtmlData = {
     __html: rawHtml // 注意这个 __html 必须用这个
@@ -647,9 +647,9 @@ const rawHtmlElem = <div>
 
 ### 事件
 
-bind this
+#### bind this
 
-```js
+```js {5,10-13}
 class CustomComponent extends React.Component {
     constructor(props){
         supper(props)
@@ -666,36 +666,37 @@ class CustomComponent extends React.Component {
 }
 ```
 
-关于event事件
-  - react 不是原生的，是 `SyntheticEvent` 组合事件，模拟出`DOM`事件所有能力
-  - vue 是原生`event`， 是 `MouseEvent`
-  - `event.nativeEvent` 获取原生event对象
-  - 所有的事件都被挂载到`document上`,和`DOM`事件不一样，和`vue`事件也不一样
-  - React16事件绑定到document上
-  - React17开始事件就不再绑定到 `document` 上了,绑定到root组件上了，有利于多个React版本共存，例如微前端
+#### 关于event事件
 
-  ```js
-    class CustomComponent extends React.Component {
-        constructor(props){
-            supper(props)
-        }
-        // 2. 静态方法，this指向当前实例
-        onClick = (event) =>{
-            // 绑定事件不传参，第一个参数就被传event事件参数
-            // react event 不是原生的，是 SyntheticEvent 组合的event
-            // vue 是原生event 是MouseEvent
-            event.preventDefault() // 阻止默认事件
-            event.stopPropagation() // 阻止冒泡
-        }
-        render(){
-            return <a href="http://www.baidu.com" onClick={this.onClick}>event</a>
-        }
+- react 不是原生的，是 `SyntheticEvent` 组合事件，模拟出`DOM`事件所有能力
+- vue 是原生`event`， 是 `MouseEvent`
+- `event.nativeEvent` 获取原生event对象
+- 所有的事件都被挂载到`document上`,和`DOM`事件不一样，和`vue`事件也不一样
+- **React16事件绑定到document上**
+- React17开始事件就不再绑定到 `document` 上了,绑定到root组件上了，有利于多个React版本共存，例如微前端
+
+```jsx
+class CustomComponent extends React.Component {
+    constructor(props){
+        supper(props)
     }
-  ```
+    // 2. 静态方法，this指向当前实例
+    onClick = (event) =>{
+        // 绑定事件不传参，第一个参数就被传event事件参数
+        // react event 不是原生的，是 SyntheticEvent 组合的event
+        // vue 是原生event 是MouseEvent
+        event.preventDefault() // 阻止默认事件
+        event.stopPropagation() // 阻止冒泡
+    }
+    render(){
+        return <a href="http://www.baidu.com" onClick={this.onClick}>event</a>
+    }
+}
+```
 
-传递自定义参数
+#### 传递自定义参数
 
-```js
+```jsx
 class CustomComponent extends React.Component {
     constructor(props){
         supper(props)
@@ -711,18 +712,18 @@ class CustomComponent extends React.Component {
 }
 ```
 
-写法：onClick onXxxx
+#### 写法：onClick onXxxx
 
 ### 表单
 
 - 受控组件
 
-```js
+```jsx
 class CustomComponent extends React.Component {
     constructor(props){
         supper(props)
         this.state = {
-            name:''
+            name: ''
         }
     }
     
@@ -740,9 +741,9 @@ class CustomComponent extends React.Component {
 }
 ```
 
-- input、textarea、select用value
-- checkbox、radio用checked
-- label标签 中的for 用htmlFor
+- `input、textarea、select`用 `value`
+- `checkbox、radio`用 `checked`
+- `label` 标签 中的 `for` 用 `htmlFor`
 
 ### 组件
 
@@ -752,7 +753,7 @@ class CustomComponent extends React.Component {
 - props传递函数
 - props默认值配置
 
-```js
+```jsx
 // props默认值配置
 class Greeting extends React.Component {
   render() {
@@ -778,11 +779,11 @@ ReactDOM.render(
 
 - class组件才有state，函数组件没有state
 - state要在constructor构造函数中定义
-- setState之前，不能直接修改state值
-- setState赋值是一个全新的值，不能影响原始的state值
-- ==不可变值原则==
+- **setState之前，不能直接修改state值**
+- **setState赋值是一个全新的值，不能影响原始的state值**
+- **不可变值原则**
 
-```js
+```js {11,18}
 // 不可变值（函数式编程，纯函数） - 数组
 const list5Copy = this.state.list5.slice() // 创建副本
 list5Copy.splice(2, 0, 'a') // 对创建副本中间插入/删除
@@ -835,6 +836,7 @@ this.setState((preState,props)=>{
 ```
 
 ### 生命周期
+![react 生命周期](/img/react生命周期.png)
 
 - [组件生命周期图](https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
 - 父子组件生命周期和vue完全一样
@@ -880,7 +882,7 @@ export default {
 }
 </script>
 ```
-```js
+```jsx {7,11,17}
 class App extend React.Component {
     constructor(props){
         super(props)
@@ -907,8 +909,8 @@ class App extend React.Component {
 - 不受state控制，只是拿state值赋个默认初始值，defaultValue、defaultChecked，input怎么变化和state没关系了
 - 通过ref方式获取DOM节点信息
 - 应用场景
-  - 必须操作DOM，setState实现不了的
-  - <input type='file' />
+  - **必须操作DOM，setState实现不了的**
+  - `<input type='file' />`
   - 富文本编辑器，需要传入DOM元素
 
 ### 受控组件vs非受控组件
@@ -922,10 +924,10 @@ class App extend React.Component {
 - 如何让组件渲染到父组件以外？ 
 - `this.props.children` 与`vue slot` 类似
 - fixed 元素要放在 body 上，有更好的浏览器兼容性
-- ReactDOM.createPortal
+- `ReactDOM.createPortal`
 - 和 vue `vm.$mount()` 类似可以指定挂载点
 
-```js
+```js {17-22}
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './style.css'
@@ -965,11 +967,11 @@ export default App
 - 用props太频繁
 - 用redux小题大做
 - 与vue 中 `provide / inject` 类似
-- 核心api：React.createContext、Provider/Consumer、contextType
+- 核心api：`React.createContext`、`Provider/Consumer`、`contextType`
 - 顶层父组件生成与管理数据、子组件消费数据
 - 生产与管理数据
 
-```js
+```jsx {3,14-18}
 const React from "react"
 // 1. 创建context填入默认值
 const ThemeContext = React.createContext('light')
@@ -1000,7 +1002,7 @@ export default App
 ```
 - 子组件消费数据
   - class组件消费context数据,定义contextType，读取this.context
-    ```js
+    ```jsx {13,3,6}
       class ThemedButton extends React.Component {
         // 指定 contextType 读取当前的 theme context。
         // static contextType = ThemeContext // 定义contextType方式2 es6语法 
@@ -1014,10 +1016,9 @@ export default App
     }
     
     ThemedButton.contextType = ThemeContext // 定义contextType方式1. 指定 contextType 读取当前的 theme context。
-    
     ```
-  - function组件消费context数据,Consumer
-    ```js
+  - function组件消费context数据,`Consumer`
+    ```jsx {6-8}
     // 底层组件 - 函数是组件
     function ThemeLink (props) {
         // const theme = this.context // 会报错。函数式组件没有实例，即没有 this
@@ -1035,7 +1036,7 @@ export default App
 - React.lazy
 - React.Suspense
   
-```js
+```jsx {3,13-15}
 import React from 'react'
 
 const ContextDemo = React.lazy(() => import('./ContextDemo'))
@@ -1063,13 +1064,13 @@ export default App
 
 ### 性能优化
 
-- shouldComponentUpdate
-  - react默认：父组件更新，子组件无条件也更新,有些组件无需重新渲染，可以通过 shouldComponentUpdate 进行操作是否重新渲染
+- **shouldComponentUpdate**
+  - react默认：父组件更新，子组件无条件也更新,有些组件无需重新渲染，可以通过 `shouldComponentUpdate` 进行操作是否重新渲染
   - 需要的时候才优化，如果不影响性能就不用太过在意细节
   - 不建议深度比较，推荐浅层比较
-  - ==必须配合state不可变值==
+  - **必须配合state不可变值**
   - 如果在setState之前改变state的值，在进行setState，那么在shouldComponentUpdate生命周期中nextState和现在的state进行对比，就会是同个值，就无法正常判定是否改重新渲染
-  - state数据结构不要设计太深,与vue中data设计同理，进行深度计较（一次递归到底）的时候耗费性能
+  - **state数据结构不要设计太深,与vue中data设计同理，进行深度计较（一次递归到底）的时候耗费性能**
   - lodash的isEqual 可以对对象或者数组进行深度比较（一次递归到底）
 ```js
 // 默认值返回true
@@ -1080,10 +1081,10 @@ shouldComponentUpdate(nextProps,nextState){
     return true // 可以渲染
 }
 ```
-- React.PureComponent（纯组件）、React.memo
-  - React.PureComponent，shouldComponentUpdate中实现了浅比较，只比较第一层数据，配合==state不可变值原则==
-  - memo ，函数组件中的 React.PureComponent
+- `React.PureComponent`（纯组件）、`React.memo`
+  - `React.PureComponent``，shouldComponentUpdate` 中实现了浅比较，只比较第一层数据，配合 **state不可变值原则**
   - 浅比较已使用大部分情况（尽量不要做深度比较）
+  - memo ，函数组件中的 React.PureComponent
   ```js
   // React.PureComponent用法
   class List extends React.PureComponent {
@@ -1105,6 +1106,7 @@ shouldComponentUpdate(nextProps,nextState){
   - 彻底拥抱”不可变值“
   - 基于共享数据（不是深拷贝），速度好
   - 有一定的迁移和学习成本，按需使用
+
   ```js
   const map1 = Immutable.Map({a:1,b:2,c:3})
   const map2 = map1.set('b',50)
@@ -1119,12 +1121,14 @@ shouldComponentUpdate(nextProps,nextState){
  - 高阶组件HOC
    - 和js中的高阶函数一样
    - 保证扩展性，透传所有属性 `{...this.props}`
-   ```html
+
+   ``` html
    <!--react-->
    <Component {...this.props} />
    <!--vue-->
    <Component v-bind="$props" />
    ```
+
    - 高阶组件不是一种功能，而是一种模式
    ```js
    const HOCFactory = (Component) => {
@@ -1165,58 +1169,59 @@ shouldComponentUpdate(nextProps,nextState){
    <!--vue-->
    <Component v-bind="$attrs" v-on="$listeners"/>
    ```
- - Render Props 推荐
+ - **Render Props 推荐**
    - 公共逻辑组件，只提供封装逻辑，然后把处理后的state 通过参数传给render函数，怎么渲染通过父组件传入render函数属性进行渲染
    - 与HOC对比，不同的地方在于HOC是公共逻辑组件嵌套传入组件，而Render Props 是的公共逻辑组件不嵌套组件，只处理逻辑，接受父组件传入的render函数进行渲染内容
    - Render Props不是一种功能，而是一种模式
-    ```js
-    import React from 'react'
-    import PropTypes from 'prop-types'
-    
-    class Mouse extends React.Component {
-        constructor(props) {
-            super(props)
-            this.state = { x: 0, y: 0 }
-        }
-      
-        handleMouseMove = (event) => {
-          this.setState({
-            x: event.clientX,
-            y: event.clientY
-          })
-        }
-      
-        render() {
-          return (
-            <div style={{ height: '500px' }} onMouseMove={this.handleMouseMove}>
-                {/* 将当前 state 作为 props ，传递给 render （render 是一个函数组件） */}
-                {this.props.render(this.state)}
-            </div>
-          )
-        }
-    }
-    Mouse.propTypes = {
-        render: PropTypes.func.isRequired // 必须接收一个 render 属性，而且是函数
+
+```jsx {21,33-36,27}
+import React from 'react'
+import PropTypes from 'prop-types'
+
+class Mouse extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = { x: 0, y: 0 }
     }
     
-    const App = (props) => (
-        <div style={{ height: '500px' }}>
-            <p>{props.a}</p>
-            <Mouse render={
-                /* render 是一个函数组件 */
-                ({ x, y }) => <h1>The mouse position is ({x}, {y})</h1>
-            }/>
-            
+    handleMouseMove = (event) => {
+        this.setState({
+        x: event.clientX,
+        y: event.clientY
+        })
+    }
+    
+    render() {
+        return (
+        <div style={{ height: '500px' }} onMouseMove={this.handleMouseMove}>
+            {/* 将当前 state 作为 props ，传递给 render （render 是一个函数组件） */}
+            {this.props.render(this.state)}
         </div>
-    )
-    
-    /**
-     * 即，定义了 Mouse 组件，只有获取 x y 的能力。
-     * 至于 Mouse 组件如何渲染，App 说了算，通过 render prop 的方式告诉 Mouse 。
-     */
-    
-    export default App
-    ```
+        )
+    }
+}
+Mouse.propTypes = {
+    render: PropTypes.func.isRequired // 必须接收一个 render 属性，而且是函数
+}
+
+const App = (props) => (
+    <div style={{ height: '500px' }}>
+        <p>{props.a}</p>
+        <Mouse render={
+            /* render 是一个函数组件 */
+            ({ x, y }) => <h1>The mouse position is ({x}, {y})</h1>
+        }/>
+        
+    </div>
+)
+
+/**
+ * 即，定义了 Mouse 组件，只有获取 x y 的能力。
+    * 至于 Mouse 组件如何渲染，App 说了算，通过 render prop 的方式告诉 Mouse 。
+    */
+
+export default App
+```
  - HOC vs Render Props
    - HOC：模式简单，当是会增加组件层级
    - Render Props：代码简洁，学习成本相对较高
@@ -1237,10 +1242,10 @@ shouldComponentUpdate(nextProps,nextState){
   - connect
   - mapStateToProps、mapDispatchToProps
 - 异步action
- - redux-thunk
- - redux-promise
- - redux-saga
 - 中间件
+  - redux-thunk
+  - redux-promise
+  - redux-saga
 ```js
 import { applyMiddleware, createStore } from 'redux'
 import createLogger from "redux-logger"
@@ -1294,6 +1299,178 @@ const App = () =>{
     </Router>
 }
 ```
+
+### 函数式编程
+
+- 一种编程范式
+- 纯函数
+- **不可变值**
+
+### jsx本质
+
+- jsx等同于vue模板
+- vue模板不是html
+  - render函数（h函数）
+  - 返回vnode
+  - patch
+- jsx也不是js
+- [babel jsx在线编译工具](https://www.babeljs.cn/)
+- `React.createElement` 即h函数，返回vnode
+- 第一个参数可能是组件，也可能是html tag
+- **组件名，首字母必须大写（React规定），以区分和 html tag 差异**
+
+```js
+React.createElement('div', null, [child1, child2, child3])
+React.createElement('div', {...}, child1, child2, child3)
+React.createElement(List, null, child1, child2, '文本节点')
+// h 函数
+// 返回 vnode
+// patch
+```
+```js
+// 第一个参数是List组件
+React.createElement(List,{ list: list })
+
+// 找到List组件jsx结构，继续拆分
+React.createElement('ul',null,list.map(
+    function(item,index){
+       return  React.createElement('li',{
+           key: item.id
+       },'title',item.title)
+    }
+))
+```
+最终都是编译成 html tag 标签的 `React.createElement` `vnode` 数据结构
+
+### 合成事件
+
+- react17以前版本的所有事件都挂载到document上，react17挂载到root组件上
+- event不是原生的，是个 `SyntheticEvent` 合成事件对象
+- 和vue事件不同，和dom事件也不同
+- 为什么用事件合成机制？
+  - 更好兼容性和跨平台
+  - 挂载到document上，减少内存消耗，避免频繁解绑
+  - 方便事件的统一管理（事务机制）
+![合成事件](/img/事件合成流程.png)
+### setState 和 batchUpdate
+
+- **有时是异步的（普通使用），有时是同步的（setTimeout、自定义DOM事件）**
+- 有时是合并的（对象形式：Object.assign），有时不合并（函数形式）
+
+
+- setState主流程
+![setState主流程](/img/setState主流程.png)
+- batchUpdate机制
+- transaction（事务）机制
+![transaction（事务）机制](/img/transaction事务机制.png)
+```js
+// transaction（事务）机制
+class List extends React.Component {
+    increase = ()=>{
+        // 开始：处于batchUpdate
+        // isBatchingUpdates = true 实际不是在函数中定义的
+        
+       // 其他操作
+        
+        // 结束
+        // isBatchingUpdates = false
+    }
+}
+```
+
+setState是同步还是异步？
+- setState本身无所谓异步还是同步
+- 看是否命中batchUpdate机制
+- 判断 isBatchingUpdates
+```js
+// setState普通用法
+
+class List extends React.Component {
+    increase = ()=>{
+        // 开始：处于batchUpdate
+        // isBatchingUpdates = true
+        
+        this.setState({
+            count: this.state.count + 1
+        })
+        
+        // 结束
+        // isBatchingUpdates = false
+    }
+}
+
+// setState放在setTimeout中
+
+class List extends React.Component {
+    increase = ()=>{
+        // 开始：处于batchUpdate
+        // isBatchingUpdates = true
+        
+        setTimeout(()=>{
+          // 此时：isBatchingUpdates = false
+          this.setState({
+            count: this.state.count + 1
+          })  
+        },0)
+        
+        // 结束
+        // isBatchingUpdates = false
+    }
+}
+
+// 在自定义DOM事件中
+class List extends React.Component {
+    increase = ()=>{
+        // 开始：处于batchUpdate
+        // isBatchingUpdates = true
+        
+        document.addEventListener('clicl',()=>{
+          // 此时：isBatchingUpdates = false
+          this.setState({
+            count: this.state.count + 1
+          }) 
+        })
+    
+        // 结束
+        // isBatchingUpdates = false
+    }
+}
+```
+
+- 哪些可以命中batchUpdate机制
+  - 生命周期（和它调用的函数）
+  - React中注册的事件（和它调用的函数）
+  - React可以“管理”的入口
+  - ==能不能命中看入口，不是看函数==
+- 哪些不能命中batchUpdate机制
+  - setTimeout、setInterval等（和它调用的函数）
+  - 自定义DOM事件（和它调用的函数）
+  - React“管不到”的入口
+  
+### 组件渲染和更新过程
+  
+- jsx如何渲染成页面
+- setState之后如何更新页面
+- 面试考察全流程
+- 组件渲染过程
+    - props、state
+    - render()生成vnode
+    - patch(elem,vnode)
+- 组件更新过程
+    - setState(newState) => dirtyComponents（可能有子组件）
+    - render()生成newVnode
+    - patch(vnode,newVnode)
+- 更新patch被拆分为两个阶段
+    - `reconciliaction`阶段-执行diff算法，纯js计算
+    - `commit`阶段-将diff结果渲染DOM
+- 为什么拆分为两个阶段，可能会有问题问题
+    - js是单线程，且和DOM渲染公用一个线程
+    - 当组件足够复杂，组件更新时计算和渲染都压力大
+    - 同时在有DOM操作需求（动画、鼠标拖拽操作扥），将卡顿
+- 更新patch被拆解决方案 `React fiber`
+    - 将`reconciliaction`阶段进行任务拆分（commit无法拆分）
+    - DOM需要渲染的时候暂停js计算任务，空闲的时候恢复
+    - `window.requestIdleCallback` 判断什么时候需要渲染
 
 ## webpack5
 
