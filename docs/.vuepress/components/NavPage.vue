@@ -1,51 +1,54 @@
 
 <template>
   <div class="wrapper">
-    <div class="item-grid" v-for="(item, index) in data" :key="index">
+    <el-row v-for="(item, index) in data" :key="index" :gutter="20" class="row">
       <h3>
-        <b>{{item.title}}</b>
+        <b>{{ item.title }}</b>
       </h3>
-      <ul>
-        <li v-for="(item, index) in item.linkData" :key="index">
-          <a target="_blank" :href="item.url" :title="item.des" class="Link">
-            <i :style="{backgroundImage:`url(${item.icon})`}"></i>
-            <b>{{item.title}}</b>
-            {{item.des}}
-          </a>
-        </li>
-      </ul>
-    </div>
+
+      <el-col
+        :xs="24"
+        :sm="12"
+        :md="8"
+        :lg="8"
+        v-for="(item, index) in item.linkData"
+        :key="index"
+        class="col"
+      >
+        <a target="_blank" :href="item.url" :title="item.des" class="Link">
+          <i :style="{ backgroundImage: `url(${item.icon})` }"></i>
+          <b>{{ item.title }}</b>
+          {{ item.des }}
+        </a>
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script>
-import links from "../link"
+import links from "../link";
+import { Row, Col } from "element-ui";
+import "element-ui/lib/theme-chalk/row.css";
+import "element-ui/lib/theme-chalk/col.css";
+import Vue from "vue";
+Vue.use(Row).use(Col);
 export default {
   name: "nav-page",
   data() {
     return {
-      data: links
+      data: links,
     };
   },
- 
 };
 </script>
 <style scoped>
-
-.wrapper{
-  min-width: 374px;
-}
-/*******************************************************************/
-* {
-  margin: 0px;
-  padding: 0px;
+.wrapper {
+  font-size: 12px;
   font-family: "PingFangSC-Regular", "Helvetica Neue", "Microsoft Yahei",
     "微软雅黑";
-  word-wrap: break-word;
-  table-layout: fixed;
-  word-break: break-all;
-  box-sizing: border-box;
-  font-size: 12px;
+  background: #f1f2f9;
+  color: #6b7386;
 }
+/*******************************************************************/
 
 img {
   border: 0px;
@@ -58,36 +61,16 @@ img {
   float: right;
 }
 
-ul li {
-  list-style: none;
-}
-
-input,
-select,
-textarea {
-  outline: 0;
-}
-
 h3 {
-  margin: 0 12px;
-  height: 56px;
+  margin: 0 12px 10px;
   line-height: 54px;
   border-bottom: 2px rgba(0, 0, 0, 0.02) solid;
   color: #30333c;
+  font-size: 12px;
 }
 h3 b {
   display: inline-block;
   border-bottom: 2px #30333c solid;
-}
-html,
-body {
-  height: 100%;
-
-}
-body {
-  margin: 0 auto;
-  background: #f1f2f9;
-  color: #6b7386;
 }
 
 a {
@@ -98,143 +81,109 @@ a {
 a:hover {
   color: #4588ff;
 }
-
 /*******************************************************************/
 
-div {
-  margin: auto;
+.col {
+  margin-bottom: 10px;
+}
+.row {
+  margin-bottom: 24px;
+  background: #fff;
+  border-radius: 4px;
 }
 
-/*******************************************************************/
-
-
-.item-grid {
-	margin-bottom:24px;
-	max-width:1400px;
-	background:#fff;
-	border-radius:4px;
-	padding:0 12px;
-	overflow:hidden;
+.col .Link {
+  overflow: hidden;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.02);
 }
-.item-grid ul {
-	float:left;
-	width:100%;
-	padding-bottom:24px;
+.col .Link:hover {
+  background: #f1f2f9;
 }
-.item-grid ul li {
-	position:relative;
-	transition:.2s;
-	float:left;
-	width:calc(33.33% - 24px);
-	width:-webkit-calc(25% - 24px);
-	width:-moz-calc(25% - 24px);
-	overflow:hidden;
-	border-radius:4px;
-	background:rgba(0,0,0,.02);
-	margin:24px 12px 0 12px;
+.col a.Link {
+  display: block;
+  /* height: 64px; */
+  line-height: 18px;
+  padding: 14px 16px;
+  color: #a1a7b7;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.item-grid ul li:hover {
-	background:#F1F2F9;
+.col a.Link i {
+  float: left;
+  width: 32px;
+  height: 32px;
+  margin: 2px 16px 0 0;
+  border-radius: 4px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 32px;
 }
-.item-grid ul li:nth-of-type(12):after {
-	border-bottom:2px #ddd solid;
+.col a.Link b {
+  display: block;
+  color: #30333c;
+  transition: 0.2s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.item-grid ul li a.Link {
-	display:block;
-	height:64px;
-	line-height:18px;
-	padding:14px 16px;
-	color:#A1A7B7;
-	overflow:hidden;
-	text-overflow:ellipsis;
-	white-space:nowrap;
+.col a.Link:hover {
+  color: #6b7386;
 }
-.item-grid ul li a.Link i {
-	float:left;
-	width:32px;
-	height:32px;
-	margin:2px 16px 0 0;
-	border-radius:4px;
-	background-position:center;
-	background-repeat:no-repeat;
-	background-size:32px;
-	/* background-image:url("images/Icon-No-Link.png"); */
+.col a.Link:hover b {
+  color: #4588ff;
 }
-.item-grid ul li a.Link b {
-	display:block;
-	color:#30333C;
-	transition:.2s;
-	overflow:hidden;
-	text-overflow:ellipsis;
-	white-space:nowrap;
+.col a.Link b u {
+  display: none;
+  text-decoration: none;
 }
-.item-grid ul li a.Link:hover {
-	color:#6B7386;
-}
-.item-grid ul li a.Link:hover b {
-	color:#4588FF;
-}
-.item-grid ul li a.Link b u {
-	display:none;
-	text-decoration:none;
-}
-.item-grid ul li a.Link b u::after {
-	display:inline-block;
-	position:relative;
-	top:-1px;
-	color:#fff;
-	background:#A1A7B7;
-	padding:0 4px;
-	border-radius:2px;
-	transform:scale(.8);
-	-webkit-transform:scale(.8);
-	-moz-transform:scale(.8);
-}
-.item-grid ul li a.Link b u.EN::after {
-	content:"EN";
-}
-.item-grid ul li a.Link b u.CN::after {
-	content:"中文";
-}
-.item-grid ul li a.goto {
-	transition:0s;
-	position:absolute;
-	display:inline-block;
-	top:16px;
-	right:8px;
-	width:32px;
-	height:32px;
-	border-radius:4px;
-	/* background:url("../../assets/img/Icon-Goto-Dark.png") center no-repeat #fafafa; */
-	background-size:16px;
-	box-shadow:0 0 8px 8px #fafafa;
-}
-.item-grid ul li:hover a.goto,.item-grid ul li a.goto:hover {
-	/* background:url("../../assets/img/Icon-Goto-Dark.png") center no-repeat #F1F2F9; */
-	background-size:16px;
-	box-shadow:0 0 8px 8px #F1F2F9;
-}
-.item-grid ul li a.goto:hover {
-	opacity:.8;
-}
-.item-grid ul li span.tags {
-	display:none;
-	margin:0 16px;
-	float:left;
-	width:calc(100% - 32px);
-	width:-webkit-calc(100% - 32px);
-	width:-moz-calc(100% - 32px);
-	height:40px;
-	line-height:40px;
-	color:#A1A7B7;
-	border-top:2px rgba(0,0,0,.02) solid;
-}
-.item-grid ul li span.tags a.a-tag {
-	margin-right:8px;
-	color:#A1A7B7;
-}
-.item-grid ul li span.tags a.a-tag:hover {
-	color:#4588FF;
+.col a.Link b u::after {
+  display: inline-block;
+  position: relative;
+  top: -1px;
+  color: #fff;
+  background: #a1a7b7;
+  padding: 0 4px;
+  border-radius: 2px;
+  transform: scale(0.8);
 }
 
+.col a.goto {
+  transition: 0s;
+  position: absolute;
+  display: inline-block;
+  top: 16px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  background-size: 16px;
+  box-shadow: 0 0 8px 8px #fafafa;
+}
+.col:hover a.goto,
+.col a.goto:hover {
+  background-size: 16px;
+  box-shadow: 0 0 8px 8px #f1f2f9;
+}
+.col a.goto:hover {
+  opacity: 0.8;
+}
+.col span.tags {
+  display: none;
+  margin: 0 16px;
+  float: left;
+  width: calc(100% - 32px);
+  height: 40px;
+  line-height: 40px;
+  color: #a1a7b7;
+  border-top: 2px rgba(0, 0, 0, 0.02) solid;
+}
+.col span.tags a.a-tag {
+  margin-right: 8px;
+  color: #a1a7b7;
+}
+.col span.tags a.a-tag:hover {
+  color: #4588ff;
+}
 </style>

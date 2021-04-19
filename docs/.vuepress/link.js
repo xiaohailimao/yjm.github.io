@@ -20,6 +20,12 @@ export default [
         icon: require("./public/img/icon/icon-baidufanyi.jpg"),
         url: 'https://fanyi.baidu.com'
       },
+      {
+        title: 'Github',
+        des: 'Github',
+        icon: require("./public/img/icon/icon-github.png"),
+        url: 'https://github.com/'
+      },
     ]
   },
   {
@@ -483,7 +489,7 @@ export default [
         title: "Regexper",
         des: "图解正则",
         icon: require("./public/img/icon/icon-regexp.png"),
-        url: "http://regexper.ayouok.vip/"
+        url: "http://ayouok.vip/regexper"
       },
       {
         title: "Dayjs",
@@ -502,6 +508,12 @@ export default [
         des: "支持png，jpg，apng无损压缩",
         icon: require("./public/img/icon/icon-tiny-png.png"),
         url: "https://tinify.cn/"
+      },
+      {
+        title: "Verdaccio",
+        des: "Verdaccio 是一个 Node.js创建的轻量的私有npm proxy registry",
+        icon: require("./public/img/icon/icon-verdaccio.svg"),
+        url: "https://verdaccio.org/docs/zh-CN/installation"
       },
       {
         title: "favicon图标生成器",

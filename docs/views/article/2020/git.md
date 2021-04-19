@@ -1,6 +1,6 @@
 ---
 title: Git 提交规范
-date: 2020-03-29
+date: 2020-12-29
 tags:
   - Git
 categories:

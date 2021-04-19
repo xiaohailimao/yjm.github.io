@@ -1,6 +1,6 @@
 ---
 title: JavaScript设计模式
-date: 2018-12-15
+date: 2020-12-15
 tags:
  - JavaScript
 categories:

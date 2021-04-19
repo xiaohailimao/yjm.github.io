@@ -1,6 +1,6 @@
 ---
 title: JavaScript原理
-date: 2018-12-16
+date: 2021-02-16
 tags:
  - JavaScript
 categories:
@@ -662,4 +662,482 @@ var addEvent = function( elem, type, handler ){
     }
     addEvent( elem, type, handler );
 };
+```
+
+## 类型判断
+
+``` JS
+const toString = Object.prototype.toString
+
+export const isObject = function(val){
+    return toString.call(vall) === '[Object Object]'
+}
+
+export const isBoolean = function (val) {
+    return toString.call(vall) === '[Object Boolean]'
+}
+
+export const isNumber = function (val) {
+    return toString.call(vall) === '[Object Number]'
+}
+
+export const isString = function (val) {
+    return toString.call(vall) === '[Object String]'
+}
+
+export const isFunction = function (val) {
+    return toString.call(vall) === '[Object Function]'
+}
+
+export const isArray = function (val) {
+    return toString.call(vall) === '[Object Array]'
+}
+
+export const isDefined = function (val) {
+    return val !== undefined && val !== null
+}
+
+export const isEmpty = function (val) {
+    // undefined or null
+    if(val == null){ return true }
+    if(typeof val === 'boolean'){ return false }
+    if(typeof val === 'number'){ return !val }
+    if(val instanceof Error){ return val.message === '' }
+
+    switch (Object.prototype.toString(val)) {
+        // String or Array
+        case '[Object String]':
+        case '[Object Array]':    
+           return !val.length
+        // Map or File or Set
+        case '[Object Map]':
+        case '[Object File]':
+        case '[Object Set]':
+            return !val.size
+        // Plain Object
+        case '[Object Object]':
+            return !Object.keys(val).length
+    }
+
+    return false
+}
+```
+
+
+
+
+
+
+## 变量类型和计算
+
+- typeof可以判断哪些类型
+  - 识别所有的值类型，识别函数，判断是否是引用类型（不可在细分，都是object）
+- 何时使用`===`何时使用`==`
+  - 除了`== null`之外，其他一律用 `===`
+  ```js
+  const obj = { x: 1 }
+  if(obj.a == null){}
+  // 相当于
+  if( obj.a === null || obj.a === undefined){}
+  ```
+- 值类型和引用类型的区别
+  - 值类型：undefined、boolean、number、symbol、string
+  - 引用类型：object、array、function（特殊引用类型，当不用存储数据，所以没有”拷贝、复制函数“这说法）、null（特殊引用类型，指针指向为空地址）
+- 手写深拷贝
+
+```js
+function deepclone (obj){
+    if(typeof obj !== 'object' && typeof obj !=='array' && obj == null){
+        return obj
+    }
+    
+    let result = Array.isArray(obj) ? [] : {}
+    
+    for(let key in obj){
+        if(obj.hasOwnProperty(key)){
+            result[key] = deepclone(obj[key])
+        }
+    }
+    
+    return result
+}
+```
+- if语句和逻辑运算
+  - truly变量：!!a === true 的变量
+  - falsely变量：!!a === false 的变量
+
+## 原型、原型链
+![原型、原型链](/img/原型链.jpg)
+- 牢记两点：
+  - `__proto__`和`constructor`属性是对象所独有的；
+  - `prototype`属性是`函数所独有的`，因为函数也是一种对象，所以函数也拥有`__proto__`和`constructor`属性。
+- `__proto__`属性的作用就是当访问一个对象的属性时，如果该对象内部不存在这个属性，那么就会去它的`__proto__`属性所指向的那个对象（父对象）里找，一直找，直到`__proto__`属性的终点null，再往上找就相当于在null上取值，会报错。通过__proto__属性将对象连接起来的这条链路即我们所谓的原型链。
+- `prototype`属性的作用就是让该函数所实例化的对象们都可以找到公用的属性和方法，即`f1.__proto__ === Foo.prototype`。
+- `constructor`属性的含义就是指向该对象的构造函数，所有函数（此时看成对象了）最终的构造函数都指向`Function`。
+- class继承
+  - constructor
+  - 属性
+  - 方法
+  - extends
+  - super
+- 类型判断instanceof
+- 原型和原型链
+  - 每个class都有显示原型`prototype`，`prototype`是引用类型
+  - 每个实例都有隐式原型`__proto__`，`__proto__`是引用类型
+  - 实例的`__proto__`指向对应class的`prototype`
+  - 获取属性或者方法时，先在自身属性和方法查找
+  - 如果找不到再去`__proto__`中查找
+- 如何准确判断一个变量是不是数组
+  - `a instanceof Array`
+- 手写一个简易JQuery，考虑插件和扩展性
+```js
+class JQuery {
+  constructor(selector) {
+    const result = document.querySelectorAll(selector)
+    const length = result.length
+    for (let i = 0; i < length; i++) {
+      this[i] = result[i]
+    }
+    this.length = length
+    this.selector = selector
+  }
+
+  get(index) {
+    return this[index]
+  }
+
+  each(fn) {
+    for (let i = 0; i < this.length; i++) {
+      fn(this[i])
+    }
+  }
+
+  on(type, fn) {
+    this.each(elem => {
+      elem.addEventListener(type, fn, false)
+    })
+  }
+
+}
+
+// 插件
+JQuery.prototype.dialog = function (val) {
+  alert(val)
+}
+
+// ”造轮子“
+class MyJQuery extends JQuery {
+  constructor(selector) {
+    super(selector)
+  }
+  addClass(className) {
+    // 添加样式逻辑代码
+  }
+}
+```
+- class原型本质，怎么理解
+  - 原型和原型链的图示
+  - 属性和方法的执行规则
+
+
+## 作用域和闭包
+
+- 作用域
+  - 全局作用域
+  - 函数作用域
+  - 块级作用域
+  ```js
+  if(true){
+      let a = 10
+  }
+  console.log(a) // 会报错
+  ```
+- 自由变量
+  - 一个变量在当前作用域没被定义，但被使用了
+  - 向上级作用域，一层层查找，直到找到为止
+  - 如果到全局作用域都没找到，则会报`xx is not defined`
+- 闭包
+  - 闭包发生在定义时
+  - 所有变量的查找，**是在函数定义的地方，向上级作用域查找**，不是在执行的地方查找！！！
+- 产生闭包
+  - 作用域被应用的特殊情况，有两种表现
+  - 函数作为参数被传递
+  - 函数作为返回值被返回 
+- this 
+  - **this是在函数执行的时候确定的**
+  - 作为普通函数，this指向window
+  - 使用bind call apply（bind会返回一个新的函数，call、apply就立即执行了），this指向传入的对象
+  - 作为对象方法被调用,this指向对象
+  - 在class方法中被调用,this指向class对象
+  - 箭头函数,this绑定上级作用域this值
+  - 传参其实是一种隐式赋值,this会丢失绑定对象
+- this的不同应用场景，如何取值
+- 手写bind函数
+```js
+// const fn2 = fn.bind({a:100})
+
+// 第一个参数是this绑定对象，后面参数是传给被绑定对象的参数
+Function.prototype.bind2 = function () {
+  // 将参数拆解为数组
+  const args = Array.prototype.slice.call(arguments)
+  const t = args.shift() // 获取this
+  const self = this // 被绑定函数fn
+  return function () {
+    return self.apply(t, args)
+  }
+}
+```
+- 闭包在实际开发的应用场景
+  - 隐藏数据，闭包隐藏数据，只提供API
+  ```js
+  function createCache(){
+      const data = {}
+      return {
+          get: function(key){
+              return data[key]
+          },
+          set: function(key,value){
+              data[key] = value
+          }
+      }
+  }
+  
+  const d = createCache()
+  d.set('a',100)
+  d.get('a') // 100
+  ```
+- 生成10个div标签，点击弹出对应的索引
+```js
+for (let i = 0; i < 10; i++) {
+  let a = document.createElement('div')
+  a.innerHTML = i
+  a.addEventListener('click', function () {
+    alert(i)
+  }, false)
+
+  document.body.appendChild(a)
+}
+```
+
+## 异步和单线程
+
+- 单线程和异步
+  - JS是单线程语言，只能同时做一件事
+  - 浏览器和nodejs已支持js启动**进程**，如web worker
+  - JS和DOM渲染公用同一个线程，因为JS可修改DOM结构
+  - 遇到等待（网络请求，定时任务）不能卡着
+  - 需要异步
+  - 回调callback函数形式
+- 应用场景
+  - 网络请求，如ajax图片加载
+  - 定时任务，如setTimeout
+- callback hell和promise
+  - promise解决callback hell问题，callback本身没问题
+- 同步和异步区别是什么
+  - **基于JS单线程语言**
+  - 异步不会阻塞代码执行
+  - 同步会阻塞代码执行
+- 手写promise加载一张图片
+```js
+function loadimg(src) {
+  return new Promise((resolve, reject) => {
+    const img = document.createElement('img')
+    img.onload = () => {
+      resolve(img)
+    }
+    img.onerror = () => {
+      reject(new Error('图片加载失败'))
+    }
+    img.src = src
+  })
+}
+
+const url = 'https://cn.vuejs.org/images/lifecycle.png'
+const url2 = 'https://vuex.vuejs.org/vuex.png'
+
+loadimg(url)
+  .then(img => {
+    console.log(img.src); // https://cn.vuejs.org/images/lifecycle.png
+    return loadimg(url2) // 返回一个promise
+  }).then(img => {
+    // img 是上个then返回 promise resolve结果
+    console.log(img.src); // https://vuex.vuejs.org/vuex.png
+  })
+```
+- 前端使用异步的场景有哪些
+  - 网络请求，如ajax图片加载
+  - 定时任务，如setTimeout
+
+### 异步问答
+
+- 请描述event-loop（事件循环/事件轮询）的机制，可画图
+- 什么是宏任务微任务，有什么区别
+  - 宏任务：setTimeout、setInterval、ajax、DOM事件
+  - 微任务：Promise、async/await
+  - 微任务执行时机比宏任务早
+- promise有哪三种状态，如何变化
+  - pending resolved rejected
+  - pending=>resolved
+  - pending=>rejected
+- promise then和catch连接问题
+  - **只要没报错都是返回resolved，只要有报错都是返回rejected**
+  - resolved后触发then回调，rejected后触发catch回调
+```js
+// 第一题
+Promise.resolve().then(()=>{
+    console.log(1)
+}).catch(()=>{
+    console.log(2)
+}).then(()=>{
+    console.log(3)
+})
+// 1
+// 3
+
+// 第二题
+Promise.resolve().then(()=>{
+    console.log(1)
+    throw new Error('error1')
+}).catch(()=>{
+    console.log(2)
+}).then(()=>{
+    console.log(3)
+})
+// 1
+// 2
+// 3
+
+// 第三题
+Promise.resolve().then(()=>{
+    console.log(1)
+    throw new Error('error1')
+}).catch(()=>{
+    console.log(2)
+}).catch(()=>{
+    console.log(3)
+})
+// 1
+// 2
+```
+- async/await 语法
+```js
+async function fn (){
+  return 100
+}
+
+(async function(){
+  const a = fn() // ?
+  console.log(a); // Promise {100}
+  const b = await fn() // ?
+  console.log(b); // 100
+})()
+
+// 执行完毕打印出什么结果
+(async function(){
+   console.log('start')
+   const a = await 100
+   console.log('a',a)
+   const b = await Promise.resolve(200)
+   console.log('b',b)
+   const c = await Promise.reject(300) // 报错
+   console.log('c',c)
+   console.log('end')
+})()
+// start
+// a 100
+// b 200
+// 报错
+```
+## event-loop
+- js是单线程
+- 异步基于回调实现
+- event-loop就是异步回调的实现原理
+  - 同步代码，一行一行放在call stack（调用堆栈）执行
+  - 遇到异步，先”记录“下，等待时机（定时，网络请求）
+  - 时机到了，就移动到callback queue(回调队列)
+  - 如果call stack为空的时候（即同步代码执行完），**会尝试DOM渲染**，event-loop开始工作
+  - 轮询查找callback queue，如果有则移动到call stack中执行
+  - 然后继续轮询查找
+
+### DOM事件与event-loop
+
+- js是单线程的
+- 异步（setTimeout，ajax等）使用回调，基于event-loop
+- DOM事件也使用回调，基于event-loop
+
+## promise
+
+- 三个状态
+  - pending resolved rejected
+- 状态的表现和变化
+  - pending=>resolved
+  - pending=>rejected
+- then和catch对状态的影响
+  - **只要没报错都是返回resolved，只要有报错都是返回rejected**
+  - then正常返回resolved，里面有报错则返回rejected
+  - **catch正常返回resolved**，里面有报错则返回rejected
+  - resolved后触发then回调，rejected后触发catch回调
+
+## async/await
+
+- 异步回调callback hell
+- promise then catch 链式调用，但也是基于回调函数
+- async/await 同步语法，彻底消灭回调函数
+- 和promise不互斥，相辅相成
+- **执行async函数返回promise对象**
+- await相当于promise的then
+- **try/catch**捕获async异常，代替了promise的catch
+- async/awati只是语法糖
+- js还是单线程，还是有异步，还是基于event-loop
+- **await代码后面的代码可以看出是callback里面的内容，被异步执行了**
+
+## for...of常用于异步的遍历
+
+- for...in（以及forEach for）是常规的同步遍历
+- **for...of常用于异步的遍历**,等上个代码执行完再执行下个代码
+- 可遍历数组和字符串，不能遍历对象
+```js
+function muti(num) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(num * num)
+    }, 1000)
+  })
+}
+
+const arr = [1, 3, 4]
+
+!(async function () {
+  for (let i of arr) {
+    const res = await muti(i)
+    console.log(res);
+  }
+})()
+```
+## 宏任务macroTask和微任务microTask
+
+- 宏任务：setTimeout、setInterval、ajax、DOM事件。**DOM渲染后触发**，如setTimeout
+- 微任务：promise、async/await。**DOM渲染前触发**，如promise
+- **微任务执行时机比宏任务早**
+- event-loop和DOM渲染
+  - 每次Call Stack清空（即每次轮询结束），即同步任务执行完成
+  - 都是DOM重新渲染的机会，DOM结构有变都会重新渲染
+  - 然后再次触发下次event-loop
+- 宏任务macroTask和微任务microTask区别
+  - 微任务是ES6语法规定的=>mirco task queue
+  - 宏任务是浏览器规定的=>web API
+- call stack空闲 => mirco task queue => 尝试DOM渲染 => 触发event-loop
+
+```js
+const div1 = document.createElement('div')
+div1.innerHTML = 'dddd'
+$('#container').append(div1)
+// 微任务是在DOM渲染前触发
+Promise.resolve().then(() => {
+  alert('promise') // DOM是否渲染 NO
+})
+// 宏任务是DOM渲染后触发
+setTimeout(() => {
+  alert('setTimeout') // DOM是否渲染 YES
+})
 ```

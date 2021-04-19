@@ -1,6 +1,6 @@
 ---
 title: Event Loop
-date: 2020-03-16
+date: 2020-08-16
 tags:
  - JavaScript
 categories:

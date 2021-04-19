@@ -3,7 +3,7 @@ const BASE = lifecycleScript.includes('git') >0 ? "/yjm.github.io/" : "/"
 module.exports = {
   "base": BASE,
   "title": "智宇星空",
-  "description": "个人博客",
+  "description": "个人博客(笔记)",
   "dest": "blog",
   "head": [
     [

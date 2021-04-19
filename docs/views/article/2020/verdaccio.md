@@ -1,6 +1,6 @@
 ---
 title: verdaccio私有npm仓库搭建
-date: 2018-01-02
+date: 2019-12-02
 tags:
   - 工具
 categories:

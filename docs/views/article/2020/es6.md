@@ -1,6 +1,6 @@
 ---
 title: ES6语法
-date: 2020-03-16
+date: 2020-07-16
 tags:
   - JavaScript
 categories:

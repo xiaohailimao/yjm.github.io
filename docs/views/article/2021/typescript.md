@@ -1,10 +1,10 @@
 ---
 title: Typescript
-date: 2021-04-01
+date: 2020-12-06
 tags: 
-- JavaScript
+- TypeScript
 categories: 
-- 文章
+- 文档
 ---
 
 # typescript基础知识
