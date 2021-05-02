@@ -40,7 +40,7 @@ categories:
 
 ## 浏览器
 
-- **lodash** 现代化的JavaScript实用程序库，提供模块化，性能和附加功能
+- **lodash-es** 现代化的JavaScript实用程序库，提供模块化，性能和附加功能
 - **axios** 异步ajax请求工具
 - **mockjs** 模拟http请求返回数据
 - **uppercamelcase** 大驼峰

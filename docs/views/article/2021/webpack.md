@@ -70,8 +70,9 @@ module.exports = {
         })
     ],
     optimization: {
+        minimize: true,
         // 压缩css
-        minimizer: [new TerserJSPlugin({}), new OptimizeCssAssetsPlugin({})]
+        minimizer: [new TerserJSPlugin({ parallel: true }), new OptimizeCssAssetsPlugin({})]
     }
     
 }
@@ -271,4 +272,493 @@ module.exports = merge(webpackCommonConf, {
     <script src="./react.dll.js"></script>
 </body>
 </html>
+```
+
+
+## happyPack 多进程打包
+
+- js单线程，开启多进程打包
+- 提高构建速度（特别是多核CPU）
+- 不再维护，推荐使用 thread-loader
+
+```js
+const webpack = require('webpack')
+const { smart } = require('webpack-merge')
+const HappyPack = require('happypack')
+const webpackCommonConf = require('./webpack.common.js')
+const { srcPath, distPath } = require('./paths')
+
+module.exports = smart(webpackCommonConf, {
+    mode: 'production',
+    output: {
+        // filename: 'bundle.[contenthash:8].js',  // 打包代码时，加上 hash 戳
+        filename: '[name].[contenthash:8].js', // name 即多入口时 entry 的 key
+        path: distPath,
+        // publicPath: 'http://cdn.abc.com'  // 修改所有静态文件 url 的前缀（如 cdn 域名），这里暂时用不到
+    },
+    module: {
+        rules: [
+            // js
+            {
+                test: /\.js$/,
+                // 把对 .js 文件的处理转交给 id 为 babel 的 HappyPack 实例
+                use: ['happypack/loader?id=babel'],
+                include: srcPath,
+                // exclude: /node_modules/
+            },
+        ]
+    },
+    plugins: [
+        new webpack.DefinePlugin({
+            // window.ENV = 'production'
+            ENV: JSON.stringify('production')
+        }),
+        // happyPack 开启多进程打包
+        new HappyPack({
+            // 用唯一的标识符 id 来代表当前的 HappyPack 是用来处理一类特定的文件
+            id: 'babel',
+            // 如何处理 .js 文件，用法和 Loader 配置中一样
+            loaders: ['babel-loader?cacheDirectory']
+        }),
+    ],
+})
+```
+
+## thread-loader 多进程打包（推荐）
+
+- 每个工作程序都是一个单独的node.js进程，其开销约为600毫秒。进程间通信也有开销。
+- 仅在耗时的 loader 上使用
+- 只要把 thread-loader 放置在其他 loader 之前， 那 thread-loader 之后的 loader 就会在一个单独的 worker 池(worker pool)中运行
+- thread-loader 放在了 style-loader 之后，这是因为 thread-loader 后的 loader 没法存取文件也没法获取 webpack 的选项设置
+
+``` JS
+const threadLoader = require('thread-loader');
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        include: path.resolve('src'),
+        use: [
+          'thread-loader',
+          // your expensive loader (e.g babel-loader)
+        ],
+      },
+      {
+        test: /\.css$/,
+        include: path.resolve('src'),
+        use: [
+          'style-loader'
+          'thread-loader',
+          // your expensive loader (e.g babel-loader)
+        ],
+      },
+    ],
+  },
+};
+```
+
+- 为防止引导工作程序时出现高延迟，可以预热工作程序池。这将引导池中的最大工作程序数量，并将指定的模块加载到 node.js 模块高速缓存中。
+
+``` JS
+const threadLoader = require('thread-loader');
+
+threadLoader.warmup(
+  {
+    // pool options, like passed to loader options
+    // must match loader options to boot the correct pool
+  },
+  [
+    // modules to load
+    // can be any module, i. e.
+    'babel-loader',
+    'babel-preset-es2015',
+    'sass-loader',
+  ]
+);
+```
+
+
+## webpack-parallel-uglify-plugin 多进程压缩js
+
+- webpack 内置 Uglify 工具压缩js
+- js单线程，开启多进程压缩更快
+- 和happyPack同理
+
+``` JS
+const webpack = require('webpack')
+const { smart } = require('webpack-merge')
+const HappyPack = require('happypack')
+const webpackCommonConf = require('./webpack.common.js')
+const { srcPath, distPath } = require('./paths')
+const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin')
+
+module.exports = smart(webpackCommonConf, {
+    mode: 'production',
+    output: {
+        // filename: 'bundle.[contenthash:8].js',  // 打包代码时，加上 hash 戳
+        filename: '[name].[contenthash:8].js', // name 即多入口时 entry 的 key
+        path: distPath,
+        // publicPath: 'http://cdn.abc.com'  // 修改所有静态文件 url 的前缀（如 cdn 域名），这里暂时用不到
+    },
+    module: {
+        rules: [
+            // js
+            {
+                test: /\.js$/,
+                // 把对 .js 文件的处理转交给 id 为 babel 的 HappyPack 实例
+                use: ['happypack/loader?id=babel'],
+                include: srcPath,
+                // exclude: /node_modules/
+            },
+        ]
+    },
+    plugins: [
+        new webpack.DefinePlugin({
+            // window.ENV = 'production'
+            ENV: JSON.stringify('production')
+        }),
+        // happyPack 开启多进程打包
+        new HappyPack({
+            // 用唯一的标识符 id 来代表当前的 HappyPack 是用来处理一类特定的文件
+            id: 'babel',
+            // 如何处理 .js 文件，用法和 Loader 配置中一样
+            loaders: ['babel-loader?cacheDirectory']
+        }),
+        // 使用 ParallelUglifyPlugin 并行压缩输出的 JS 代码
+        new ParallelUglifyPlugin({
+            // 传递给 UglifyJS 的参数
+            // （还是使用 UglifyJS 压缩，只不过帮助开启了多进程）
+            uglifyJS: {
+                output: {
+                    beautify: false, // 最紧凑的输出
+                    comments: false, // 删除所有的注释
+                },
+                compress: {
+                    // 删除所有的 `console` 语句，可以兼容ie浏览器
+                    drop_console: true,
+                    // 内嵌定义了但是只用到一次的变量
+                    collapse_vars: true,
+                    // 提取出出现多次但是没有定义成变量去引用的静态值
+                    reduce_vars: true,
+                }
+            }
+        })
+    ],
+})
+```
+
+## terser-webpack-plugin 压缩代码（推荐）
+
+- webpack4 版本后内置的 js 压缩工具
+- parallel 开启并行编译（开启多进程）,并发运行的默认数量为 `os.cpus().length - 1`
+
+``` JS
+const TerserPlugin = require('terser-webpack-plugin')
+module.exports = {
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+      }),
+    ],
+  },
+};
+```
+
+
+## noParse
+
+``` JS
+const { smart } = require('webpack-merge')
+const webpackCommonConf = require('./webpack.common.js')
+const { srcPath, distPath } = require('./paths')
+
+module.exports = smart(webpackCommonConf, {
+    mode: 'production',
+    output: {
+        // filename: 'bundle.[contenthash:8].js',  // 打包代码时，加上 hash 戳
+        filename: '[name].[contenthash:8].js', // name 即多入口时 entry 的 key
+        path: distPath,
+        // publicPath: 'http://cdn.abc.com'  // 修改所有静态文件 url 的前缀（如 cdn 域名），这里暂时用不到
+    },
+    module: {
+        rules: [
+            // 完整的 react.min.js 文件就没有采用模块化
+            // 忽略对 min.js 文件的递归解析
+            noParse: [/\.min\.js$/],
+        ]
+    },
+    
+})
+```
+
+## IgnorePlugin
+
+``` JS
+const webpack = require('webpack')
+const { smart } = require('webpack-merge')
+const webpackCommonConf = require('./webpack.common.js')
+
+module.exports = smart(webpackCommonConf, {
+    mode: 'production',
+    plugins:[
+        // 忽略 moment 下的 /locale 目录
+        new webpack.IgnorePlugin(/\.\/locale/, /moment/) // 性能优化：忽略编译配置
+    ]
+})
+```
+
+## noParse vs IgnorePlugin
+
+- IgnorePlugin 是直接不引入，代码中没有，需要什么自己引，**可以减少产出体积**
+- noParse 引入，但是不打包，不进行编译，不进行模块化分析
+
+## cache-loader
+
+- 仅仅需要在一些性能开销较大的 loader 之前添加此 loader，以将结果缓存到磁盘里，显著提升二次构建速度
+- 保存和读取这些缓存文件会有一些时间开销，所以请只对性能开销较大的 loader 使用此 loader
+
+``` JS
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.ext$/,
+        use: ['cache-loader', ...loaders],
+        include: path.resolve('src')
+      }
+    ]
+  }
+}
+```
+
+## mode production
+
+- 自动开启压缩
+- Vue React 等会自动删除调试代码（如开发环境的 warning ）
+- 自动启用 Tree-Shaking
+  - Tree-Shaking：需要配合 ES6 Module 才能生效，静态分析代码引入删除无用代码
+
+``` JS
+module.exports = {
+  mode: 'production'
+}
+```
+
+## webpack-bundle-analyzer 分析包内容
+
+- Webpack插件和CLI实用程序，将捆绑包内容表示为方便的交互式可缩放树形图
+
+``` JS
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+module.exports = {
+  plugins: [
+    new BundleAnalyzerPlugin()
+  ]
+}
+```
+
+## speed-measure-webpack-plugin 计算打包时间
+
+``` JS
+const webpack = require('webpack')
+const { smart } = require('webpack-merge')
+const webpackCommonConf = require('./webpack.common.js')
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin") // 计算打包时间
+const smp = new SpeedMeasurePlugin()
+
+module.exports = smp.wrap(smart(webpackCommonConf, {
+    mode: 'production',
+    plugins:[
+        // 忽略 moment 下的 /locale 目录
+        new webpack.IgnorePlugin(/\.\/locale/, /moment/) // 性能优化：忽略编译配置
+    ]
+})) 
+```
+
+
+## Scope Hosting
+
+- 合并多个函数，减少作用域
+- 代码体积更小
+- 创建函数作用域更少
+- 代码可读性更好
+
+``` JS
+const { smart } = require('webpack-merge')
+const webpackCommonConf = require('./webpack.common.js')
+const ModuleConcatenationPlugin = require("webpack/lib/optimize/ModuleConcatenationPlugin")
+
+module.exports = smart(webpackCommonConf, {
+    mode: 'production',
+    resolve: {
+        // 针对 NPM 中的第三方模块优先采用 jsnext:main 中指向 ES6 模块化语法的文件
+        mainFields: ['jsnext:main', 'browser', 'main']
+    },
+    plugins: [
+        // 开启 Scope Hosting
+        new ModuleConcatenationPlugin(),
+    ],  
+})
+```
+## 前端为何要进行打包和构建
+
+和代码方面
+- 体积更小（Tree-Shaking、压缩、合并），加载更快
+- 编译高级语言或语法（TS、ES6、模块化、scss）
+- 兼容性和错误检测（polyfill、postcss、eslint）
+
+研发成本
+- 统一、高效的开发环境
+- 统一的构建流程和产出标准
+- 集成公司构建规范（提测、上线等）
+
+## module chunk bundle 的区别
+
+- module-各个源码文件，webpack中一切皆模块
+- chunk-多模块合并成的，如 entry import() splitChunk
+- bundle-最终的输出文件
+
+## loader 和 plugin的区别
+
+- loader是模块装换器，如less=>css
+- plugin扩展插件，如HtmlWebpackPlugin
+
+## 常见loader和plugin
+
+-  [常见loader](https://www.webpackjs.com/loaders/)
+-  [常见plugin](https://www.webpackjs.com/plugins/)
+
+## babel 和 webpack 区别
+
+- babel-js新语法编译工具，不关心模块化
+- webpack-打包构建工具，是多个 loader 和 plugin 的集合 
+
+## 如何产出一个lib
+
+参考 webpack.dll.js
+
+```js
+module.exports = {
+    output:{
+        // lib 的文件名
+        filename: 'lodash.js',
+        // 输出 lib 到dist下
+        path: '/dist',
+        // lib 的全局变量名
+        library: 'lodash'
+    }
+}
+```
+
+## babel-polyfill 和 babel-runtime 区别
+
+- babel-polyfill 会污染全局
+- babel-runtime 不会污染全局
+- 产出第三方lib要用babel-runtime 
+
+## webpack如何实现异步加载
+
+- import()
+- 结合 vue 和 react 异步组件
+- 结合 vue-router 和 react-router 的异步路由
+
+## proxy 为什么不能被 polyfill
+
+- proxy这个功能无法模拟，无法用Object.defineProperty模拟
+- class可以通过function模拟
+- promise可以用callback模拟
+
+## webpack有哪些常见性能优化手段
+
+可用于生产环境的
+- IgnorePlugin 忽略编译
+- 优化babel-loader，配置缓存和限定编译范围
+- happyPack 开启多线程编译，推荐使用 thread-loader 代替
+- noParse 不解析
+- parallelUglifyPlugin 启用多进程压缩代码，开多进程也需要消耗性能，所以按需使用，推荐使用 terser-webpack-plugin 配置 parallel=true 开启多进程
+
+不可用于生产环境的
+- 自动刷新
+- 热更新
+- DllPlugin
+
+优化产出代码
+- 小图片base64编码
+- bundle加hash
+- 懒加载
+- 提取公共代码
+- 使用cdn加速
+- IgnorePlugin
+- 使用production
+- scope hosting
+
+## babel
+
+### babel
+- 只解析语法，不关心api，语法符合规范就不管
+- 不处理模块化（webpack配合）
+- 引入 babel-poylfill 进行补丁
+
+### babel-poylfill(被弃用)
+
+- 集成了`core-js` 和 `regenerator.js` 
+- babel7.4 推荐直接使用 `core-js` `regenerator.js` 
+- 文件较大
+- 按需引入
+
+```js
+// 按需引入
+// .babelrc
+{
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "useBuiltIns": "usage", // 按需引入配置
+                "corejs": 3
+            }
+        ]
+    ],
+    "plugins": []
+}
+```
+
+**poylfill补丁问题：污染全局变量**
+
+
+### babel-runtime
+
+解决poylfill补丁污染全局环境问题，无副作用
+
+- babel-runtime、@balel/plugin-transform-runtime
+
+```js
+// .babelrc
+{
+   "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "useBuiltIns": "usage", // 按需引入配置
+                "corejs": 3
+            }
+        ]
+    ],
+    "plugins": [
+        // babel-runtime 配置
+        "@balel/plugin-transform-runtime",
+        {
+            "absolutRuntime": false,
+            "corejs": 3,
+            "helpers": true,
+            "regenerator": true,
+            "useESModules": false
+        }
+    ] 
+}
 ```

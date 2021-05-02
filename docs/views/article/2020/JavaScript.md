@@ -1087,7 +1087,7 @@ async function fn (){
 - **执行async函数返回promise对象**
 - await相当于promise的then
 - **try/catch**捕获async异常，代替了promise的catch
-- async/awati只是语法糖
+- async/awati只是语法糖, await 当 then 用，如果 `await` 后面返回的事 `Promise.reject` 会报错
 - js还是单线程，还是有异步，还是基于event-loop
 - **await代码后面的代码可以看出是callback里面的内容，被异步执行了**
 

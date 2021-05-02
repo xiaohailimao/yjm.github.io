@@ -38,8 +38,8 @@ categories:
 - beforeMount
 - mounted：页面渲染完可以拿到el
 - activated: 配置 keepalive 时触发
-- beforeUpdate
-- updated
+- beforeUpdate：不要在这个周期修改data，否则会死循环，data数据修改用 `computed` 和 `watch` 代替
+- updated：不要在这个周期修改data，否则会死循环，data数据修改用 `computed` 和 `watch` 代替，使用 `$nextTick` 代替 `update`,`this.$nextTick()` 可以用作局部的数据更新后DOM更新结束后的操作，全局的可以用 `updated` 生命周期函数
 - deactivated
 - beforeDestroy：解除绑定，销毁子组件以及事件监听
 - destroyed
@@ -301,7 +301,7 @@ const router = new VueRouter({
 
 **MVVM：model（数据层） view（视图层） viewModel（是个连接层）**
 
-在操作DOM时代就有组件化，传统的组件化都是静态渲染，更新依赖于操作DOM，Vue 的 MVVM、React 的 setState 都是采用数据驱动视图，让我们可以只关心业务数据层面不在关系对DOM操作的细节，框架会帮我们自己操作
+在操作DOM时代就有组件化，传统的组件化都是静态渲染，更新依赖于操作DOM，Vue 的 MVVM、React 的 setState 都是采用数据驱动视图，让我们可以只关心业务数据层面不在关心对DOM操作的细节，框架会帮我们自己操作
 
 ## vue 响应式
 
@@ -355,12 +355,12 @@ function defineReactive(target,key,value){
   
   Object.defineProperty(target,key,{
       get(){
-          return value
+        return value
       },
       set(newValue){
           if(newValue !== value){
               // 深度监听， 当新值是个对象时给新增做个深度监听
-              observer(value)
+              observer(newValue)
               // 设置新值
               // value 一直在闭包中，此处设置完了之后，在 get 时也会获取到最新的值
               value = newValue
@@ -373,7 +373,7 @@ function defineReactive(target,key,value){
 
 // 监听对象属性
 function observer(target){
-  if(typeof target !== 'object' || typeof target === null){
+  if(typeof target !== 'object' || target == null){
       // 不是对象或者数组
       return target
   }
@@ -489,17 +489,20 @@ patch：
 - 如果两参数都是`vnode`并且`key`和`sel`相同就进入`vnode`对比调用`patchVnode` 
 - 如果新旧`vnode`不同就删掉重建
 
-patchVnode：
+patchVnode：`text`和`children`互斥关系，不会同时存在
 
-- 如果`text`有值则`children`一般没值，就移除旧的`children`设置新的`text`值
-- 如果`children`有值在进去判断
-  - 新旧都有`children` 就调用 `updateChildren`
-  - 新 `children` 有，旧 `children` 无， 就清空`text` 调用 `addVnodes` 添加新的
-  - 旧 `children` 有，新 `children` 无， 就调用 `removeVnodes` 删除 `children` 
-  - 旧 `text` 有, 清空 `text`
+- `text`有值，就移除旧的`children`设置新的`text`值
+- `children`有值
+  - 旧有 `children`,调用 `updateChildren`
+  - 旧无 `children`,调用 `addVnodes` 添加新的
+- `children`无值
+  - 旧有 `children` ， 就调用 `removeVnodes` 删除 `children` 
+  - 旧有 `text` , 清空 `text`
 
 updateChildren：
 
+![updateChildren](/img/updateChildren.png)
+减少循环次数
 - 开始和开始对比
 - 结束和结束对比
 - 开始和结束对比
@@ -508,6 +511,8 @@ updateChildren：
   - 没对应上就插入新el
   - key对应上当sel不相等就插入新el
   - key对应上sel相等就调用 `patchVnode`
+
+![使用key和不使用key](/img/使用key和不使用key.png)
 
 概念
 
@@ -620,3 +625,72 @@ hash与h5 history 选取
 - to B系统推荐用hash，简单易用，对url不敏感
 - to C系统可以考虑用history，当要服务端支持
 - 能选择简单的就别用复杂的，考虑成本和收益
+
+## 为什么data是个函数
+
+- vue组件是个class，每个地方去使用这个vue组件其实就是去实例化这个class，data是函数就组件直接的data数据不会互相影响
+
+## ajax请求放在哪个生命周期
+
+- `mounted`
+- js是单线程的，ajax是异步获取数据
+- 放在 `mounted` 之前没什么用，只会让逻辑更乱
+
+## 将组件所有props传递给子组件
+
+- `$props`
+- `<User v-bind="$props" />`
+
+## 何时使用beforeDestroy
+
+- 解除自定义绑定事件event.$off
+- 清除定时器
+- 解绑自定义的DOM事件，如window.scroll等
+
+## vuex中action和mutation有何区别
+
+- action中可以处理异步，mutation中不可以
+- mutation做原子操作
+- action可以整合多个mutation
+
+## vue如何监听数组变化
+
+- Object.defineProperty无法监听数组
+- 重新定义数组原型，重新push，pop等方法实现监听
+- proxy可以原生监听数组
+
+## 请描述响应式原理
+
+- 监听data变化
+- 组件渲染和更新过程 
+
+## diff算法时间复杂度
+
+- O(n)
+- 在O(n^3)基础上做的调整
+
+## 简述diff算法过程
+
+- patch(element,vnode) 和 patch(vnode,newVnode)
+- patchVnode、addVnodes、removeVnodes
+- updateChildren（key的重要性，根据tag和key判断是不是sameVnode）
+
+## vue为何是异步渲染，$nextTick有何用
+
+- 异步渲染（以及合并data修改），以提渲染高性能
+- $nextTick是DOM更新后触发
+
+## vue常见的性能优化
+
+- 合理使用computed计算
+- 合理使用v-if和v-show
+- v-for时key，避免和v-if同时使用
+- 自定义事件和DOM事件及时销毁
+- 合理使用异步组件
+- 合理使用keepalive
+- data层级不要太深
+- 使用vue-loader在开发环境进行模板编译（预编译）
+- webpack层面优化
+- 前端通用的性能优化，如图片懒加载
+- 使用SSR
+ 
