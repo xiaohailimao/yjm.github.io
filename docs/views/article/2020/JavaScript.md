@@ -670,27 +670,27 @@ var addEvent = function( elem, type, handler ){
 const toString = Object.prototype.toString
 
 export const isObject = function(val){
-    return toString.call(vall) === '[Object Object]'
+    return toString.call(vall) === '[object Object]'
 }
 
 export const isBoolean = function (val) {
-    return toString.call(vall) === '[Object Boolean]'
+    return toString.call(vall) === '[object Boolean]'
 }
 
 export const isNumber = function (val) {
-    return toString.call(vall) === '[Object Number]'
+    return toString.call(vall) === '[object Number]'
 }
 
 export const isString = function (val) {
-    return toString.call(vall) === '[Object String]'
+    return toString.call(vall) === '[object String]'
 }
 
 export const isFunction = function (val) {
-    return toString.call(vall) === '[Object Function]'
+    return toString.call(vall) === '[object Function]'
 }
 
 export const isArray = function (val) {
-    return toString.call(vall) === '[Object Array]'
+    return toString.call(vall) === '[object Array]'
 }
 
 export const isDefined = function (val) {
@@ -706,16 +706,16 @@ export const isEmpty = function (val) {
 
     switch (Object.prototype.toString(val)) {
         // String or Array
-        case '[Object String]':
-        case '[Object Array]':    
+        case '[object String]':
+        case '[object Array]':    
            return !val.length
         // Map or File or Set
-        case '[Object Map]':
-        case '[Object File]':
-        case '[Object Set]':
+        case '[object Map]':
+        case '[object File]':
+        case '[object Set]':
             return !val.size
         // Plain Object
-        case '[Object Object]':
+        case '[object Object]':
             return !Object.keys(val).length
     }
 

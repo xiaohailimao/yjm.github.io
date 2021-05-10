@@ -1,6 +1,6 @@
 ---
 title: React
-date: 2021-03-05
+date: 2021-02-19
 tags: 
 - React
 categories: 
@@ -414,7 +414,7 @@ export default App
 - import()
 - React.lazy
 - React.Suspense
-  
+    
 ```jsx {3,13-15}
 import React from 'react'
 
@@ -850,3 +850,128 @@ class List extends React.Component {
     - 将`reconciliaction`阶段进行任务拆分（commit无法拆分）
     - DOM需要渲染的时候暂停js计算任务，空闲的时候恢复
     - `window.requestIdleCallback` 判断什么时候需要渲染
+
+## 组件通信
+
+- 父子组件props
+- 自定义事件
+- Redux和Context
+
+## jsx本质
+
+- createElement
+- 执行返回vnode
+
+## Context是什么，如何应用
+
+- 父组件向其所有子组件传递信息
+- 如一些简单的公共信息：主题、语言等
+- 复杂的公共信息用redux管理
+
+## shouldComponentUpdate 用途
+
+- 性能优化
+- 配合”不可变值“使用，否则会出错
+
+## redux单向数据流
+
+## setState
+
+```js
+componentDidMount(){
+    // state.count = 0
+    this.setState({ count: this.state.count + 1 })
+    console.log('1',this.state.count) // 0
+    this.setState({ count: this.state.count + 1 })
+    console.log('2',this.state.count) // 0
+    setTimeout(()=>{
+        this.setState({ count: this.state.count + 1 })
+        console.log('3',this.state.count) // 2
+    },0)
+    setTimeout(()=>{
+        this.setState({ count: this.state.count + 1 })
+        console.log('4',this.state.count) // 3
+    },0)
+}
+```
+
+## 纯函数
+
+- 返回一个新值，没有副作用（不会”偷偷“修改其他值）
+- 重点：不可变值
+- 如 arr1 = arr.slice()
+
+## React 发起ajax应该放在哪个生命周期上
+
+- 同vue mounted
+- componentDidMount DOM渲染完的周期
+
+## 渲染列表，为何用key
+
+- 同vue，必须用key，且不能是index或者random
+- diff算法中通过tag和key判断是不是sameNode
+- 减少渲染次数，提高渲染性能
+
+## 函数组件和class组件区别
+
+- 纯函数，输入props输出jsx
+- 没有实例，没有生命周期，没有state
+
+## 什么是受控组件
+
+- 表单的值，受state控制
+- 需要自行监听onChange事件，更新state
+- 对比非受控组件
+
+## 何时使用异步组件
+
+- 同vue
+- 加载大组件
+- 路由懒加载
+- React.lazy，React.Suspence
+
+## 多个组件有公共逻辑，如何抽离公共逻辑
+
+-  高阶组件 HOC
+-  Render Props
+-  mixin已经被React废弃
+
+## Redux 如何进行异步请求
+
+- 使用异步action
+- 如redux-thunk
+
+## react-router 如何配置懒加载
+
+## PureComponent有何区别
+
+- 实现了比较浅的shouldComponentUpdate
+- 性能优化
+- 要结合不可变值使用
+
+## React事件和DOM事件的区别
+
+- 所有事件都挂载到document上，17版本后挂载到root组件上
+- event不是原生的，是SyntheticEvent 合成事件对象
+- dispatchEvent
+
+## React性能优化
+
+- 列表渲染使用key
+- 自定义事件、DOM事件及时销毁
+- 合理使用异步组件
+- 减少函数 bind this 的次数
+- 合理使用shouldComponentUpdate、PureComponent、memo
+- 合理使用Immutable.js
+- webpack层优化
+- 前端通用性能优化，例如图片懒加载
+- 使用SSR
+
+## React和Vue的区别
+
+- 都支持组件化
+- 都支持数据驱动视图
+- 都使用vdom操作DOM
+- React使用jsx拥抱js，Vue使用模板拥抱html
+- React是函数式编程，Vue是声明式编程
+- React更多需要自力更生，Vue把想要的都给你

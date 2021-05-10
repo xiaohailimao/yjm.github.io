@@ -15,6 +15,6 @@ cd ./blog
 git init
 git add -A
 git commit -m 'deploy'
-git push -f git@github.com:Jameel01/yjm.github.io.git master
+git push -u git@github.com:Jameel01/yjm.github.io.git master
 
 cd -

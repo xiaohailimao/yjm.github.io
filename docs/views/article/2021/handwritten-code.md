@@ -64,6 +64,23 @@ function myInstanceof (left,right){
     proto = Object.getPrototypeOf(proto)
   }
 }
+
+// or
+
+function instanceof (left,right) {
+  // 基础类型返回false
+  if(typeof left !== 'object' || left === null){
+    return false
+  }
+
+  let p = left
+  while (p) {
+    if(p === right.prototype){ return true }
+    p = p.__proto__
+  }
+
+  return false
+}
 ```
 
 ### Object.create
@@ -90,7 +107,27 @@ function myNew(fn,...args) {
 
 ### 柯里化
 ``` JS
-// JavaScript
+// 求长方形面积
+functionn getArea(width,height){
+  return width * height
+}
+// 如果遇到宽都是同一个值时
+const area1 = getArea(10,20)
+const area2 = getArea(10,30)
+const area3 = getArea(10,40)
+// 使用 闭包柯里化 计算面积
+function getArea(width){
+  return height=>{
+    return width * height
+  }
+}
+
+const getTenWidthArea = getArea(10)
+
+// 之后碰到宽度为10的长方形就可以这样计算面积
+const area1 = getTenWidthArea(20)
+const area2 = getTenWidthArea(30)
+const area3 = getTenWidthArea(40)
 ```
 
 ## 数组
@@ -704,7 +741,7 @@ function genRandomString(len){
 ## 浏览器
 
 ### even-loop图
-
+![even-loop图](/img/event-loop.png)
 ### 通用事件绑定方法
 ``` JS
 // 通用事件绑定函数

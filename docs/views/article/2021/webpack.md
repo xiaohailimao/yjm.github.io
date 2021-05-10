@@ -678,7 +678,7 @@ module.exports = {
 可用于生产环境的
 - IgnorePlugin 忽略编译
 - 优化babel-loader，配置缓存和限定编译范围
-- happyPack 开启多线程编译，推荐使用 thread-loader 代替
+- happyPack 开启多进程编译，推荐使用 thread-loader 代替
 - noParse 不解析
 - parallelUglifyPlugin 启用多进程压缩代码，开多进程也需要消耗性能，所以按需使用，推荐使用 terser-webpack-plugin 配置 parallel=true 开启多进程
 

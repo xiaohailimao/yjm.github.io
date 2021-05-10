@@ -9,7 +9,7 @@ categories:
 
 ## hybrid 是什么，为何用 hybrid？
 
-- hybrid文字解释：混合
+- hybrid 文字解释：混合
   - 前端和客户端的混合开发
   - 需要前端开发人员和客户端开发人员配合完成
   - 某些环节也可能涉及到sever端

@@ -80,3 +80,112 @@ mc.addEventListener('message',(event)=>{
 - 为何建议把js放到body最后
   - js会阻塞页面渲染
   - js放到最后可以先完成页面渲染，加快页面显示（首屏加载）
+
+## 跨域
+
+### jsonp
+
+- 利用 `<script>` 可以绕过同源策略功能
+- 服务器返动态拼接数据
+- 只能get传参
+
+``` js
+// promise 版本 jsonp
+function jsonp(url, params, callbackName) {
+  // 拼接参数和地址
+  const genUrl = function () {
+    let data = ''
+    for (let key in params) {
+      data += `${key}=${params[key]}&`
+    }
+    data += `callback=${callbackName}`
+    return `${url}?${data}`
+  }
+
+  return new Promise((resolve, reject) => {
+    callbackName = callbackName || Math.random().toString()
+    
+    const script = document.createElement('script')
+    script.src = genUrl()
+    document.body.appendChild(script) // 动态插入script标签，请求数据拼接在src上
+
+    window[callbackName] = function (data) {
+      document.body.removeChild(script) // 用完就删除插入的script标签
+      resolve(data) // 返回数据
+    }
+  })
+}
+```
+### CORS 跨域资源共享
+
+CORS 实现起来非常方便，只需要增加一些 HTTP 头，让服务器能声明允许的访问来源
+
+以koa配置为例
+
+``` JS
+app.use(async (ctx, next)=> {
+  ctx.set('Access-Control-Allow-Origin', '*');
+  ctx.set('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+  ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+  if (ctx.method == 'OPTIONS') {
+    ctx.body = 200; 
+  } else {
+    await next();
+  }
+})
+```
+
+### proxy
+
+案例一：vue.config.js
+``` JS
+amodule.exports = {
+    devServer: {
+        host: '127.0.0.1',
+        port: 8084,
+        open: true,// vue项目启动时自动打开浏览器
+        proxy: {
+            '/api': { // '/api'是代理标识，用于告诉node，url前面是/api的就是使用代理的
+                target: "http://xxx.xxx.xx.xx:8080", //目标地址，一般是指后台服务器地址
+                changeOrigin: true, //是否跨域
+                pathRewrite: { // pathRewrite 的作用是把实际Request Url中的'/api'用""代替
+                    '^/api': "" 
+                }
+            }
+        }
+    }
+}
+```
+
+案例二：express
+
+``` JS
+var express = require('express');
+const proxy = require('http-proxy-middleware')
+const app = express()
+app.use(express.static(__dirname + '/'))
+app.use('/api', proxy({ target: 'http://localhost:4000', changeOrigin: false}));
+module.exports = app
+```
+
+案例三：Nginx
+
+``` JS
+server {
+    listen    80;
+    # server_name www.josephxia.com;
+    location / {
+        root  /var/www/html;
+        index  index.html index.htm;
+        try_files $uri $uri/ /index.html;
+    }
+    location /api {
+        proxy_pass  http://127.0.0.1:3000;
+        proxy_redirect   off;
+        proxy_set_header  Host       $host;
+        proxy_set_header  X-Real-IP     $remote_addr;
+        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;
+    }
+}
+```
+
