@@ -181,5 +181,150 @@ HTTP 协议采用“请求-应答”模式，当使用普通模式，即非 Keep
 - 强制刷新：ctrl + f5；强制缓存，协商缓存失效
 
 ## HTTPS
+- **HTTPS 是一个在计算机世界里专门在两点之间安全的传输文字、图片、音频、视频等超文本数据的约定和规范**
+- HTTPS 是 HTTP 协议的一种扩展，它本身并不保传输的证安全性，那么谁来保证安全性呢？在 HTTPS 中，使用`传输层安全性(TLS)`或`安全套接字层(SSL)`对通信协议进行加密。也就是 `HTTP + SSL(TLS) = HTTPS`。
+- HTTPS做了什么
+  - 加密
+    - 对称加密：加密和解密时使用的密钥都是同样的密钥
+    - 加密分组：它可以让算法用固定长度的密钥加密任意长度的明文
+    - 非对称加密(公钥加密)：非对称加密中有两个密钥，一个是公钥，一个是私钥，公钥进行加密，私钥进行解密
+    - **混合加密**：在通信刚开始的时候使用非对称算法，比如 RSA、ECDHE ，首先解决密钥交换的问题。然后用随机数产生对称算法使用的会话密钥（session key），再用公钥加密。对方拿到密文后用私钥解密，取出会话密钥。这样，双方就实现了对称密钥的安全交换。
+  - 数据一致性
+    - 摘要算法
+    - MAC：它通过 MAC 算法从消息和密钥生成，MAC 值允许验证者（也拥有秘密密钥）检测到消息内容的任何更改，从而保护了消息的数据完整性。
+    - **HMAC**：它是使用 MAC 值 + Hash 值的组合方式，HMAC 的计算中可以使用任何加密哈希函数，例如 SHA-256 等
+  - 身份认证
+    - **数字签名**：私钥加密，公钥解密。使用`私钥`再加上`摘要算法`就实现`数字签名`
+    - 签名请求(CSR)：CSR 是一个编码的文本文件，其中包含公钥和其他将包含在证书中的信息（例如域名，组织，电子邮件地址等）。密钥对和 CSR 生成通常在将要安装证书的服务器上完成，并且 CSR 中包含的信息类型取决于证书的验证级别
+    - CA：证书认证机构，DV最低只验证域名可信，EV最高经过了法律和审计的严格核查，可以证明网站拥有者的身份（在浏览器地址栏会显示出公司的名字，例如 Apple、GitHub 的网站）
+- HTTPS默认端口号443
+- HTTPS 就是身披了一层 SSL 的 HTTP
+- TLS是SSL后继版本
+- TLS(主流TLS1.2版本)
+  - 用于两个通信应用程序之间提供`保密性和数据完整性`。
+  - TLS 由`记录协议`、`握手协议`、`警告协议`、`变更密码规范协议`、`扩展协议`等几个子协议组成，综合使用了`对称加密`、`非对称加密`、`身份认证`等许多密码学前沿技术
+  - 命名规范：密钥交换算法 - 签名算法 - 对称加密算法 - 摘要算法
+  > 例：ECDHE-ECDSA-AES256-GCM-SHA384  
+  > 解释：使用 ECDHE 进行密钥交换，使用 ECDSA 进行签名和认证，然后使用 AES 作为对称加密算法，密钥的长度是 256 位，使用 GCM 作为分组模式，最后使用 SHA384 作为摘要算法
 ## HTTP2
+
+四个特性
+- `多路复用`，无需多个TCP连接，因为其允许在单一的HTTP2连接上发起多重请求，因此可以不依赖建立多个TCP连接
+- `二进制分帧`，将所有传输的信息采用二进制编码，并且会将信息分割为更小的信息块
+- `头部压缩`，采用HPACK技术压缩头部，减小报文体积
+- `服务端推送`，服务端可以对客户端发的一个请求发送多个响应，并且资源可以正常缓存
+
+``` BASH
+server {
+  listen 443 ssl http2
+}
+```
+::: warning
+使用 http2 的前提是必须是 https
+:::
 ## 跨域
+### jsonp
+
+- 利用 `<script>` 可以绕过同源策略功能
+- 服务器返动态拼接数据
+- 只能get传参
+
+``` js
+// promise 版本 jsonp
+function jsonp(url, params, callbackName) {
+  // 拼接参数和地址
+  const genUrl = function () {
+    let data = ''
+    for (let key in params) {
+      data += `${key}=${params[key]}&`
+    }
+    data += `callback=${callbackName}`
+    return `${url}?${data}`
+  }
+
+  return new Promise((resolve, reject) => {
+    callbackName = callbackName || Math.random().toString()
+    
+    const script = document.createElement('script')
+    script.src = genUrl()
+    document.body.appendChild(script) // 动态插入script标签，请求数据拼接在src上
+
+    window[callbackName] = function (data) {
+      document.body.removeChild(script) // 用完就删除插入的script标签
+      resolve(data) // 返回数据
+    }
+  })
+}
+```
+### CORS 跨域资源共享
+
+CORS 实现起来非常方便，只需要增加一些 HTTP 头，让服务器能声明允许的访问来源
+
+以koa配置为例
+
+``` JS
+app.use(async (ctx, next)=> {
+  ctx.set('Access-Control-Allow-Origin', '*');
+  ctx.set('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+  ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+  if (ctx.method == 'OPTIONS') {
+    ctx.body = 200; 
+  } else {
+    await next();
+  }
+})
+```
+
+### proxy
+
+案例一：vue.config.js
+``` JS
+amodule.exports = {
+    devServer: {
+        host: '127.0.0.1',
+        port: 8084,
+        open: true,// vue项目启动时自动打开浏览器
+        proxy: {
+            '/api': { // '/api'是代理标识，用于告诉node，url前面是/api的就是使用代理的
+                target: "http://xxx.xxx.xx.xx:8080", //目标地址，一般是指后台服务器地址
+                changeOrigin: true, //是否跨域
+                pathRewrite: { // pathRewrite 的作用是把实际Request Url中的'/api'用""代替
+                    '^/api': "" 
+                }
+            }
+        }
+    }
+}
+```
+
+案例二：express
+
+``` JS
+var express = require('express');
+const proxy = require('http-proxy-middleware')
+const app = express()
+app.use(express.static(__dirname + '/'))
+app.use('/api', proxy({ target: 'http://localhost:4000', changeOrigin: false}));
+module.exports = app
+```
+
+案例三：Nginx
+
+``` JS
+server {
+    listen    80;
+    # server_name www.josephxia.com;
+    location / {
+        root  /var/www/html;
+        index  index.html index.htm;
+        try_files $uri $uri/ /index.html;
+    }
+    location /api {
+        proxy_pass  http://127.0.0.1:3000;
+        proxy_redirect   off;
+        proxy_set_header  Host       $host;
+        proxy_set_header  X-Real-IP     $remote_addr;
+        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;
+    }
+}
+```

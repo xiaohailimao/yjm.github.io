@@ -480,3 +480,77 @@ window.addEventListener('DOMContentLoaded',function(){
 
 
 
+
+
+
+
+## 性能检测
+
+### Performance 面板
+#### 简要分析
+- FPS：这是一个和动画性能密切相关的指标，它表示每一秒的帧数。图中绿色柱状越高表示帧率越高，体验就越流畅。若出现红色块，则代表长时间帧，很可能会出现卡顿。
+- CPU：表示CPU的使用情况，不同的颜色片段代表着消耗CPU资源的不同事件类型
+- NET：粗略的展示了各请求的耗时与前后顺序
+#### 性能瓶颈挖掘 
+但一般来说，我们会主要去看 Main 栏目下的火焰图和 Summary 提供给我们的饼图——这两者和概述面板中的 CPU 一栏结合，可以帮我们迅速定位性能瓶颈
+![Performance 面板](https://user-gold-cdn.xitu.io/2018/10/7/1664d9d24ee5bd4e?imageView2/0/w/1280/h/960/ignore-error/1)
+
+- 先看 CPU 图表和 Summary 饼图。CPU 图表中，我们可以根据颜色填充的饱满程度，确定 CPU 的忙闲，进而了解该页面的总的任务量。而 Summary 饼图则以一种直观的方式告诉了我们，哪个类型的任务最耗时（从本例来看是脚本执行过程）。这样我们在优化的时候，就可以抓到“主要矛盾”，进而有的放矢地开展后续的工作了。
+- 再看 Main 提供给我们的火焰图。这个火焰图非常关键，它展示了整个运行时主进程所做的每一件事情（包括加载、脚本运行、渲染、布局、绘制等）。x 轴表示随时间的记录。每个长条就代表一个活动。更宽的条形意味着事件需要更长时间。y 轴表示调用堆栈，我们可以看到事件是相互堆叠的，上层的事件触发了下层的事件
+- CPU 图标和 Summary 图都是按照“类型”给我们提供性能信息，而 Main 火焰图则将粒度细化到了每一个函数的调用。到底是从哪个过程开始出问题、是哪个函数拖了后腿、又是哪个事件触发了这个函数，这些具体的、细致的问题都将在 Main 火焰图中得到解答。
+
+### LightHouse
+会生成一份评估报告，主要内容是 页面性能、PWA（渐进式 Web 应用）、可访问性（无障碍）、最佳实践、SEO 五项指标的跑分
+![整体的跑分情况](https://user-gold-cdn.xitu.io/2018/10/7/1664dc4798ee8992?imageView2/0/w/1280/h/960/ignore-error/1)
+向下拉动 Report 页，我们还可以看到每一个指标的细化评估:
+![指标的细化评估](https://user-gold-cdn.xitu.io/2018/10/7/1664dc86aeeda780?imageView2/0/w/1280/h/960/ignore-error/1)
+在“Opportunities”中，LightHouse 甚至针对我们的性能问题给出了可行的建议、以及每一项优化操作预期会帮我们节省的时间
+
+可以通过命令行使用 LightHouse，同样可以得到一份性能分析报告！
+```bash
+npm install -g lighthouse
+lighthouse http://xxx.com
+```
+### Performance API
+
+performance 是一个全局对象。在控制台里输入 window.performance，就可一窥其全貌：
+![window.performance](https://user-gold-cdn.xitu.io/2018/10/7/1664dd8ec761f69f?imageView2/0/w/1280/h/960/ignore-error/1)
+
+#### 关键时间节点
+
+在 performance 的 timing 属性中，可以查看到如下的时间戳：
+![timing](https://user-gold-cdn.xitu.io/2018/10/7/1664dddde131e37a?imageView2/0/w/1280/h/960/ignore-error/1)
+
+这些时间戳与页面整个加载流程中的关键时间节点有着一一对应的关系
+![对应的关系](https://user-gold-cdn.xitu.io/2018/10/7/1664ddd4e3df9a14?imageView2/0/w/1280/h/960/ignore-error/1)
+
+通过求两个时间点之间的差值，可以得出某个过程花费的时间
+``` JS
+const timing = window.preformance.timing
+// DNS消耗时间
+timing.domainLookupEnd - timing.domainLookupStart
+// TCP连接时间
+timing.connectEnd - timing.connectStart
+// 内容加载耗时
+timing.responseEnd - timing.responseStart
+```
+除了这些常见的耗时情况，我们更应该去关注一些**关键性能指标**：`firstbyte`、`fpt`、`tti`、`ready` 和 `load` 时间。这些指标数据与真实的用户体验息息相关，是我们日常业务性能监测中不可或缺的一部分：
+``` JS
+// firstbyte：首包时间
+timing.responseStart - timing.domainLookupStart
+// fpt：First Paint Time, 首次渲染时间 / 白屏时间
+timing.responseEnd - timing.fetchStart
+// tti：Time to Interact，首次可交互时间
+timing.domInteractive - timing.fetchStart
+// ready：HTML 加载完成时间，即 DOM 就位的时间
+timing.domContentLoaded - timing.fetchStart
+// load：页面完全加载时间
+timing.loadEventStart - timing.fetchStart
+```
+以上这些通过 `Performance API` 获取到的时间信息都具有较高的准确度。可以对此进行一番格式处理之后上报给服务端，也可以基于此去制作相应的统计图表，从而实现更加精准、更加个性化的性能耗时统计。
+
+此外，通过访问 `performance` 的 `memory` 属性，我们还可以获取到`内存占用相关的数据`；通过对 `performance` 的其它属性方法的灵活运用，我们还可以把它耦合进业务里，实现更加多样化的性能监测需求——灵活，是可编程化方案最大的优点。
+
+推荐阅读
+- [Performance 官方文档](https://developer.chrome.com/docs/devtools/evaluate-performance/reference/)
+- [MDN Performance API 介绍](https://developer.mozilla.org/zh-CN/docs/Web/API/Performance)

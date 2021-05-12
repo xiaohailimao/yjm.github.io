@@ -26,7 +26,8 @@
 </template>
 <script>
 import links from "../link";
-import { Row, Col } from "element-ui";
+import Row from "element-ui/lib/row"
+import Col from "element-ui/lib/col"
 import "element-ui/lib/theme-chalk/row.css";
 import "element-ui/lib/theme-chalk/col.css";
 import Vue from "vue";
