@@ -694,3 +694,429 @@ hash与h5 history 选取
 - 前端通用的性能优化，如图片懒加载
 - 使用SSR
  
+
+ ## vue3 比 vue2 有哪些优势？
+
+ - 性能更好
+ - 更好ts支持
+ - 更好的代码组织
+ - 更好的逻辑抽离
+ - 更多新功能
+ - 体积更小
+
+ ## vue3 和 vue2 的生命周期有什么区别？
+
+ - options API 生命周期
+   - beforeDestroy 改为 beforeUnmount
+   - destroyed 改成 unmounted
+   - 其他的沿用vue2的生命周期
+- composition API 生命周期
+  - setup：等于 beforeCreate 和 created
+  - onBeforeMount
+  - onMounted
+  - onBeforeUpdate
+  - onUpdated
+  - onBeforeUnmount
+  - onUnmounted
+
+``` JS
+import { onBeforeMount, onMounted, onBeforeUpdate, onUpdated, onBeforeUnmount, onUnmounted } from "vue"
+export default {
+    // 等于 beforeCreate 和 created
+    setup(){
+        onBeforeMount(()=>{
+            console.log('onBeforeMount');
+        })
+    },
+    // beforeDestroy 改名
+    beforeUnmount() {
+        
+    },
+    // destroyed 改名
+    unmounted() {
+        
+    },
+}
+```
+## Composition API 对比 Options API
+
+- Composition API 带来了什么
+  - 更好的代码组织
+  - 更好的逻辑复用
+  - 更好的类型推导
+- Composition API 和 Options API 如何选择
+  - 不建议共用，会引起混乱
+  - 小型项目，业务逻辑简单，用 Options API
+  - 中大型项目，业务逻辑复杂，用 Composition API
+- 别误解 Composition API
+  - Composition API 属于高阶技巧，不是基础必会
+  - Composition API 是为了解决复杂业务逻辑而设计
+  - Composition API 就像 Hooks 在 React 中的地位
+
+## 如何理解 ref toRef 和 toRefs
+### ref
+
+- 生成**值类型**的响应式数据
+- 可用于 `模板` 和 `reactive`
+- 通过 `.value` 修改值
+
+``` html
+<template>
+    <p>ref demo {{ageRef}} {{state.name}}</p>
+</template>
+
+<script>
+import { ref, reactive } from 'vue'
+
+export default {
+    name: 'Ref',
+    setup() {
+        const ageRef = ref(20) // 值类型 响应式
+        const nameRef = ref('姓名')
+
+        const state = reactive({
+            name: nameRef
+        })
+
+        setTimeout(() => {
+            console.log('ageRef', ageRef.value)
+
+            ageRef.value = 25 // .value 修改值
+            nameRef.value = '姓名A'
+        }, 1500);
+
+        return {
+            ageRef,
+            state
+        }
+    }
+}
+</script>
+```
+    
+### toRef
+
+- 针对一个`响应式对象`(`reactive`封装)的 prop
+- 创建一个ref，具有响应式
+- 两者保持引用关系
+- 如果用于普通对象（非响应式对象），产出的结果不具备响应式
+
+``` HTML
+<template>
+    <p>toRef demo - {{ageRef}} - {{state.name}} {{state.age}}</p>
+</template>
+
+<script>
+import { ref, toRef, reactive } from 'vue'
+
+export default {
+    name: 'ToRef',
+    setup() {
+        const state = reactive({
+            age: 20,
+            name: '姓名'
+        })
+
+        const age1 = computed(() => {
+            return state.age + 1
+        })
+
+        // // toRef 如果用于普通对象（非响应式对象），产出的结果不具备响应式
+        // const state = {
+        //     age: 20,
+        //     name: '姓名'
+        // }
+
+        const ageRef = toRef(state, 'age')
+
+        setTimeout(() => {
+            state.age = 25
+        }, 1500)
+
+        setTimeout(() => {
+            ageRef.value = 30 // .value 修改值
+        }, 3000)
+
+        return {
+            state,
+            ageRef
+        }
+    }
+}
+</script>
+```
+
+### toRefs
+
+- 将响应式对象(reactive封装)转换为普通对象
+- 对象的每个prop都是对应的ref
+- 两者保持引用关系
+``` HTML
+<template>
+    <p>toRefs demo {{age}} {{name}}</p>
+</template>
+
+<script>
+import { ref, toRef, toRefs, reactive } from 'vue'
+
+export default {
+    name: 'ToRefs',
+    setup() {
+        const state = reactive({
+            age: 20,
+            name: '姓名'
+        })
+
+        const stateAsRefs = toRefs(state) // 将响应式对象，变成普通对象
+
+        // const { age: ageRef, name: nameRef } = stateAsRefs // 每个属性，都是 ref 对象
+        // return {
+        //     ageRef,
+        //     nameRef
+        // }
+
+        setTimeout(() => {
+            state.age = 25
+        }, 1500)
+
+        return stateAsRefs
+    }
+}
+</script>
+```
+
+### 最佳使用方式
+
+- 用 `reactive` 做`对象的响应式`，用 `ref` 做`值的响应式`
+- setup 中返回 toRefs(state)，或者 toRef(state,'xxx')
+- ref 的变量用 xxxRef 命名
+- 合成函数返回响应式对象，使用 toRefs
+
+``` JS
+import { toRefs, reactive } from 'vue'
+
+export default {
+    setup(){
+        // 可以在不丢失响应式的情况下破坏结构
+        const { x, y } = useFeatureX()
+        return { x, y }
+    }
+}
+
+function useFeatureX() {
+    const state = reactive({
+        x:1, y: 2
+    })
+
+    // ... 省了n行逻辑代码
+    // 返回时转换为ref
+    return toRefs(state)
+}
+```
+
+### 进阶，深入理解
+
+- 为什么需要用 `ref` ?
+  - 返回值类型，会丢失响应式
+  - 如在 setup、computed、合成函数都可能返回值类型
+  - vue 如果不定义ref，用户将自造ref，反而混乱
+- 为什么需要 `.value` ?
+  - ref 是一个对象（不丢失响应式），value 存储值
+  - 通过 `.value` 属性的 get 和 set 实现响应式
+  - 用于`模板`、`reactive` 时，不需要 `.value`，其他情况都需要
+- 为什么需要 toRef toRefs ？
+  - 初衷：在`不丢失响应式`的情况下，把对象数据**分解/拆散**
+  - 前提：针对响应式对象（reactive封装）非普通对象
+  - 注意：**不创造**响应式，而是**延续**响应式
+
+## vue3 升级了哪些重要的功能？
+
+- createApp
+- emits属性
+- 生命周期
+- 多事件
+- fragment
+- 移除 `.sync`
+- 异步组件的写法
+- 移除 filter
+- teleport
+- suspense
+- composition API
+
+## vue3 如何实现响应式
+
+- vue2 的 Object.defineProperty
+  - 深度监听需要**一次性**递归
+  - 无法监听新增和删除属性（Vue.set Vue.delete）
+  - 无法原生监听数组，需要特殊处理
+- 学习 proxy 语法
+  - 基本使用
+  ``` JS
+  const data = { a:1, b:2 }
+  // 后继操作都在 proxyData 这个对象上
+  const proxyData = new Proxy(data,{
+      get(target,key,receiver){
+          // receiver => proxyData
+          // 只处理本身（非原型的）属性
+          const ownKeys = Reflect.ownKeys(target)
+          if(ownKeys.includes(key)){
+            console.log('get',key); // 监听
+          }
+
+          const result = Reflect.get(target,key,receiver)
+          return result // 返回结果
+      },
+      set(target,key,val,receiver){
+          // receiver => proxyData
+          // 重复数据不处理
+          if(val === target[key]){
+            return true
+          }
+          const result = Reflect.set(target,key,val,receiver)
+          console.log('set',key);
+          return result // 返回是否赋值成功，是 boolean 类型
+      },
+      deleteProperty(target,key){
+          const result = Reflect.deleteProperty(target,key)
+          console.log('deleteProperty',key);
+          return result // 返回是否删除成功，是 boolean 类型
+      }
+  })
+   
+  ```
+  - Reflect作用
+    - 和proxy能力一一对应
+    - 规范化、标准化、函数式
+    - 代替Object上的工具函数
+- vue3 如何用 proxy 实现响应式
+  - 性能优化：`Proxy` 是在 `get` 的时候做递归获取那一层数据那一层才触发响应式，`Object.defineProperty` 方式是`在定义的时候`一次性递归
+  - 深度监听，性能更好
+  - 可监听新增和删除属性
+  - 可监听数组变化
+
+``` JS {11,26,28,16,42,36}
+// 响应式监听函数
+function reactive(target = {}) {
+  // 不是对象或数组，则返回
+  if (typeof target !== 'object' || target == null) {
+    return target
+  }
+
+  const proxyConfig = {
+    get(target, key, receiver) {
+      const ownkeys = Reflect.ownKeys(target)
+      if (ownkeys.includes(key)) {
+        console.log('get', key); // 监听
+      }
+
+      const result = Reflect.get(target, key, receiver)
+      // 深度监听
+      return reactive(result)
+    },
+    set(target, key, val, receiver) {
+      // 重复数据不处理
+      if (val === target[key]) {
+        return true
+      }
+
+      const ownkeys = Reflect.ownKeys(target)
+      if (ownkeys.includes(key)) {
+        console.log('set', key); // 监听修改
+      } else {
+        console.log('add', key); // 监听新增
+      }
+
+      const result = Reflect.set(target, key, val, receiver)
+      // 深度监听
+      return result
+    },
+    defineProperty(target, key) {
+      console.log('defineProperty', key); // 监听删除
+      const result = Reflect.defineProperty(target, key)
+      return result
+    }
+  }
+
+  const observed = new Proxy(target, proxyConfig)
+  return observed
+}
+
+const data = {
+  name: "xx",
+  age: 20,
+  info: {
+    city: "xiamen"
+  }
+}
+
+const proxyData = reactive(data)
+
+console.log(proxyData.name);
+console.log(proxyData.info.city);
+proxyData.age = 30
+delete proxyData.name
+```
+
+- 总结
+  - 优点：深度监听性能更好、可监听数组变化、可监听删除和新增属性
+  - 缺点：无法兼容所有浏览器，且无法polyfill
+
+## Vite 是什么
+- 一个前端打包工具，Vue作者发起的项目
+- 借助Vue的影响力，发展较快，和webpack竞争
+- 优势：开发环境下无需打包，启动快
+  - **开发环境下使用ES6 Module**，无需打包-非常快
+  - 生产环境使用Rollup，并不会快很多
+- ES6 Module
+  - `<script type="module">`
+  - 基本演示
+  ``` HTML
+    <script type="module">
+        import add from './src/add.js'
+
+        const res = add(1, 2)
+        console.log('add res', res)
+    </script>
+
+    <script type="module">
+        import { add, multi } from './src/math.js'
+        console.log('add res', add(10, 20))
+        console.log('multi res', multi(10, 20))
+    </script>
+  ```
+  - 外链
+  ``` HTML
+  <script type="module" src="./src/index.js"></script>
+  ```
+  - 远程引用
+  ``` HTML
+    <script type="module">
+        import { createStore } from 'https://unpkg.com/redux@latest/es/redux.mjs'
+        console.log('createStore', createStore)
+    </script>
+  ```
+  - 动态引入
+  ``` HTML
+  <body>
+    <p>动态引入</p>
+    <button id="btn1">load1</button>
+    <button id="btn2">load2</button>
+
+    <script type="module">
+        document.getElementById('btn1').addEventListener('click', async () => {
+            const add = await import('./src/add.js')
+            const res = add.default(1, 2)
+            console.log('add res', res)
+        })
+        document.getElementById('btn2').addEventListener('click', async () => {
+            const { add, multi } = await import('./src/math.js')
+            console.log('add res', add(10, 20))
+            console.log('multi res', multi(10, 20))
+        })
+    </script>
+  </body>
+  ```
+  
+  
+  
+  

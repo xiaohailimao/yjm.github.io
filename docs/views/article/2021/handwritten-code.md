@@ -84,6 +84,12 @@ function instanceof (left,right) {
 ```
 
 ### Object.create
+
+1. 定义一个函数
+2. 将这个函数的的prototype指向传入的对象
+3. 将这个函数的 prototype.constructor 指向这个函数
+4. 返回 new 这个构造函数的执行结果
+
 ``` JS
 const myCreate = function(proto){
   function F() {}
@@ -94,9 +100,11 @@ const myCreate = function(proto){
 ```
 
 ### new
-1. 创建一个全新的对象，这个对象的`__proto__`要指向构造函数的原型对象
-2. 执行构造函数
-3. 返回object类型，则最为 new 方法的返回值返回，否则返回上述全新对象
+
+1. 创建一个全新的对象并且将这个对象的原型指向函数的prototype属性
+2. 将函数的this指向这个新建的对象，执行函数代码
+3. 判断函数返回值类型，如果是值类型则返回新建的对象，如果是引用类型则返回该引用类型对象
+
 ``` JS
 function myNew(fn,...args) {
   const instance = Object.create(fn.prototype)
@@ -211,6 +219,8 @@ function flat(arr) {
 
 ### 原型、原型链原理图
 ![原型、原型链](/img/原型链.jpg)
+- 原型：在js中我们使用构造函数新建一个对象，每个构造函数的内部都有一个prototype属性值，这个属性值是个对象，这个对象包含了可以由该构造函数的所有实例共享的属性和方法。当我们使用构造函数创建一个新对象后，这个对象的内部包含一个指针，这个指针指向构造函数的prototype属性对应的值，在ES5中这个指针被称之为对象的原型
+- 原型链：当对象查找一个属性的时候，如果没有在自身找到，则会查找自身的原型，如果原型还没有找到，就会去原型的原型查找，直到找到Object.prototype的原型时，此时原型为null，停止查找。这种通过原型链接的逐级向上的查找链被称之为原型链
 
 ### 寄生组合继承
 ### Class 私有属性
@@ -737,6 +747,89 @@ function genRandomString(len){
 ```
 
 ### 异步Promise系列
+``` JS
+const PENDING = 'pending'
+const RESOLVED = 'resolved'
+const REJECTED = 'rejected'
+
+function myPromise(fn) {
+  // 保存初始化状态
+  const self = this
+  // 初始化状态
+  this.state = PENDING
+  // 用于保存 resolve 或者 rejected 传入的值
+  this.value = null
+  // 用于保存 resolve 的回调函数
+  this.resovledCallbacks = []
+  // 用于保存 reject 的回调函数
+  this.rejectedCallbacks = []
+
+  // 状态转变为 resolved 方法
+  function resolve(value) {
+    // 判断传入元素是否为 Promise 值，如果是，则状态改变必须等待前一个状态改变后再进行改变
+    if (value instanceof myPromise) {
+      return value.then(resolve, reject)
+    }
+    // 将代码放入 setTimeout 中保证代码的执行顺序为本轮事件循环的末尾
+    setTimeout(function () {
+      if (self.state === PENDING) {
+        self.state = RESOLVED
+        self.value = value
+        self.resovledCallbacks.forEach(cb => cb(value))
+      }
+    }, 0)
+  }
+
+  // 状态转变为 rejected 方法
+  function reject(value) {
+    // 将代码放入 setTimeout 中保证代码的执行顺序为本轮事件循环的末尾
+    setTimeout(function () {
+      if (self.state === PENDING) {
+        self.state = REJECTED
+        self.value = value
+        self.rejectedCallbacks.forEach(cb => cb(value))
+      }
+    }, 0)
+  }
+
+  try {
+    // 将resolve(),reject() 做为参数传递给传入的fn函数
+    fn(resolve, reject)
+  } catch (e) {
+    // 遇到错误时，捕获错误，执行 reject 函数
+    reject(e)
+  }
+}
+
+myPromise.prototype.then = function (onResolved, onRejected) {
+  // 首先判断两个参数是否为函数类型，因为这两个参数是可选参数
+  onResolved = typeof onResolved === 'function' ? onResolved : function (val) { return val }
+  onRejected = typeof onRejected === 'function' ? onRejected : function (err) { return err }
+
+  // 如果是等待状态，将函数加入对应列表中
+  if (this.state === PENDING) {
+    this.resovledCallbacks.push(onResolved)
+    this.rejectedCallbacks.push(onRejected)
+  }
+
+  // 如果是非等待状态，执行对应状态的函数
+  if (this.state === RESOLVED) {
+    onResolved(this.value)
+  }
+
+  if (this.state === REJECTED) {
+    onRejected(this.value)
+  }
+}
+
+new myPromise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('success')
+  }, 1000)
+}).then(res => {
+  console.log(res);
+})
+```
 
 ## 浏览器
 
