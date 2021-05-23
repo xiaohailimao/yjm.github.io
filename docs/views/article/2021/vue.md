@@ -225,6 +225,8 @@ export default {
 
 - 缓存组件
 - 频繁切换，不需要重复渲染
+- 组件实现
+- 渲染机制和生命周期
 
 ## mixin
 
@@ -1060,6 +1062,79 @@ delete proxyData.name
 - 总结
   - 优点：深度监听性能更好、可监听数组变化、可监听删除和新增属性
   - 缺点：无法兼容所有浏览器，且无法polyfill
+
+
+
+## watch 和 watchEffect 区别
+
+- 两者都可以监听data属性变化
+- watch需要明确监听哪个属性
+- watchEffect会根据其中的属性，自动监听其变化
+
+``` JS
+import { ref, toRef, reactive, watch, watchEffect } from "vue"
+
+export default {
+    setup(){
+        const numberRef = ref(200)
+        const state = reactive({
+            age: 20,
+            name: 'xx'
+        })
+
+        // 监听ref数据
+        watch(numberRef,(newNumberRef,oldNumberRef)=>{
+            console.log('watch ref',newNumberRef,oldNumberRef);
+        },{ immediate: true })
+
+        // 监听reactive数据
+        watch(
+            () => state.age,
+            (newVal,oldVal)=>{
+                console.log('watch reactive',newVal,oldVal);
+            }
+        )
+
+        watchEffect(()=>{
+            // 初始化会执行一次，收集依赖数据
+            console.log('watchEffect');
+        })
+        watchEffect(()=>{
+            console.log('watchEffect age',state.age);
+        })
+
+        return {
+            numberRef,
+            ...toRefs(state)
+        }
+    }
+}
+```
+
+## setup 中如何获取组件实例
+
+- 在 `setup` 中和其他 `Composition API` 中没有 `this`
+- 通过 `getCurrentInstance` 获取当前组件实例
+- 如果使用 `Options API` 照常使用 `this`
+
+## vue3 为何比 vue2 快
+
+- Proxy 响应式
+- PatchFlag
+  - 编译模板时，动态节点做标记
+  - 标记，分为不同的类型，如TEXT PROPS
+  - diff算法时，可以区分静态节点，以及不同类型的动态节点
+- hoistStatic
+  - 将静态节点的定义，提升到父级作用域，缓存起来
+  - 多个相邻的节点，会被合并起来
+  - 典型的空间换时间的优化策略
+- cacheHandler
+  - 缓存事件
+- SSR优化
+  - 静态节点直接输出，绕过vdom
+  - 动态节点还是需要动态渲染
+- tree-shaking
+  - 需要什么引入什么
 
 ## Vite 是什么
 - 一个前端打包工具，Vue作者发起的项目
