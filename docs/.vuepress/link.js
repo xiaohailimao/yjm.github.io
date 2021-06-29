@@ -266,7 +266,7 @@ export default [
         title: "TypeScript",
         des: "JavaScript超集语言",
         icon: require("./public/img/icon/icon-typescript.png"),
-        url: "https://www.tslang.cn/docs/home.html"
+        url: "https://www.typescriptlang.org/"
       },
       {
         title: "TypeScript入门教程",
@@ -278,7 +278,7 @@ export default [
         title: "TypeScript 从零实现 axios",
         des: "学习使用 TypeScript 从零实现 axios 库",
         icon: require("./public/img/icon/icon-typescript.png"),
-        url: "http://docs.ayouok.vip/chapter1/"
+        url: "https://ayouok.vip/typescript/"
       },
     ]
   },
