@@ -1195,3 +1195,13 @@ export default {
   
   
   
+
+## vue3 注意事项
+
+- vscode 插件 volar 语法提示插件
+- 官方的 vue-tsc 命令行类型检测
+- style 中使用 v-bind 绑定变量样式
+- `<script setup>`
+- vitePress md文档生成工具
+- vite 脚手架
+- vue3 不支持 IE11

@@ -7,22 +7,217 @@ categories:
 - 文章
 ---
 
-## jsx
+## React Hooks
 
-- 富文本
-- 样式名属性用 `className` 表示
+- 可选功能（class组件 vs Hooks）
+- 100%向后兼容，没有破坏性改动
+- 不会取代class组件，尚未计划要移除class组件
+### Hooks
 
-``` jsx {3,7}
-const rawHtml = `<span>raw html</span>`
-const rawHtmlData = {
-    __html: rawHtml // 注意这个 __html 必须用这个
-}
+- State Hook
+  - 让函数组件实现state和setState
+    - 默认函数组件没有state
+    - 函数组件是一个纯函数，执行完即销毁，无法存储state
+    - 需要 State Hook，即把state功能”钩“到纯函数中
+  - useState
+    - `useState(0)` 传入初始值，返回数组`[state,setState]`
+    - 通过 `state` 获取值
+    - 通过 `setState(1)` 修改值
+    ``` JS
+    import React, { useState } from 'react'
 
-const rawHtmlElem = <div>
-    <p dangerouslySetInnerHTML={rawHtmlData}></p>
-    <p>{rawHtml}</p>
-</div>
-```
+    function ClickCounter() {
+        // 数组的解构
+        // useState 就是一个 Hook “钩”，最基本的一个 Hook
+        const [count, setCount] = useState(0) // 传入一个初始值
+
+        const [name, setName] = useState('姓名')
+
+        // const arr = useState(0)
+        // const count = arr[0]
+        // const setCount = arr[1]
+
+        function clickHandler() {
+            setCount(count + 1)
+            setName(name + '2020')
+        }
+
+        return <div>
+            <p>你点击了 {count} 次 {name}</p>
+            <button onClick={clickHandler}>点击</button>
+        </div>
+    }
+
+    export default ClickCounter
+    ```
+  
+- Effect Hook
+  - 让函数组件模拟生命周期
+    - 默认函数组件没有生命周期
+    - 函数组件是个纯函数，执行完即销毁，自己无法实现生命周期
+    - 使用 Effect Hook 把生命周期”钩“到纯函数中
+  - useEffect 让纯函数有了副作用
+    - 默认情况下，执行纯函数，输入参数，返回结果，无副作用
+    - 所谓的副作用，就是对函数之外造成影响，如设置全局定时任务
+    - 而组件需要副作用，所以需要 useEffect ”钩“到纯函数中
+  - useEffect
+    - 模拟 `componentDidMount` - `useEffect` 依赖 `[]`
+    - 模拟 `componentDidUpdate` - `useEffect` 无依赖，或者依赖 `[a,b]`
+    
+    ``` JS
+    import React, { useState, useEffect } from 'react'
+
+    function LifeCycles() {
+        const [count, setCount] = useState(0)
+        const [name, setName] = useState('姓名')
+
+        // // 模拟 class 组件的 DidMount 和 DidUpdate
+        // useEffect(() => {
+        //     console.log('在此发送一个 ajax 请求')
+        // })
+
+        // // 模拟 class 组件的 DidMount
+        // useEffect(() => {
+        //     console.log('加载完了')
+        // }, []) // 第二个参数是 [] （不依赖于任何 state）
+
+        // // 模拟 class 组件的 DidUpdate
+        // useEffect(() => {
+        //     console.log('更新了')
+        // }, [count, name]) // 第二个参数就是依赖的 state
+
+        // 模拟 class 组件的 DidMount
+        useEffect(() => {
+            let timerId = window.setInterval(() => {
+                console.log(Date.now())
+            }, 1000)
+
+            // 返回一个函数
+            // 模拟 WillUnMount
+            return () => {
+                window.clearInterval(timerId)
+            }
+        }, [])
+
+        function clickHandler() {
+            setCount(count + 1)
+            setName(name + '2020')
+        }
+
+        return <div>
+            <p>你点击了 {count} 次 {name}</p>
+            <button onClick={clickHandler}>点击</button>
+        </div>
+    }
+
+    export default LifeCycles
+    ```
+    - 模拟 `componentWillUnmount`（不完全相等） - `useEffect` 中返回一个函数
+      - `useEffect` 依赖 `[]`，组件销毁时执行fn（`useEffect` 中返回的函数），等于 `componentWillUnmount`
+      - `useEffect` 无依赖或者依赖 `[a,b]`，组件更新时执行fn
+      - 即，下一次执行 `useEffect` 之前，就会执行fn，无论更新或者卸载
+    ``` JS
+    import React, { useState, useEffect } from 'react'
+
+    function FriendStatus({ friendId }) {
+        const [status, setStatus] = useState(false)
+
+        // DidMount 和 DidUpdate
+        useEffect(() => {
+            console.log(`开始监听 ${friendId} 在线状态`)
+
+            // 【特别注意】
+            // 此处并不完全等同于 WillUnMount
+            // props 发生变化，即更新，也会执行结束监听
+            // 准确的说：返回的函数，会在下一次 effect 执行之前，被执行
+            return () => {
+                console.log(`结束监听 ${friendId} 在线状态`)
+            }
+        })
+
+        return <div>
+            好友 {friendId} 在线状态：{status.toString()}
+        </div>
+    }
+
+    export default FriendStatus
+    ``` 
+- useReducer 状态管理
+- useReducer 和 redux 的区别
+  - useReducer是useState的代替方案，用于state复杂变化
+  - userReducer是单组件状态管理，组件通信还是要用props
+  - redux是全局状态管理，多组件共享数据
+- useMemo 缓存数据
+  - React默认会更新所有子组件
+  - class组件使用SCU和PureComponent做优化
+  - Hook中使用useMemo，但是优化原理都是一样的，都是做了一层浅比较
+- useCallback 缓存函数
+- useRef 获取DOM元素
+- useContext 
+- Hook 常见优化策略
+  - useMemo缓存数据
+  - useCallback缓存函数
+- 自定义 Hook
+  - 封装通用的功能
+  - 开发和使用第三方Hooks
+  - 自定义Hook带来了无限的扩展性，解耦代码
+  - 本质是个函数，以**use开头**（重要）
+  - 内部正常使用useState、useEffect或者其他Hooks
+  - 自定义返回结果，格式不限
+- 组件逻辑复用
+  - Mixins早已弃用
+  - HOC
+    - 组件层级嵌套过多，不易渲染，不易调试
+    - HOC会劫持props，必须严格规范，容易出现疏漏
+  - Render Prop
+    - 学习成本高，不易理解
+    - 只能传递纯函数，而默认情况下纯函数功能有限
+  - Hooks
+    - 自定义Hook
+    - 完全符合Hooks原有规则，没有其他要求，易理解记忆
+    - 变量作用域明确
+    - 不会产生组件嵌套
+- 规范和注意事项
+  - 命名规范
+    - 规定所有的Hooks都用`use开头`，例如 useXxx
+    - 自定义Hook也要以`use开头`
+    - 非Hooks的地方，尽量不要用 useXxx 写法
+  - 使用规范
+    - 只能用于**React函数组件**和**自定义Hook**中，其他地方不可以
+    - **只能用于顶层代码，不能在循环、判断中使用Hooks**
+      - 无论是render还是re-render，Hooks调用顺序比较保持一致
+      - 如果Hooks出现在循环、判断里，无法保证调用顺序一致
+      - **Hooks严重依赖调用顺序**
+  - 注意事项
+    - useState初始化值，只有第一次有效
+    - useEffect内部不能修改state
+      - 依赖（第二个参数）为空时 re-render 不会重新执行 effect 函数
+      - 自定义变量解决问题（不推荐）
+      - 使用useRef
+    - useEffect可能出现死循环
+      - 依赖（第二个参数）有引用类型数据就会出现死循环问题
+      - 依赖使用 `Object.is` 判断是否改变，引用类型比较返回false，会导致重新执行useEffect导致死循环
+
+### 问题
+
+- 为什么会有 React Hooks，它解决了哪些问题？
+  - 函数组件特点
+    - 没有组件实例
+    - 没有生命周期
+    - 没有state和setState，只能接收props
+  - class组件问题
+    - 大型组件很难拆分和重构，很难测试（即class不易拆分）
+    - 相同业务逻辑，分散到各个方法中，逻辑混乱
+    - 复用逻辑变得复杂，如 Mixins、HOC、Render Prop
+  - React组件更易用函数表达
+    - React 提倡函数式编程
+    - 函数更灵活，更易拆分，更易测试
+    - 但函数组件太简单，需要功能增强--Hooks
+- React Hooks 如何模拟组件生命周期？
+- 如何自定义 Hook？
+- React Hooks 性能优化
+- 使用 React Hooks 遇到哪些坑？
+- React Hooks 与 HOC 和 Render Prop 相比有哪些优点？
 
 ## 事件
 
@@ -687,6 +882,8 @@ const App = () =>{
 
 ## jsx本质
 
+- createElement
+- 执行返回vnode
 - jsx等同于vue模板
 - vue模板不是html
   - render函数（h函数）
@@ -721,6 +918,20 @@ React.createElement('ul',null,list.map(
 ```
 最终都是编译成 html tag 标签的 `React.createElement` `vnode` 数据结构
 
+- 样式名属性用 `className` 表示
+- 富文本
+
+``` jsx {3,7}
+const rawHtml = `<span>raw html</span>`
+const rawHtmlData = {
+    __html: rawHtml // 注意这个 __html 必须用这个
+}
+
+const rawHtmlElem = <div>
+    <p dangerouslySetInnerHTML={rawHtmlData}></p>
+    <p>{rawHtml}</p>
+</div>
+```
 ## 合成事件
 
 - react17以前版本的所有事件都挂载到document上，react17挂载到root组件上
@@ -857,10 +1068,6 @@ class List extends React.Component {
 - 自定义事件
 - Redux和Context
 
-## jsx本质
-
-- createElement
-- 执行返回vnode
 
 ## Context是什么，如何应用
 

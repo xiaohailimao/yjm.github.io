@@ -65,7 +65,7 @@ export default [
         title: "Vite",
         des: "下一代前端工具。它很快！",
         icon: require("./public/img/icon/icon-vite.png"),
-        url: "https://github.com/vitejs/vite"
+        url: "https://cn.vitejs.dev"
       },
       {
         title: "Vue-SSR",
