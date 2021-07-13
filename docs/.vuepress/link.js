@@ -29,6 +29,82 @@ export default [
     ]
   },
   {
+    title: "React",
+    linkData: [
+      {
+        title: "React",
+        des: "用于构建用户界面的 JavaScript 库",
+        icon: require("./public/img/icon/icon-react.jpg"),
+        url: "https://react.docschina.org/"
+      },
+      {
+        title: "UmiJS",
+        des: "Umi，中文可发音为乌米，是可扩展的企业级前端应用框架",
+        icon: "https://img.alicdn.com/tfs/TB1zomHwxv1gK0jSZFFXXb0sXXa-200-200.png",
+        url: "https://umijs.org/zh-CN/docs"
+      },
+      {
+        title: "Redux",
+        des: "Redux 是 JavaScript 状态容器，提供可预测化的状态管理",
+        icon: require("./public/img/icon/icon-redux.png"),
+        url: "https://www.redux.org.cn/"
+      },
+      {
+        title: "React Native",
+        des: "使用 React 来创建 Android 和 iOS 的原生应用",
+        icon: require("./public/img/icon/icon-react.jpg"),
+        url: "https://reactnative.cn/"
+      },
+      {
+        title: "React Router",
+        des: "React Router 是完整的 React 路由解决方案",
+        icon: require("./public/img/icon/icon-react-router.png"),
+        url: "https://react-guide.github.io/react-router-cn/"
+      },
+      {
+        title: "Create React App",
+        des: "React 脚手架",
+        icon: require("./public/img/icon/icon-react.jpg"),
+        url: "https://facebook.github.io/create-react-app/docs/getting-started"
+      },
+      {
+        title: "Ant Motion",
+        des: "React 框架动效解决方案",
+        icon: require("./public/img/icon/icon-ant-motion.svg"),
+        url: "http://motion.ant.design/api/tween-one-cn"
+      },
+    ]
+  },
+  {
+    title: "Javascript",
+    linkData: [
+      {
+        title: "ES6",
+        des: "《ECMAScript 6 入门》是一本开源的 JavaScript 语言教程，全面介绍 ECMAScript 6 新引入的语法特性",
+        icon: require("./public/img/icon/icon-es6.png"),
+        url: "http://es6.ruanyifeng.com/#README"
+      },
+      {
+        title: "TypeScript",
+        des: "JavaScript超集语言",
+        icon: require("./public/img/icon/icon-typescript.png"),
+        url: "https://www.typescriptlang.org/"
+      },
+      {
+        title: "深入理解 TypeScript",
+        des: "从基础到深入，很全面的阐述了 TypeScript 的各种魔法，不管你是新手，还是老鸟，它都将适应你。此外，它不同于 TypeScript 官方给出的文档（当然 TypeScript 给出的文档是很好的），在此书中，结合实际应用下的场景用例，你将能更深入的理解 TypeScript",
+        icon: require("./public/img/icon/icon-typescript.png"),
+        url: "https://jkchao.github.io/typescript-book-chinese/"
+      },
+      {
+        title: "TypeScript 从零实现 axios",
+        des: "学习使用 TypeScript 从零实现 axios 库",
+        icon: require("./public/img/icon/icon-typescript.png"),
+        url: "https://ayouok.vip/typescript/"
+      },
+    ]
+  },
+  {
     title: "Vue全家桶",
     linkData: [
       {
@@ -138,12 +214,18 @@ export default [
         icon: require("./public/img/icon/icon-github.png"),
         url: "https://github.com/leonardomso/33-js-concepts"
       },
-      
+
     ]
   },
   {
     title: "UI组件库",
     linkData: [
+      {
+        title: "Ant Design",
+        des: "antd 是基于 Ant Design 设计体系的 React UI 组件库，主要用于研发企业级中后台产品。",
+        icon: require("./public/img/icon/icon-ant.svg"),
+        url: "https://ant-design.gitee.io/index-cn"
+      },
       {
         title: "Vant",
         des: "vue组件库官方文档",
@@ -169,12 +251,6 @@ export default [
         url: "https://uviewui.com/components/intro.html"
       },
       {
-        title: "Ant Design",
-        des: "antd 是基于 Ant Design 设计体系的 React UI 组件库，主要用于研发企业级中后台产品。",
-        icon: require("./public/img/icon/icon-ant.svg"),
-        url: "https://ant-design.gitee.io/index-cn"
-      },
-      {
         title: "Taro-ui",
         des: "Taro UI 是一款基于 Taro 框架开发的多端 UI 组件库",
         icon: require("./public/img/icon/icon-taro.png"),
@@ -192,7 +268,7 @@ export default [
         icon: require("./public/img/icon/icon-icon-park.jpg"),
         url: "http://iconpark.bytedance.com/official"
       },
-      
+
     ]
   },
   {
@@ -215,70 +291,6 @@ export default [
         des: "Next generation web framework for node.js",
         icon: require("./public/img/icon/icon-koajs.png"),
         url: "https://koajs.com"
-      },
-    ]
-  },
-  {
-    title: "React",
-    linkData: [
-      {
-        title: "React",
-        des: "用于构建用户界面的 JavaScript 库",
-        icon: require("./public/img/icon/icon-react.jpg"),
-        url: "https://react.docschina.org/"
-      },
-      {
-        title: "Redux",
-        des: "Redux 是 JavaScript 状态容器，提供可预测化的状态管理",
-        icon: require("./public/img/icon/icon-redux.png"),
-        url: "https://www.redux.org.cn/"
-      },
-      {
-        title: "React Router",
-        des: "React Router 是完整的 React 路由解决方案",
-        icon: require("./public/img/icon/icon-react-router.png"),
-        url: "https://react-guide.github.io/react-router-cn/"
-      },
-      {
-        title: "Create React App",
-        des: "React 脚手架",
-        icon: require("./public/img/icon/icon-react.jpg"),
-        url: "https://facebook.github.io/create-react-app/docs/getting-started"
-      },
-      {
-        title: "Ant Motion",
-        des: "React 框架动效解决方案",
-        icon: require("./public/img/icon/icon-ant-motion.svg"),
-        url: "http://motion.ant.design/api/tween-one-cn"
-      },
-    ]
-  },
-  {
-    title: "Javascript",
-    linkData: [
-      {
-        title: "ES6",
-        des: "《ECMAScript 6 入门》是一本开源的 JavaScript 语言教程，全面介绍 ECMAScript 6 新引入的语法特性",
-        icon: require("./public/img/icon/icon-es6.png"),
-        url: "http://es6.ruanyifeng.com/#README"
-      },
-      {
-        title: "TypeScript",
-        des: "JavaScript超集语言",
-        icon: require("./public/img/icon/icon-typescript.png"),
-        url: "https://www.typescriptlang.org/"
-      },
-      {
-        title: "TypeScript入门教程",
-        des: "JavaScript超集语言从 JavaScript 程序员的角度总结思考，循序渐进的理解 TypeScript。",
-        icon: require("./public/img/icon/icon-typescript.png"),
-        url: "https://ts.xcatliu.com"
-      },
-      {
-        title: "TypeScript 从零实现 axios",
-        des: "学习使用 TypeScript 从零实现 axios 库",
-        icon: require("./public/img/icon/icon-typescript.png"),
-        url: "https://ayouok.vip/typescript/"
       },
     ]
   },
@@ -338,16 +350,12 @@ export default [
         icon: require("./public/img/icon/icon-wx.png"),
         url: "https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115"
       },
-
-
       {
         title: "Taro",
         des: "Taro 是一套遵循 React 语法规范的 多端开发 解决方案",
         icon: require("./public/img/icon/icon-taro.png"),
         url: "https://nervjs.github.io/taro/docs/README.html"
       },
-
-
       {
         title: "Sass",
         des: "sass官方文档",
@@ -378,7 +386,6 @@ export default [
         icon: require("./public/img/icon/icon-prettier.png"),
         url: "https://prettier.io"
       },
-
     ]
   },
   {
@@ -549,7 +556,7 @@ export default [
         title: "Cypress",
         des: "e2e测试工具，UI测试（功能测试）",
         icon: require("./public/img/icon/icon-cypress.png"),
-        url: "https://docs.cypress.io/zh-cn/guides/overview/why-cypress.html"
+        url: "https://www.cypress.io"
       },
       {
         title: "Babeljs",
@@ -557,7 +564,6 @@ export default [
         icon: require("./public/img/icon/icon-babel.png"),
         url: "https://www.babeljs.cn/docs/"
       },
-
       {
         title: "Yarn",
         des: "vue官方文档",
