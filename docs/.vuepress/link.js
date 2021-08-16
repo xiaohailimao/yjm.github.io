@@ -26,6 +26,12 @@ export default [
         icon: require("./public/img/icon/icon-github.png"),
         url: 'https://github.com/'
       },
+      {
+        title: '掘金小册',
+        des: '掘金小册',
+        icon: require("./public/img/icon/icon-juejin.svg"),
+        url: 'https://juejin.cn/books'
+      },
     ]
   },
   {
@@ -324,7 +330,7 @@ export default [
         title: "Lodash",
         des: "Lodash 中文文档",
         icon: 'https://www.lodashjs.com/img/logo.png',
-        url: "https://www.lodashjs.com/"
+        url: "https://lodash.net/docs/4.16.1.html"
       },
       {
         title: "W3C",

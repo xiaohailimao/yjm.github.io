@@ -843,3 +843,23 @@ zoom 适合移动端静态页面的缩放，scale 适合动画
 }
 ```
 <vertical-align />
+
+## iPhoneX 底部适配
+
+[env](https://developer.mozilla.org/zh-CN/docs/Web/CSS/env())
+
+使用`env()`和`constant()`函数有个必要前提，H5网页设置`viewport-fit=cover`的时候才生效，小程序里的viewport-fit默认是cover。
+```HTML
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+```
+
+```css 
+.fixedContainer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  /* iPhoneX 底部高度适配样式 */
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+```
